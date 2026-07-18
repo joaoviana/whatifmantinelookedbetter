@@ -1,0 +1,228 @@
+/*
+ * AskAiBar — motion + custom pill chrome that can't live in the flat `styles`
+ * prop: the cycling placeholder roll, the focus glow, the thinking shimmer,
+ * the word-by-word stream and the blinking caret. All motion is gated behind
+ * prefers-reduced-motion: no-preference; reduced motion shows the final state.
+ */
+
+.wrap {
+  padding: clamp(24px, 6vw, 56px) clamp(16px, 4vw, 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inner {
+  width: 100%;
+  max-width: 620px;
+}
+
+/* The pill. Border + soft raised depth; a neutral glow only on focus. */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px 7px 14px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border-strong);
+  border-radius: 999px;
+  box-shadow: var(--app-shadow-raised), var(--app-inset-highlight);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bar {
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+}
+
+.barFocused {
+  border-color: var(--app-border-strong);
+  box-shadow: var(--app-shadow-raised), 0 0 0 3px var(--mantine-color-default-hover);
+}
+
+/* Left AI glyph — a gradient mark; the container just handles motion. */
+.glyph {
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glyph {
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.glyphActive {
+  transform: scale(1.04);
+}
+
+/* Idle "breathing" of the glyph so the bar feels alive when empty. */
+@media (prefers-reduced-motion: no-preference) {
+  .glyphBreathing {
+    animation: breathe 3.4s ease-in-out infinite;
+  }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.72; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+/* The input + the overlaid animated placeholder share this box. */
+.field {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--mantine-color-text);
+  font-family: inherit;
+  font-size: 15px;
+  letter-spacing: -0.011em;
+  padding: 0;
+}
+
+/* Animated placeholder overlay — sits above the (empty) input, ignores clicks. */
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  color: var(--app-muted);
+  font-size: 15px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.placeholder span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .placeholderRoll {
+    animation: rollIn 460ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes rollIn {
+  0% { opacity: 0; transform: translateY(0.62em); filter: blur(1px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Submit control. */
+.submit {
+  flex: none;
+}
+
+/* ── Answer region ───────────────────────────────────────────── */
+
+.answer {
+  margin-top: 16px;
+  padding: 16px 18px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-lg);
+  box-shadow: var(--app-shadow-raised);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .answerEnter {
+    animation: cardIn 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes cardIn {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.body {
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--mantine-color-text);
+}
+
+/* Each streamed word starts hidden and fades up when it mounts. */
+.word {
+  display: inline;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .word {
+    animation: fadeWord 340ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes fadeWord {
+  0% { opacity: 0; filter: blur(2px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+
+/* Blinking caret trailing the stream. */
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.02em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  border-radius: 1px;
+  background: var(--mantine-color-text);
+  transform: translateY(0.12em);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .caret {
+    animation: blink 1.05s steps(1) infinite;
+  }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* Thinking shimmer — skeleton lines with a moving sheen. */
+.shimmerLine {
+  height: 11px;
+  border-radius: 999px;
+  background: var(--mantine-color-default-hover);
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmerLine + .shimmerLine {
+  margin-top: 11px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .shimmerLine::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--mantine-color-default-border) 50%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: sheen 1.35s ease-in-out infinite;
+  }
+}
+
+@keyframes sheen {
+  100% { transform: translateX(100%); }
+}

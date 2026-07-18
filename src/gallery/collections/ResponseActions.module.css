@@ -1,0 +1,207 @@
+/*
+ * Response actions — the tactile action bar under an assistant reply.
+ * All the micro-feedback (hover lift, press, icon morph, pop, spin, the
+ * "Copied" tag) lives here so it can be gated behind prefers-reduced-motion
+ * and reach states the flat `styles` prop can't. Referenced from
+ * ResponseActions.tsx via className.
+ */
+
+.wrap {
+  padding: clamp(20px, 4vw, 40px);
+  display: flex;
+  justify-content: center;
+}
+
+.reply {
+  width: 100%;
+  max-width: 620px;
+}
+
+/* Assistant identity line — small mark, name, quiet meta. */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.who {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 600;
+  color: var(--mantine-color-text);
+}
+
+.dot {
+  color: var(--app-border-strong);
+}
+
+.meta {
+  font-size: var(--mantine-font-size-xs);
+  color: var(--app-muted);
+}
+
+/* The reply copy itself — comfortable measure, generous leading. */
+.body {
+  font-size: var(--mantine-font-size-sm);
+  line-height: 1.65;
+  color: var(--mantine-color-text);
+}
+
+.body p {
+  margin: 0;
+}
+
+.body p + p {
+  margin-top: 10px;
+}
+
+/* ── Action bar ──────────────────────────────────────────────── */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 16px;
+}
+
+/* Hairline separator between the rate cluster and the rest. */
+.divider {
+  width: 1px;
+  height: 18px;
+  margin: 0 6px;
+  background: var(--app-border);
+}
+
+/* Base button: themed monochrome ActionIcon (subtle). We drive Mantine's
+   own CSS vars so hover/selected stay on-token. */
+.btn {
+  position: relative;
+  --ai-color: var(--app-muted);
+  --ai-hover: var(--mantine-color-default-hover);
+}
+
+/* Icon firms up to full text colour on hover — unless it's a locked state. */
+.btn:not(.selected):hover {
+  --ai-color: var(--mantine-color-text);
+}
+
+/* Locked/active state for rating + read-aloud — neutral, no colour. */
+.selected {
+  --ai-color: var(--mantine-color-text);
+  --ai-bg: var(--mantine-color-default-hover);
+  --ai-hover: var(--mantine-color-default-hover);
+}
+
+/* Copy: relative anchor so the "Copied" tag can float above it. */
+.copyWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Two icons stacked in the same cell; we cross-fade copy → check. */
+.swap {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.swap > span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copyIcon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.checkIcon {
+  opacity: 0;
+  transform: scale(0.5) rotate(-40deg);
+  color: var(--mantine-color-text);
+}
+
+.swap[data-copied='true'] .copyIcon {
+  opacity: 0;
+  transform: scale(0.5) rotate(40deg);
+}
+
+.swap[data-copied='true'] .checkIcon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Floating "Copied" confirmation, centered above the copy button. */
+.copiedTag {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--mantine-color-text);
+  background: var(--mantine-color-default-hover);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--mantine-shadow-xs);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.copiedTag[data-show='true'] {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Wrappers that receive the pop / spin motion. */
+.pop,
+.spin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.32); }
+  62% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* ── Motion (opt-in) ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .btn {
+    transition:
+      transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 140ms ease,
+      color 140ms ease;
+  }
+  .btn:hover {
+    transform: translateY(-1.5px);
+  }
+  .btn:active {
+    transform: translateY(0) scale(0.9);
+    transition-duration: 70ms;
+  }
+
+  .copyIcon,
+  .checkIcon {
+    transition: opacity 200ms ease, transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .copiedTag {
+    transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .pop[data-pop='true'] {
+    animation: pop 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .spin {
+    transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}

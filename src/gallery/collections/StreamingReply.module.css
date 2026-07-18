@@ -1,0 +1,273 @@
+/*
+ * Streaming reply — the choreography that can't live in the flat `styles` prop:
+ * the token-by-token reveal, the blinking caret, the copy → check morph, and
+ * the tool-chip / code-block fades. All motion sits behind
+ * prefers-reduced-motion: no-preference — reduced motion shows everything at rest.
+ */
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: clamp(20px, 4vw, 44px);
+}
+
+/* The reply card — a quiet raised surface, capped for readable measure. */
+.card {
+  width: 100%;
+  max-width: 640px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow-raised);
+}
+
+.head {
+  margin-bottom: 14px;
+}
+
+.avatar {
+  flex-shrink: 0;
+}
+
+/* Live "working / writing" indicator. */
+.status {
+  align-self: flex-start;
+}
+
+.pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--app-muted);
+  display: inline-block;
+}
+
+/* ── Tool-call chip ──────────────────────────────────────────────────── */
+.tool {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 5px 10px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: var(--mantine-color-default-hover);
+  border: 1px solid var(--app-border);
+}
+
+.toolIcon {
+  color: var(--app-muted);
+  flex-shrink: 0;
+}
+
+/* ── Prose body ──────────────────────────────────────────────────────── */
+.body {
+  line-height: 1.62;
+  color: var(--mantine-color-text);
+  min-height: 3.2em;
+}
+
+.word {
+  /* Words are placed instantly by the interval; the span is the seam the
+     caret rides against and the hook for the fade below. */
+  white-space: pre-wrap;
+}
+
+/* Blinking caret riding the tail of the stream. */
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  border-radius: 1px;
+  background: var(--mantine-color-text);
+}
+
+/* ── Code block ──────────────────────────────────────────────────────── */
+.code {
+  margin-top: 14px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  overflow: hidden;
+  background: var(--app-bg);
+}
+
+.codeBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--app-border);
+  background: var(--mantine-color-default-hover);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--app-border-strong);
+}
+
+.pre {
+  margin: 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.codeLine {
+  color: var(--mantine-color-text);
+  white-space: pre;
+}
+
+.codeLine[data-kind='str'] {
+  color: var(--mantine-color-dimmed);
+}
+
+/* ── Copy → Check morph ──────────────────────────────────────────────── */
+.morph {
+  position: relative;
+  display: inline-flex;
+  width: 13px;
+  height: 13px;
+}
+
+.mCopy,
+.mCheck {
+  position: absolute;
+  inset: 0;
+}
+
+.mCheck {
+  color: var(--mantine-color-text);
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+/* Reduced-motion default: hard swap, no scale/rotate theatre. */
+.morph[data-copied] .mCopy {
+  opacity: 0;
+}
+.morph[data-copied] .mCheck {
+  opacity: 1;
+  transform: none;
+}
+
+/* Actions ready-state. */
+.actions {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOTION — signature animations live here, opt-in only.
+   ═════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+  /* Each streamed word fades + rises into place — the reveal signature. */
+  .word {
+    animation: wordIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes wordIn {
+    from {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Caret blink — steady, calm, on-beat. */
+  .caret {
+    animation: blink 1.05s steps(1, end) infinite;
+  }
+
+  @keyframes blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    50.01%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Live pulse next to the status label. */
+  .pulse {
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(0.85);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Tool chip lands from below. */
+  .tool {
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity 260ms ease,
+      transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tool[data-visible] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Code block fades + rises once prose settles. */
+  .code {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 320ms ease,
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .code[data-in] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Actions ease in when the answer is ready. */
+  .actions {
+    opacity: 0;
+    transition: opacity 260ms ease 60ms;
+  }
+  .actions[data-ready] {
+    opacity: 1;
+  }
+
+  /* Copy morph — the check spins-scales in as the copy glyph lifts away. */
+  .mCopy,
+  .mCheck {
+    transition:
+      opacity 200ms ease,
+      transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .morph[data-copied] .mCopy {
+    opacity: 0;
+    transform: scale(0.5) rotate(-12deg);
+  }
+  .morph[data-copied] .mCheck {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  /* Regenerate icon gives a small spin on hover — tactile, not busy. */
+  .regen {
+    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  button:hover .regen {
+    transform: rotate(-180deg);
+  }
+}

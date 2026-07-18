@@ -1,0 +1,341 @@
+/*
+ * VoiceOrb — a gradient "voice input" orb: a soft mesh-gradient sphere that
+ * breathes at rest, emanates concentric ripples while listening, and pulses
+ * with a shimmer while thinking. All motion lives behind prefers-reduced-motion:
+ * no-preference; reduced motion falls back to a still orb.
+ */
+
+.frame {
+  display: grid;
+  place-items: center;
+  padding: clamp(28px, 6vw, 56px) clamp(20px, 4vw, 40px);
+  background: var(--app-bg);
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 4vw, 30px);
+  width: 100%;
+  max-width: 380px;
+}
+
+/* ── Stage: orb + the ripples that radiate behind it ──────────────────── */
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 176px;
+  height: 176px;
+}
+
+.ripple {
+  position: absolute;
+  inset: 18px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--mantine-color-text) 20%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── The orb button ───────────────────────────────────────────────────── */
+.orb {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  border: none;
+  padding: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  isolation: isolate;
+  /* Dreamy, cloudy mesh sphere — pastel hues with lots of white woven in. */
+  background:
+    radial-gradient(58% 56% at 30% 26%, rgba(255, 255, 255, 0.92) 0%, transparent 54%),
+    radial-gradient(60% 60% at 34% 28%, #d6e4ff 0%, transparent 60%),
+    radial-gradient(52% 52% at 72% 30%, #cef1f6 0%, transparent 58%),
+    radial-gradient(58% 58% at 70% 74%, #e0d3fb 0%, transparent 62%),
+    radial-gradient(55% 55% at 30% 72%, #f9dcf1 0%, transparent 58%),
+    radial-gradient(120% 120% at 50% 42%, #d5ddf8 0%, #b3bbee 70%, #a2a8e2 100%);
+  box-shadow:
+    inset 0 2px 8px rgba(255, 255, 255, 0.7),
+    inset 0 -8px 22px rgba(120, 122, 150, 0.22),
+    0 14px 38px -12px rgba(9, 9, 11, 0.16),
+    0 2px 8px rgba(9, 9, 11, 0.1);
+  transition: box-shadow 300ms ease, transform 300ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.orb:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 2px 8px rgba(255, 255, 255, 0.7),
+    inset 0 -8px 22px rgba(120, 122, 150, 0.22),
+    0 14px 38px -12px rgba(9, 9, 11, 0.16),
+    var(--app-focus-ring);
+}
+
+/* A specular top highlight so the sphere reads glossy, not flat. */
+.orb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(38% 30% at 36% 24%, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+  z-index: 2;
+}
+
+/* Fine grain, kept very subtle. Sits above the gradient, clipped to the sphere. */
+.grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Shimmer sweep — only revealed in the thinking state. */
+.orb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 48%,
+    transparent 66%
+  );
+  opacity: 0;
+  z-index: 4;
+}
+
+/* ── Readout: status label, waveform, transcript ──────────────────────── */
+.readout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 92px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mantine-color-text);
+}
+
+.pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--app-muted);
+  flex-shrink: 0;
+}
+
+.pipLive {
+  background: var(--mantine-color-text);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--mantine-color-text) 45%, transparent);
+}
+
+.spinner {
+  display: inline-flex;
+  color: var(--mantine-color-text);
+}
+
+/* Live waveform — a row of bars that jump while listening. */
+.waveform {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+}
+
+.bar {
+  width: 3px;
+  height: 20%;
+  border-radius: 2px;
+  background: var(--app-muted);
+  transform-origin: center;
+}
+
+/* Transcript — a monospace-ish caption that types in. */
+.transcript {
+  min-height: 34px;
+  max-width: 320px;
+  text-align: center;
+  font-size: var(--mantine-font-size-sm);
+  line-height: 1.45;
+  color: var(--app-muted);
+}
+
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: -0.15em;
+  background: var(--mantine-color-text);
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   Motion — everything below is opt-in via prefers-reduced-motion.
+   With reduced motion the orb is simply a still gradient sphere.
+   ──────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .orb[data-state='idle'] {
+    animation: breathe 6s ease-in-out infinite, hueDrift 14s ease-in-out infinite;
+  }
+
+  .orb[data-state='listening'] {
+    animation: breathe 2.6s ease-in-out infinite, hueDrift 10s ease-in-out infinite;
+  }
+
+  .orb[data-state='thinking'] {
+    animation: pulseFast 1s ease-in-out infinite;
+  }
+
+  .orb[data-state='thinking']::after {
+    animation: shimmer 1.15s ease-in-out infinite;
+  }
+
+  .ripple {
+    animation: ring 2.4s ease-out infinite;
+  }
+  .ripple:nth-child(2) {
+    animation-delay: 0.8s;
+  }
+  .ripple:nth-child(3) {
+    animation-delay: 1.6s;
+  }
+
+  .pipLive {
+    animation: livePulse 1.6s ease-out infinite;
+  }
+
+  .bar {
+    animation: wave 900ms ease-in-out infinite;
+  }
+  .bar:nth-child(1) {
+    animation-delay: -800ms;
+  }
+  .bar:nth-child(2) {
+    animation-delay: -400ms;
+  }
+  .bar:nth-child(3) {
+    animation-delay: -650ms;
+  }
+  .bar:nth-child(4) {
+    animation-delay: -120ms;
+  }
+  .bar:nth-child(5) {
+    animation-delay: -520ms;
+  }
+  .bar:nth-child(6) {
+    animation-delay: -300ms;
+  }
+  .bar:nth-child(7) {
+    animation-delay: -700ms;
+  }
+
+  .caret {
+    animation: blink 1s steps(1) infinite;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+@keyframes hueDrift {
+  0%,
+  100% {
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  50% {
+    filter: hue-rotate(-22deg) saturate(1.08);
+  }
+}
+
+@keyframes pulseFast {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  50% {
+    transform: scale(1.07);
+    filter: hue-rotate(18deg) brightness(1.08);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0;
+    transform: translateX(-40%);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(40%);
+  }
+}
+
+@keyframes ring {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.7);
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.65);
+  }
+}
+
+@keyframes livePulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--mantine-color-text) 45%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--mantine-color-text) 0%, transparent);
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,242 @@
+/*
+ * PromptComposer — interaction states & signature micro-animations that can't
+ * live in the flat `styles` prop: a focus-within lift on the shell, a slash
+ * menu that springs in, attachment chips that pop, and a send button whose
+ * arrow lifts + glows once there's something to send. All keyframed motion is
+ * gated behind prefers-reduced-motion: no-preference.
+ */
+
+/* The composer shell — hairline border that firms and lifts on focus. */
+.shell {
+  position: relative;
+  transition:
+    border-color 160ms ease,
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.shell:focus-within {
+  border-color: var(--app-border-strong);
+  box-shadow: var(--mantine-shadow-md), var(--app-focus-ring);
+}
+
+/* ── Slash-command menu ──────────────────────────────────────────
+   Anchored above the control row, opening upward from its bottom-left. */
+.slashMenu {
+  position: absolute;
+  left: 14px;
+  bottom: 58px;
+  width: 288px;
+  max-width: calc(100% - 28px);
+  z-index: 5;
+  padding: 5px;
+  background: var(--mantine-color-body);
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  box-shadow: var(--mantine-shadow-lg);
+  transform-origin: bottom left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slashMenu {
+    animation: slashIn 170ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes slashIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.slashHint {
+  padding: 4px 9px 6px;
+}
+
+.slashItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 9px;
+  border: none;
+  border-radius: var(--mantine-radius-sm);
+  background: transparent;
+  color: var(--mantine-color-text);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 100ms ease;
+}
+
+.slashItem:hover,
+.slashItemActive {
+  background: var(--mantine-color-default-hover);
+}
+
+.slashIcon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--app-muted);
+}
+
+.slashItemActive .slashIcon {
+  color: var(--mantine-color-text);
+}
+
+.slashName {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.slashDesc {
+  font-size: var(--mantine-font-size-xs);
+  color: var(--app-muted);
+  line-height: 1.2;
+}
+
+/* A neutral left-edge on the highlighted command — the one restrained accent. */
+.slashItemActive {
+  position: relative;
+}
+.slashItemActive::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  bottom: 7px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--mantine-color-text);
+}
+
+/* ── Attachment chips ────────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 5px 4px 9px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  max-width: 220px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chip {
+    animation: chipPop 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@keyframes chipPop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.chipIcon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--app-muted);
+}
+
+.chipName {
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chipSize {
+  font-size: var(--mantine-font-size-xs);
+  color: var(--app-muted);
+  flex-shrink: 0;
+}
+
+.chipRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--app-muted);
+  cursor: pointer;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.chipRemove:hover {
+  color: var(--mantine-color-text);
+  background: var(--mantine-color-default-hover);
+}
+
+/* ── Model pill (Menu target) ────────────────────────────────────── */
+.modelPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 9px;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  background: var(--app-surface);
+  color: var(--mantine-color-text);
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+.modelPill:hover {
+  border-color: var(--app-border-strong);
+  background: var(--mantine-color-default-hover);
+}
+.modelGlyph {
+  display: flex;
+  align-items: center;
+  color: var(--app-muted);
+  flex-shrink: 0;
+}
+.modelChevron {
+  color: var(--app-muted);
+  display: flex;
+  transition: transform 160ms ease;
+}
+.modelPillOpen .modelChevron {
+  transform: rotate(180deg);
+}
+
+/* ── Send button ─────────────────────────────────────────────────── */
+.sendArrow {
+  display: block;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Once there's text: a subtle neutral glow so the button reads as "armed". */
+.sendActive {
+  box-shadow: 0 0 0 3px var(--mantine-color-default-hover);
+  transition: box-shadow 200ms ease, transform 160ms ease;
+}
+.sendActive:hover {
+  box-shadow: 0 0 0 4px var(--mantine-color-default-hover);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sendActive:hover .sendArrow {
+    transform: translateY(-2px);
+  }
+  .sendActive:active .sendArrow {
+    transform: translateY(0);
+  }
+}
