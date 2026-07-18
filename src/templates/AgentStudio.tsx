@@ -28,7 +28,6 @@ import {
   TextInput,
   ThemeIcon,
   Tooltip,
-  useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -44,7 +43,6 @@ import {
   PanelRight,
   LogOut,
   Lightbulb,
-  Moon,
   Pencil,
   Image as ImageIcon,
   Plus,
@@ -52,11 +50,11 @@ import {
   Settings,
   ShieldCheck,
   Command,
-  Sun,
   CircleUser,
   Globe,
   Upload,
 } from 'lucide-react';
+import { AppHeader } from '../components/AppHeader';
 import { AiComposer } from '../components/AiComposer';
 import classes from './AgentStudio.module.css';
 
@@ -325,91 +323,78 @@ function Header({
   model: string;
   setModel: (v: string) => void;
 }) {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const dark = colorScheme === 'dark';
-
   return (
-    <Group h="100%" px="md" justify="space-between" wrap="nowrap">
-      <Group gap="xs" wrap="nowrap">
-        <Burger opened={navMobileOpened} onClick={toggleNavMobile} hiddenFrom="sm" size="sm" />
-        <Tooltip label="Toggle sidebar" withArrow visibleFrom="sm">
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            size="lg"
-            radius="md"
-            onClick={toggleNavDesktop}
-            aria-label="Toggle sidebar"
-            visibleFrom="sm"
-          >
-            <PanelLeft size={18} />
-          </ActionIcon>
-        </Tooltip>
-
-        <Menu position="bottom-start" width={230} radius="md" shadow="md">
-          <Menu.Target>
-            <Button
+    <AppHeader
+      leftSection={
+        <>
+          <Burger opened={navMobileOpened} onClick={toggleNavMobile} hiddenFrom="sm" size="sm" />
+          <Tooltip label="Toggle sidebar" withArrow visibleFrom="sm">
+            <ActionIcon
               variant="subtle"
               color="gray"
+              size="lg"
               radius="md"
-              size="sm"
-              leftSection={<Command size={15} />}
-              rightSection={<ChevronDown size={14} style={{ color: 'var(--app-muted)' }} />}
-              styles={{ root: { fontWeight: 600 } }}
+              onClick={toggleNavDesktop}
+              aria-label="Toggle sidebar"
+              visibleFrom="sm"
             >
-              {MODELS.find((m) => m.value === model)?.label}
-            </Button>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Label>Model</Menu.Label>
-            {MODELS.map((m) => (
-              <Menu.Item
-                key={m.value}
-                onClick={() => setModel(m.value)}
-                leftSection={<Command size={15} />}
-                rightSection={
-                  m.value === model ? (
-                    <Circle size={8} fill="currentColor" style={{ color: 'var(--app-muted)' }} />
-                  ) : null
-                }
-              >
-                {m.label}
-              </Menu.Item>
-            ))}
-          </Menu.Dropdown>
-        </Menu>
-      </Group>
+              <PanelLeft size={18} />
+            </ActionIcon>
+          </Tooltip>
+        </>
+      }
+    >
+      <Menu position="bottom-start" width={230} radius="md" shadow="md">
+        <Menu.Target>
+          <Button
+            variant="subtle"
+            color="gray"
+            radius="md"
+            size="sm"
+            leftSection={<Command size={15} />}
+            rightSection={<ChevronDown size={14} style={{ color: 'var(--app-muted)' }} />}
+            styles={{ root: { fontWeight: 600 } }}
+          >
+            {MODELS.find((m) => m.value === model)?.label}
+          </Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Label>Model</Menu.Label>
+          {MODELS.map((m) => (
+            <Menu.Item
+              key={m.value}
+              onClick={() => setModel(m.value)}
+              leftSection={<Command size={15} />}
+              rightSection={
+                m.value === model ? (
+                  <Circle size={8} fill="currentColor" style={{ color: 'var(--app-muted)' }} />
+                ) : null
+              }
+            >
+              {m.label}
+            </Menu.Item>
+          ))}
+        </Menu.Dropdown>
+      </Menu>
 
-      <Group gap={6} wrap="nowrap">
-        <Tooltip label="Share chat" withArrow>
-          <ActionIcon variant="subtle" color="gray" size="lg" radius="md" aria-label="Share chat">
-            <Upload size={17} />
-          </ActionIcon>
-        </Tooltip>
+      <Tooltip label="Share chat" withArrow>
+        <ActionIcon variant="subtle" color="gray" size="lg" radius="md" aria-label="Share chat">
+          <Upload size={17} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label={panelOpen ? 'Hide configuration' : 'Show configuration'} withArrow>
         <ActionIcon
-          variant="subtle"
-          color="gray"
+          variant={panelOpen ? 'filled' : 'subtle'}
+          color={panelOpen ? 'neutral' : 'gray'}
           size="lg"
           radius="md"
-          onClick={toggleColorScheme}
-          aria-label="Toggle color scheme"
+          onClick={togglePanel}
+          aria-label="Toggle configuration panel"
         >
-          {dark ? <Sun size={17} /> : <Moon size={17} />}
+          <PanelRight size={18} />
         </ActionIcon>
-        <Tooltip label={panelOpen ? 'Hide configuration' : 'Show configuration'} withArrow>
-          <ActionIcon
-            variant={panelOpen ? 'filled' : 'subtle'}
-            color={panelOpen ? 'neutral' : 'gray'}
-            size="lg"
-            radius="md"
-            onClick={togglePanel}
-            aria-label="Toggle configuration panel"
-          >
-            <PanelRight size={18} />
-          </ActionIcon>
-        </Tooltip>
-      </Group>
-    </Group>
+      </Tooltip>
+    </AppHeader>
   );
 }
 
@@ -773,12 +758,7 @@ export function AgentStudio() {
       padding={0}
       style={{ height: '100dvh' }}
     >
-      <AppShell.Header
-        style={{
-          backdropFilter: 'blur(8px)',
-          background: 'color-mix(in srgb, var(--app-bg) 82%, transparent)',
-        }}
-      >
+      <AppShell.Header withBorder={false}>
         <Header
           navMobileOpened={navMobileOpened}
           toggleNavMobile={toggleNavMobile}
