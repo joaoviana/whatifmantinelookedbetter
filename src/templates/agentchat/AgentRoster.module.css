@@ -1,0 +1,87 @@
+/* AgentRoster — compact team strip. Hover/pseudo/keyframes live here;
+   flat inline styles (theme tokens) live in the TSX. */
+
+.strip {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-border-strong) transparent;
+}
+
+/* Slim, unobtrusive scrollbar for the horizontal overflow. */
+.strip::-webkit-scrollbar {
+  height: 6px;
+}
+.strip::-webkit-scrollbar-thumb {
+  background: var(--app-border-strong);
+  border-radius: 999px;
+}
+.strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card {
+  border: 1px solid transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition:
+      transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      background-color 200ms ease;
+  }
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--app-border);
+  background-color: var(--app-surface);
+  box-shadow: var(--app-shadow-raised);
+}
+
+/* Live status dot — colour seeded from the agent's own accent. */
+.dot {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--app-surface);
+  box-sizing: border-box;
+}
+
+.thinking::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .thinking::after {
+    animation: roster-pulse 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes roster-pulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}

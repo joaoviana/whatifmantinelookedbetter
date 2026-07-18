@@ -1,0 +1,98 @@
+/* ─────────────────────────────────────────────────────────────
+   MessageBubble — subtle, polished, monochrome. Attio / Linear /
+   Vercel restraint: hairline surfaces, airy agent rows, quiet
+   motion. Pseudo-states & keyframes live here; layout is inline.
+   ───────────────────────────────────────────────────────────── */
+
+/* User chip — a soft, distinct surface with a hairline. Understated. */
+.userChip {
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-lg);
+  box-shadow: var(--app-shadow-raised);
+}
+
+/* Tool chip — refined inline pill that firms up on hover. */
+.toolChip {
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+.toolChip:hover {
+  border-color: var(--app-border-strong);
+  background-color: var(--mantine-color-default-hover);
+}
+
+/* Source chips — the quietest possible reference tokens. */
+.sourceChip {
+  background-color: transparent;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  color: var(--app-muted);
+  transition: color 140ms ease, border-color 140ms ease;
+}
+.sourceChip:hover {
+  color: var(--mantine-color-text);
+  border-color: var(--app-border-strong);
+}
+
+/* Streaming: three breathing dots. */
+.dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background-color: var(--app-muted);
+  opacity: 0.4;
+}
+
+/* Blinking caret trailing streamed text. */
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.95em;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  border-radius: 1px;
+  background-color: var(--app-muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dot {
+    animation: bubbleDotPulse 1.25s ease-in-out infinite;
+  }
+  .dot:nth-child(2) {
+    animation-delay: 0.16s;
+  }
+  .dot:nth-child(3) {
+    animation-delay: 0.32s;
+  }
+  .caret {
+    animation: bubbleCaretBlink 1.05s step-end infinite;
+  }
+}
+
+@keyframes bubbleDotPulse {
+  0%, 60%, 100% {
+    opacity: 0.28;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes bubbleCaretBlink {
+  0%, 45% {
+    opacity: 1;
+  }
+  46%, 100% {
+    opacity: 0;
+  }
+}

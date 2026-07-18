@@ -1,0 +1,315 @@
+/*
+ * Inputs & Forms — interactive states + motion.
+ * Pseudo-selectors live here (the `styles` prop can't express them).
+ * Aesthetic: monochrome, hairline borders, crisp-but-quiet focus rings.
+ * Wave 3 — POLISH: fields are BORDER-DRIVEN (transparent bg + default
+ * border; focus shifts the border to the primary colour and lays a calm
+ * halo). No more heavy inset/raised shadow on text fields — a whisper at
+ * most. Toggles adopt the reference pattern (transparent + primary border,
+ * primary fill when on). Switch gets a premium, well-proportioned redesign
+ * and dropdowns get a refined, animated surface.
+ * Motion: 150ms cubic-bezier(0.22, 1, 0.36, 1), reduced-motion aware.
+ */
+
+/* ── Text fields: TextInput, Textarea, Select, NumberInput, PasswordInput,
+   Autocomplete, MultiSelect, TagsInput, PillsInput, PinInput, JsonInput,
+   NativeSelect, FileInput, ColorInput ──
+   Border-driven: transparent surface, hairline default border, only a
+   whisper of depth in light. Borders do the work. */
+.input {
+  background-color: transparent;
+  /* Super light & subtle — lightest hairline at rest, no resting shadow. */
+  border: 1px solid var(--app-border);
+  box-shadow: none;
+}
+
+.input::placeholder {
+  color: var(--mantine-color-dimmed);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .input {
+    transition:
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.input:hover:not(:disabled):not([data-disabled]):not([aria-invalid='true']) {
+  border-color: var(--mantine-color-default-border);
+}
+
+/* Crisp focus — border shifts to the primary colour, plus a calm monochrome
+   halo. No resting shadow underneath: the border carries it. */
+.input:focus,
+.input:focus-within {
+  border-color: var(--mantine-primary-color-filled);
+  box-shadow: var(--app-focus-ring);
+}
+
+/* Error keeps its own hue, even while focused. */
+.input[aria-invalid='true'] {
+  border-color: var(--mantine-color-error);
+}
+
+.input[aria-invalid='true']:focus,
+.input[aria-invalid='true']:focus-within {
+  border-color: var(--mantine-color-error);
+  box-shadow: 0 0 0 3px light-dark(rgba(224, 49, 49, 0.10), rgba(255, 120, 120, 0.12));
+}
+
+/* ── Checkbox — transparent + primary border, primary fill when on ── */
+.checkbox {
+  background-color: transparent;
+  border-color: var(--mantine-primary-color-filled);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .checkbox {
+    transition:
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.checkbox:not(:checked):not(:indeterminate):not(:disabled):hover {
+  background-color: var(--mantine-color-default-hover);
+}
+
+/* Checked/indeterminate lift with a faint top highlight. */
+.checkbox:checked,
+.checkbox:indeterminate {
+  box-shadow: var(--app-inset-highlight);
+}
+
+.checkbox:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+}
+
+/* Disabled = 0.5 opacity on the box and its icon; label softens to 0.7. */
+.checkbox:disabled {
+  opacity: 0.5;
+}
+
+.checkbox:disabled + .checkboxIcon {
+  opacity: 0.5;
+}
+
+.checkboxLabel[data-disabled] {
+  color: inherit;
+  opacity: 0.7;
+}
+
+/* The custom chic tick — thin stroke, gently inset so it reads smaller. */
+.checkboxIcon {
+  stroke-width: 1.5;
+}
+
+/* ── Radio — same transparent + primary-border language ── */
+.radio {
+  background-color: transparent;
+  border-color: var(--mantine-primary-color-filled);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .radio {
+    transition:
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.radio:not(:checked):not(:disabled):hover {
+  background-color: var(--mantine-color-default-hover);
+}
+
+.radio:checked {
+  box-shadow: var(--app-inset-highlight);
+}
+
+.radio:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+}
+
+.radio:disabled {
+  opacity: 0.5;
+}
+
+/* ── Switch — premium redesign ──
+   Off track = default-hover with a hairline; a solid, softly-shadowed knob
+   glides on `inset-inline-start`. Checked track fills primary and reads as
+   pressed-in via the inset highlight. */
+.switchTrack {
+  --switch-bg: var(--mantine-color-default-hover);
+  border: 1px solid var(--mantine-color-default-border);
+}
+
+.switchThumb {
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-0));
+  border: 1px solid light-dark(rgba(9, 9, 11, 0.06), rgba(0, 0, 0, 0.35));
+  box-shadow: var(--app-shadow-raised);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .switchTrack {
+    transition:
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .switchThumb {
+    transition:
+      inset-inline-start 160ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switchThumb {
+    transition: none;
+  }
+}
+
+/* Checked track = primary fill (Mantine sets --switch-bg) + pressed highlight. */
+.switchInput:checked + .switchTrack {
+  border-color: transparent;
+  box-shadow: var(--app-inset-highlight);
+}
+
+.switchInput:focus-visible + .switchTrack {
+  box-shadow: var(--app-focus-ring);
+}
+
+/* ── SegmentedControl — recessed track, 500-weight dimmed→text labels,
+   crisp raised active indicator ── */
+.segmented {
+  background-color: var(--mantine-color-default-hover);
+  border: 1px solid var(--mantine-color-default-border);
+}
+
+.segmentedLabel {
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  color: var(--mantine-color-dimmed);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .segmentedLabel {
+    transition: color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Hover raises inactive labels to full text colour. */
+.segmentedLabel:not([data-disabled]):hover {
+  color: var(--mantine-color-text);
+}
+
+/* Active label snaps to full text colour. */
+.segmentedLabel[data-active] {
+  color: var(--mantine-color-text);
+}
+
+.segmentedIndicator {
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-4));
+  border: 1px solid light-dark(var(--mantine-color-neutral-2), var(--mantine-color-dark-3));
+  box-shadow: var(--app-shadow-raised);
+  border-radius: var(--mantine-radius-sm);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .segmentedIndicator {
+    transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ── Dropdowns (Select / Autocomplete / MultiSelect / TagsInput) ──
+   Body surface, hairline border, md radius, tidy padding; hover + selected
+   both settle on default-hover so the row highlight stays quiet. */
+.dropdown {
+  background-color: var(--mantine-color-body);
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-md);
+  box-shadow: var(--mantine-shadow-md);
+  padding: 4px;
+}
+
+.option {
+  border-radius: var(--mantine-radius-sm);
+  padding: 7px 10px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .option {
+    transition: background-color 120ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.option:hover:not([data-combobox-disabled]) {
+  background-color: var(--mantine-color-default-hover);
+}
+
+/* Selected (and keyboard-highlighted) rows stay subtle — the check icon,
+   not a heavy fill, signals selection. */
+.option[data-combobox-selected] {
+  background-color: var(--mantine-color-default-hover);
+  color: var(--mantine-color-text);
+  font-weight: 500;
+}
+
+/* ── Slider ── */
+.sliderThumb {
+  border: 1px solid light-dark(var(--mantine-color-neutral-3), var(--mantine-color-dark-2));
+  background: light-dark(#ffffff, var(--mantine-color-dark-0));
+  box-shadow: var(--app-shadow-raised);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sliderThumb {
+    transition:
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.sliderThumb:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+}
+
+.sliderMark {
+  border-color: var(--app-border-strong);
+}
+
+.sliderMark[data-filled] {
+  border-color: light-dark(var(--mantine-color-neutral-9), var(--mantine-color-dark-0));
+}
+
+/* ── Rating ── */
+.ratingStar {
+  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ratingStar:hover {
+    transform: scale(1.12);
+  }
+}
+
+/* ── Fieldset — a calm grouping surface for realistic forms ── */
+.fieldset {
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow-raised);
+}
+
+.fieldsetLegend {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding-inline: var(--mantine-spacing-xs);
+}

@@ -1,0 +1,33 @@
+/* SignIn collection — pseudo-state / decorative styling only.
+   Flat layout props live inline in SignIn.tsx per the lab convention. */
+
+/* Brand mark: a small tactile square that lifts off the surface, echoing the
+   chewy filled-control treatment (hairline + inset highlight + raised shadow). */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--mantine-radius-md);
+  color: var(--mantine-primary-color-contrast);
+  background-color: var(--mantine-primary-color-filled);
+  box-shadow: var(--app-inset-highlight), var(--app-shadow-raised);
+}
+
+.brand svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.75;
+}
+
+/* Social buttons: let their lucide glyph sit at the muted tone, then firm up
+   to full text color on hover so the row feels alive without shouting. */
+.social {
+  display: inline-flex;
+  color: var(--app-muted);
+  transition: color 140ms ease;
+}
+.social:hover {
+  color: var(--mantine-color-text);
+}

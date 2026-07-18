@@ -1,0 +1,90 @@
+/* ─────────────────────────────────────────────────────────────
+   AgentAvatar — a premium, organic MESH-gradient identity circle.
+   Layers: mesh (overlapping radial blobs + white blooms, slow drift)
+   · specular (top-left glossy highlight) · grain (fine printed noise)
+   · hairline ring + inner depth on the root. Gradients are the ONLY
+   color; ring/depth use theme tokens. Perfect in light & dark.
+   ───────────────────────────────────────────────────────────── */
+
+.root {
+  position: relative;
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate; /* keep blend modes local to the avatar */
+  background-color: var(--c1);
+  /* hairline theme ring + faint inner depth so it sits on any surface */
+  box-shadow:
+    inset 0 0 0 1px var(--app-border),
+    inset 0 calc(var(--sz) * -0.06) calc(var(--sz) * 0.12) rgba(9, 9, 11, 0.10),
+    var(--app-shadow-raised);
+}
+
+/* Every layer fills the circle. */
+.mesh,
+.specular,
+.grain {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ── MESH: several overlapping radial blobs from the agent's stops,
+   softened toward white, with two airy white blooms woven in. ── */
+.mesh {
+  /* oversize + scale so slow rotation never reveals the edge */
+  inset: -18%;
+  background-color: color-mix(in srgb, var(--c1), white 14%);
+  background-image:
+    radial-gradient(42% 42% at var(--b0), color-mix(in srgb, var(--c0), white 12%) 0%, transparent 72%),
+    radial-gradient(46% 44% at var(--b1), color-mix(in srgb, var(--c2), white 10%) 0%, transparent 72%),
+    radial-gradient(38% 36% at var(--b2), color-mix(in srgb, var(--c0), white 20%) 0%, transparent 66%),
+    radial-gradient(40% 38% at var(--b3), rgba(255, 255, 255, 0.85) 0%, transparent 62%),
+    radial-gradient(30% 30% at var(--b4), rgba(255, 255, 255, 0.60) 0%, transparent 58%);
+  background-repeat: no-repeat;
+  transform: scale(1.18);
+}
+
+/* ── SPECULAR: soft top-left glossy highlight → sphere-like light. ── */
+.specular {
+  background-image: radial-gradient(
+    56% 52% at 32% 26%,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.12) 42%,
+    rgba(255, 255, 255, 0) 66%
+  );
+  mix-blend-mode: screen;
+}
+
+/* ── GRAIN: fine, desaturated printed noise (feTurbulence, saturate 0). ── */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 120px 120px; /* fixed → grain stays fine at any avatar size */
+  opacity: 0.1;
+  mix-blend-mode: overlay;
+}
+
+:global([data-mantine-color-scheme='dark']) .grain {
+  opacity: 0.13;
+  mix-blend-mode: soft-light;
+}
+
+/* Gentle, flowy life — subtle enough to read as organic, never busy. */
+@media (prefers-reduced-motion: no-preference) {
+  .mesh {
+    animation: agentMeshDrift 16s ease-in-out infinite;
+  }
+}
+
+@keyframes agentMeshDrift {
+  0% {
+    transform: scale(1.18) translate(-1.5%, -1%) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.22) translate(1.5%, 1.5%) rotate(5deg);
+  }
+  100% {
+    transform: scale(1.18) translate(-1.5%, -1%) rotate(0deg);
+  }
+}

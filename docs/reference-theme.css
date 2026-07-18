@@ -1,0 +1,204 @@
+/*
+ * ─────────────────────────────────────────────────────────────
+ *  REFERENCE THEME (MantineHub-style overrides) — provided by the user.
+ *  This file is NOT imported into the build. It is a PATTERN GUIDE for
+ *  the component-theme agents.
+ *
+ *  TRANSLATION RULES for this project (we are monochrome and do NOT
+ *  define a `secondary` color):
+ *   --mantine-color-secondary-outline-hover  → var(--mantine-color-default-hover)
+ *   --mantine-color-secondary-light          → var(--mantine-color-default-hover)
+ *   --mantine-color-secondary-filled         → var(--app-surface)
+ *   --mantine-primary-color-filled           → var(--mantine-primary-color-filled) (exists)
+ *   --mantine-primary-color-contrast         → var(--mantine-primary-color-contrast) (exists)
+ *   --mantine-color-default / -border / -hover→ keep as-is (they exist)
+ *   alpha(x, n) / rem(n)                      → use color-mix()/calc or plain values
+ *
+ *  KEY PRINCIPLE: controls are BORDER-DRIVEN. Inputs use a transparent
+ *  bg + default-border, and focus shifts the border to the primary color
+ *  (--input-bd-focus). Dropdowns/overlays use `body` bg + default-border.
+ *  Keep our chewy shadows for RAISED things (buttons, cards, active pills)
+ *  but do NOT pile heavy shadows onto inputs — let borders do the work.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* Checkbox */
+.mantine-Checkbox-root {
+  --checkbox-color: var(--mantine-primary-color-filled);
+  --checkbox-icon-color: var(--mantine-primary-color-contrast);
+
+  .mantine-Checkbox-input {
+    background-color: transparent;
+    border-color: var(--checkbox-color);
+
+    &[data-indeterminate],
+    &:checked {
+      background-color: var(--checkbox-color);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      & + .mantine-Checkbox-icon {
+        opacity: 0.5;
+        color: var(--checkbox-icon-color);
+      }
+    }
+  }
+
+  .mantine-Checkbox-label[data-disabled] {
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  &[data-variant="outline"] .mantine-Checkbox-input {
+    background-color: transparent;
+    & + .mantine-Checkbox-icon { color: var(--checkbox-color); }
+  }
+}
+
+/* Input — the canonical field treatment (border-driven, focus = primary) */
+[data-mantine-color-scheme="light"],
+[data-mantine-color-scheme="dark"] {
+  .mantine-Input-wrapper {
+    --input-disabled-bg: color-mix(in srgb, var(--mantine-color-default-hover) 50%, transparent);
+    --input-disabled-color: color-mix(in srgb, var(--mantine-color-text) 50%, transparent);
+
+    &[data-variant="default"] {
+      --input-bd: var(--mantine-color-default-border);
+      --input-bg: transparent;
+      --input-bd-focus: var(--mantine-primary-color-filled);
+    }
+    &[data-variant="filled"] {
+      --input-bd: transparent;
+      --input-bg: var(--mantine-color-default-hover);
+      --input-bd-focus: var(--mantine-primary-color-filled);
+    }
+    &[data-variant="unstyled"] {
+      --input-bd: transparent;
+      --input-bg: transparent;
+      --input-bd-focus: transparent;
+    }
+  }
+}
+
+/* Radio */
+.mantine-Radio-root .mantine-Radio-radio {
+  background-color: transparent;
+  border-color: var(--radio-color);
+  &:checked { background-color: var(--radio-color); border-color: var(--radio-color); }
+  & + .mantine-Radio-icon { color: var(--radio-icon-color); }
+  &:disabled { opacity: 0.5; }
+}
+
+/* Segmented Control — recessed track, dimmed→text labels, hover to full */
+.mantine-SegmentedControl-root {
+  background-color: var(--mantine-color-default-hover);
+  .mantine-SegmentedControl-label {
+    color: var(--mantine-color-dimmed);
+    &[data-active] { color: var(--mantine-color-text); }
+  }
+}
+
+/* Slider */
+.mantine-Slider-root {
+  --slider-track-bg: var(--mantine-color-default-hover);
+  .mantine-Slider-label {
+    background-color: var(--mantine-color-default) !important;
+    color: var(--mantine-color-text);
+    border: 1px solid var(--mantine-color-default-border) !important;
+  }
+}
+
+/* NavLink */
+.mantine-NavLink-root {
+  &:hover { background-color: var(--mantine-color-default-hover); }
+  &:where([data-active], [aria-current="page"]) {
+    background-color: var(--nl-bg);
+    color: var(--nl-color);
+    &:hover { background-color: var(--nl-hover); }
+  }
+}
+
+/* Pagination — bordered controls, filled active (THE FIX) */
+.mantine-Pagination-root .mantine-Pagination-control {
+  border-color: var(--mantine-color-default-border);
+  background-color: var(--mantine-color-body);
+  &:hover:where(:not(:disabled, [data-disabled])) { background-color: var(--mantine-color-default-hover); }
+  &:where([data-active]) {
+    background-color: var(--pagination-active-bg);
+    border-color: var(--pagination-active-bg);
+    color: var(--pagination-active-color, var(--mantine-primary-color-contrast));
+  }
+}
+
+/* Stepper — bordered icons (THE FIX: no huge filled circles by default) */
+.mantine-Stepper-root .mantine-Stepper-stepIcon {
+  background-color: var(--mantine-color-body);
+  border-color: var(--mantine-color-default-border);
+  color: var(--mantine-color-text);
+  &:where([data-progress]) { border-color: var(--step-color); }
+  &:where([data-completed]) {
+    color: var(--stepper-icon-color, var(--mantine-color-white));
+    background-color: var(--step-color);
+    border-color: var(--step-color);
+  }
+}
+
+/* Tabs */
+[data-mantine-color-scheme="light"],
+[data-mantine-color-scheme="dark"] {
+  .mantine-Tabs-root {
+    --tab-border-color: var(--mantine-color-default-border);
+    &[data-variant="default"] { --tabs-list-border-width: 2px; }
+    .mantine-Tabs-tab {
+      color: var(--mantine-color-dimmed);
+      &[data-variant="default"][data-active="true"] { color: var(--mantine-color-text); }
+      &[data-variant="default"]:hover { background-color: transparent; color: var(--mantine-color-text); }
+      &[data-variant="pills"][data-active="true"] { color: var(--mantine-primary-color-contrast); }
+    }
+  }
+}
+
+/* Dropdowns / overlays — body bg + default-border, NO arrows */
+.mantine-Menu-dropdown,
+.mantine-HoverCard-dropdown,
+.mantine-Popover-dropdown {
+  background-color: var(--mantine-color-body);
+  border-color: var(--mantine-color-default-border);
+}
+.mantine-Menu-item {
+  background-color: transparent;
+  &:where([data-hovered]) { background-color: var(--menu-item-hover, var(--mantine-color-default-hover)); }
+}
+.mantine-Menu-divider { border-color: var(--mantine-color-default-border); }
+.mantine-Modal-content,
+.mantine-Drawer-content { border: 1px solid var(--mantine-color-default-border); }
+
+/* Tooltip — compact */
+.mantine-Tooltip-tooltip { font-size: var(--mantine-font-size-xs); padding-top: 0; padding-bottom: 0; }
+
+/* Accordion */
+.mantine-Accordion-item { --item-border-color: var(--mantine-color-default-border); --item-filled-color: var(--mantine-color-default-hover); }
+.mantine-Accordion-root[data-variant="default"] .mantine-Accordion-label:hover { text-decoration: underline; }
+
+/* Card / Paper / Divider / Table / Title */
+.mantine-Card-root { background-color: var(--mantine-color-default); }
+.mantine-Card-section { border-color: var(--mantine-color-default-border); }
+.mantine-Paper-root[data-with-border] { border: 1px solid var(--mantine-color-default-border); }
+.mantine-Divider-root { --divider-color: var(--mantine-color-default-border); }
+.mantine-Table-table { --table-hover-color: var(--mantine-color-default-hover); --table-border-color: var(--mantine-color-default-border); }
+.mantine-Title-root, .mantine-Modal-title, .mantine-Drawer-title { letter-spacing: -0.025em; }
+
+/* Progress / RingProgress / Skeleton — quiet tracks */
+.mantine-Progress-root { background-color: var(--mantine-color-default-hover); }
+.mantine-RingProgress-curve { --rp-curve-root-color: var(--mantine-color-default-hover); }
+.mantine-Skeleton-root[data-visible]::after { background-color: var(--mantine-color-default-hover); }
+
+/* Notification / Code */
+.mantine-Notification-root[data-with-border] { border: 1px solid var(--mantine-color-default-border); }
+.mantine-Code-root { color: var(--mantine-color-text); }
+
+/* Button / ActionIcon / CloseButton — disabled treatment */
+.mantine-Button-root:where(:disabled:not([data-loading]), [data-disabled]:not([data-loading])) { opacity: 0.5; }
+.mantine-ActionIcon-root:where(:disabled:not([data-loading]), [data-disabled]:not([data-loading])) { opacity: 0.5; }
+.mantine-CloseButton-root[data-variant="subtle"]:hover:where(:not([data-disabled], :disabled)) { background-color: var(--mantine-color-default-hover); }

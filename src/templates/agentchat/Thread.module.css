@@ -1,0 +1,234 @@
+/* Thread — conversation + multi-agent choreography.
+   Hairlines, eyebrows, a thin delegation rail. Color only from agent accents
+   (via inline --step-accent / --dot vars); everything else is theme tokens. */
+
+.thread {
+  display: flex;
+  justify-content: center;
+  padding: 34px 24px 64px;
+}
+
+.column {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ── Orchestration header ─────────────────────────────────────── */
+.orchestration {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.cluster {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.clusterItem {
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--app-bg);
+}
+.clusterItem:not(:first-child) {
+  margin-left: -9px;
+}
+
+.orchText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.orchTitle {
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--app-muted);
+}
+.orchTitle strong {
+  font-weight: 600;
+  color: var(--mantine-color-text);
+}
+
+/* ── Turns (top level: user + orchestrator) ───────────────────── */
+.turn {
+  animation: thread-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Handoff / delegation divider ─────────────────────────────── */
+.handoff {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2px 0;
+}
+
+.handoffLine {
+  flex: 1;
+  height: 1px;
+  background: var(--app-border);
+}
+
+.handoffLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--app-muted);
+}
+.handoffLabel svg {
+  color: var(--app-border-strong);
+}
+
+.handoffDots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 2px;
+}
+.handoffDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--dot);
+  box-shadow: 0 0 0 2px var(--app-bg);
+}
+
+/* ── Delegated fan-out with a thin timeline rail ──────────────── */
+.delegatedGroup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-left: 28px;
+}
+
+/* the rail — fades in/out at the ends so it feels like a thread, not a box */
+.delegatedGroup::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--app-border) 12%,
+    var(--app-border) 88%,
+    transparent
+  );
+}
+
+.step {
+  position: relative;
+  animation: thread-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* the node dot — seeded from the agent's own accent */
+.step::before {
+  content: '';
+  position: absolute;
+  left: -24.5px;
+  top: 15px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--step-accent);
+  box-shadow: 0 0 0 2px var(--app-bg);
+}
+
+/* live node gets a soft breathing halo */
+.stepLive::after {
+  content: '';
+  position: absolute;
+  left: -27px;
+  top: 12.5px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--step-accent);
+  opacity: 0.5;
+}
+
+/* ── Streaming "in progress" indicator ────────────────────────── */
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.liveDots {
+  display: inline-flex;
+  gap: 4px;
+}
+.liveDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--step-accent);
+  opacity: 0.4;
+}
+
+.liveLabel {
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--app-muted);
+}
+
+/* ── Motion ───────────────────────────────────────────────────── */
+@keyframes thread-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .step:nth-child(1) { animation-delay: 40ms; }
+  .step:nth-child(2) { animation-delay: 110ms; }
+  .step:nth-child(3) { animation-delay: 180ms; }
+  .step:nth-child(4) { animation-delay: 250ms; }
+
+  .stepLive::after {
+    animation: thread-halo 1.8s ease-in-out infinite;
+  }
+  .liveDot {
+    animation: thread-blink 1.4s ease-in-out infinite;
+  }
+  .liveDot:nth-child(2) { animation-delay: 0.2s; }
+  .liveDot:nth-child(3) { animation-delay: 0.4s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .turn,
+  .step {
+    animation: none;
+  }
+}
+
+@keyframes thread-halo {
+  0% { transform: scale(0.7); opacity: 0.55; }
+  70% { transform: scale(1.65); opacity: 0; }
+  100% { transform: scale(1.65); opacity: 0; }
+}
+
+@keyframes thread-blink {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}

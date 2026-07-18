@@ -1,0 +1,129 @@
+/*
+ * Team members — :hover / state styling that can't live in the flat `styles`
+ * prop. Referenced from TeamMembers.tsx via className.
+ */
+
+.wrap {
+  padding: clamp(20px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 680px;
+}
+
+/* Header band: title + count on the left, invite CTA on the right. */
+.header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+  color: var(--app-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* A member row — hairline separators, a calm hover wash. */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  transition: background-color 120ms ease;
+}
+
+.row:not(:last-child) {
+  border-bottom: 1px solid var(--app-border);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .row {
+    transition: background-color 120ms ease;
+  }
+}
+
+.row:hover {
+  background-color: var(--mantine-color-default-hover);
+}
+
+/* Identity block dims for the pending-invite row. */
+.identity {
+  min-width: 0;
+  flex: 1;
+}
+
+.row[data-pending] .identity {
+  opacity: 0.65;
+}
+
+.person {
+  min-width: 0;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email {
+  font-size: 12.5px;
+  color: var(--app-muted);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status dot: solid for active, a hollow ring for invited. Monochrome. */
+.dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+}
+
+.dot[data-status='active'] {
+  background-color: var(--mantine-color-text);
+}
+
+.dot[data-status='invited'] {
+  background-color: transparent;
+  border: 1.5px solid var(--app-muted);
+}
+
+/* Bottom invite composer — divided from the list with a stronger hairline. */
+.invite {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--app-border-strong);
+  background-color: var(--app-bg);
+  border-bottom-left-radius: var(--mantine-radius-lg);
+  border-bottom-right-radius: var(--mantine-radius-lg);
+}
+
+.inviteEmail {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 560px) {
+  .invite {
+    flex-wrap: wrap;
+  }
+  .inviteEmail {
+    flex-basis: 100%;
+  }
+}

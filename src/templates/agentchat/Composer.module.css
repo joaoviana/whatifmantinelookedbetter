@@ -1,0 +1,108 @@
+/* ─────────────────────────────────────────────────────────────
+   Composer — a clean, flowing multi-agent input.
+   Rounded surface with a hairline + soft shadow; a borderless,
+   ring-less Textarea that reads as plain text; a quiet control row
+   that recedes so the message stays the focus.
+   ───────────────────────────────────────────────────────────── */
+
+.shell {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px 20px;
+}
+
+.surface {
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 22px;
+  box-shadow: var(--mantine-shadow-sm);
+  padding: 14px 14px 10px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.surface:focus-within {
+  border-color: var(--app-border-strong);
+  box-shadow: var(--mantine-shadow-sm), var(--app-focus-ring);
+}
+
+/* Strip every box/border/ring from the Textarea — it should feel like
+   typing directly onto the surface. */
+.field {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 4px 6px 2px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--mantine-color-text);
+}
+
+.field::placeholder {
+  color: var(--app-muted);
+}
+
+.field:focus,
+.field:focus-within {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+/* Control row — light, small, muted; recedes under the text. */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 0 2px;
+}
+
+/* Route-to pill — hairline, quiet, firms up on hover/open. */
+.routePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--app-muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease;
+}
+
+.routePill:hover,
+.routePill[data-expanded] {
+  color: var(--mantine-color-text);
+  border-color: var(--app-border-strong);
+  background-color: var(--mantine-color-default-hover);
+}
+
+.routeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.routeChevron {
+  color: var(--app-muted);
+  transition: transform 160ms ease;
+}
+
+.routePill[data-expanded] .routeChevron {
+  transform: rotate(180deg);
+}
+
+/* Small colored dot inside the menu options. */
+.optionDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}

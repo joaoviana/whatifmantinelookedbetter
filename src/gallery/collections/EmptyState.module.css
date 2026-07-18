@@ -1,0 +1,73 @@
+/*
+ * Empty states — decorative medallions + pseudo-element rings that can't live
+ * in the flat `styles` prop. Referenced from EmptyState.tsx via className.
+ */
+
+.wrap {
+  padding: clamp(20px, 4vw, 40px);
+}
+
+/* Each empty state is a centered card with generous, even whitespace. */
+.card {
+  height: 100%;
+}
+
+/* The medallion holds the icon and its decorative backdrop. The icon sits on
+   top; the faint ring / dotted grid renders behind it via ::before / ::after. */
+.medallion {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+}
+
+/* Faint dashed ring orbiting the icon — refined, not cute. */
+.medallion::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px dashed var(--app-border-strong);
+  opacity: 0.8;
+}
+
+/* A soft inner disc so the icon reads against a quiet surface. */
+.medallion::after {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border-radius: 999px;
+  background: var(--mantine-color-default-hover);
+  border: 1px solid var(--app-border);
+}
+
+/* Dotted-grid variant — a subtle constellation instead of a dashed ring. */
+.medallionDotted::before {
+  border-style: solid;
+  border-color: var(--app-border);
+  background-image: radial-gradient(var(--app-border-strong) 1px, transparent 1.4px);
+  background-size: 10px 10px;
+  background-position: center;
+  opacity: 0.7;
+}
+
+/* Lift the actual icon above both decorative layers. */
+.icon {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition:
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--app-muted);
+    box-shadow: var(--mantine-shadow-md);
+  }
+}

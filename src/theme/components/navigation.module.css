@@ -1,0 +1,388 @@
+/*
+ * Navigation & Layout — interactive states.
+ * :hover / :active / [data-active] live here (the `styles` prop can't do
+ * pseudo-selectors). Motion is ~150ms cubic-bezier(0.22,1,0.36,1), opt-in
+ * behind a reduced-motion guard.
+ * Aesthetic: Attio / Linear / Vercel — quiet monochrome, hairline borders,
+ * raised active chips (shadow + inset highlight) so controls feel tactile.
+ * autoContrast drives active text/bg in both schemes.
+ */
+
+/* ───────────────────────── Tabs ───────────────────────── */
+
+.tabsTab {
+  font-weight: 500;
+  color: var(--mantine-color-dimmed);
+  letter-spacing: -0.006em;
+}
+
+.tabsTab:hover {
+  background: transparent;
+  color: var(--mantine-color-text);
+}
+
+.tabsTab[data-active] {
+  color: var(--mantine-color-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tabsTab {
+    transition:
+      color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Default · horizontal: subtle 1px list rail + crisp 2px active underline
+   in the primary colour, ONLY under the active tab. No washed track. */
+.tabsRoot[data-variant='default'][data-orientation='horizontal'] .tabsList {
+  border-bottom: 1px solid var(--app-border);
+  gap: 2px;
+}
+
+.tabsRoot[data-variant='default'][data-orientation='horizontal'] .tabsTab {
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  /* pull the tab's 2px indicator over the 1px rail so they overlap cleanly */
+  margin-bottom: -1px;
+}
+
+.tabsRoot[data-variant='default'][data-orientation='horizontal']
+  .tabsTab[data-active] {
+  border-bottom-color: var(--mantine-primary-color-filled);
+}
+
+/* Default · vertical: a clean filled active row with a 2px LEFT indicator —
+   no wrapping box, no black border. Inactive rows dim with a subtle fill. */
+.tabsRoot[data-orientation='vertical'] .tabsList {
+  gap: 2px;
+  border-right: 1px solid var(--app-border);
+}
+
+.tabsRoot[data-orientation='vertical'] .tabsTab {
+  background: transparent;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--mantine-radius-sm) var(--mantine-radius-sm) 0;
+  margin: 0;
+  /* sit the 2px indicator over the 1px rail */
+  margin-left: -1px;
+}
+
+.tabsRoot[data-orientation='vertical'] .tabsTab:hover:not([data-active]) {
+  background: var(--mantine-color-default-hover);
+  color: var(--mantine-color-text);
+}
+
+.tabsRoot[data-orientation='vertical'] .tabsTab[data-active] {
+  background: var(--mantine-color-default-hover);
+  border-left-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-color-text);
+}
+
+/* Pills variant: a recessed track with a raised active chip. */
+.tabsRoot[data-variant='pills'] .tabsList {
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-lg);
+  background: var(--mantine-color-default-hover);
+}
+
+.tabsRoot[data-variant='pills'] .tabsTab {
+  border-radius: var(--mantine-radius-md);
+}
+
+.tabsRoot[data-variant='pills'] .tabsTab:hover:not([data-active]) {
+  background: var(--app-surface);
+  color: var(--mantine-color-text);
+}
+
+.tabsRoot[data-variant='pills'] .tabsTab:active {
+  transform: translateY(0.5px);
+}
+
+/* Raised chip — solid surface, tactile shadow + inset highlight. */
+.tabsRoot[data-variant='pills'] .tabsTab[data-active] {
+  background: var(--app-surface);
+  color: var(--mantine-color-text);
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-shadow-raised), var(--app-inset-highlight);
+}
+
+/* ─────────────────────────── Stepper ───────────────────────── */
+
+/* Icons: body bg + hairline border + text colour. Active is BORDERED in the
+   primary colour (not a big filled circle); completed is filled with a
+   contrast icon. autoContrast drives the completed icon colour. */
+.stepperIcon {
+  background-color: var(--mantine-color-body);
+  border: 1px solid var(--app-border);
+  color: var(--mantine-color-text);
+  font-weight: 600;
+}
+
+.stepperIcon[data-progress] {
+  border-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-filled);
+}
+
+.stepperIcon[data-completed] {
+  background-color: var(--mantine-primary-color-filled);
+  border-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-contrast);
+}
+
+/* Tighten the step body so label/description sit neatly beside the icon. */
+.stepperStep {
+  align-items: center;
+}
+
+/* Hairline connector line for the horizontal separator. */
+.stepperSeparator {
+  background-color: var(--app-border);
+  height: 1px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stepperIcon {
+    transition:
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ─────────────── SegmentedControl (chewy chip) ─────────────── */
+
+.segmentRoot {
+  border: 1px solid var(--app-border);
+  background: var(--mantine-color-default-hover);
+}
+
+/* The sliding active indicator reads as a solid raised control. */
+.segmentIndicator {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-shadow-raised), var(--app-inset-highlight);
+}
+
+.segmentLabel {
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  color: var(--mantine-color-dimmed);
+}
+
+.segmentControl[data-active] .segmentLabel,
+.segmentLabel[data-active] {
+  color: var(--mantine-color-text);
+}
+
+.segmentControl .segmentLabel:hover {
+  color: var(--mantine-color-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .segmentLabel {
+    transition: color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ─────────────────────── Accordion ─────────────────────── */
+
+.accordionControl {
+  font-weight: 500;
+  letter-spacing: -0.006em;
+}
+
+.accordionControl:hover {
+  background: var(--mantine-color-default-hover);
+}
+
+.accordionControl:active {
+  background: var(--app-border);
+}
+
+.accordionChevron {
+  color: var(--mantine-color-dimmed);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .accordionControl {
+    transition: background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .accordionChevron {
+    transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ──────────────────────── NavLink ──────────────────────── */
+
+.navLink {
+  border-radius: var(--mantine-radius-md);
+}
+
+.navLink:hover {
+  background: var(--mantine-color-default-hover);
+}
+
+/* Satisfying press. */
+.navLink:active {
+  background: var(--app-border);
+  transform: translateY(0.5px);
+}
+
+.navLink[data-active] {
+  background: var(--mantine-color-default-hover);
+  color: var(--mantine-color-text);
+  font-weight: 500;
+}
+
+.navLink[data-active]:hover {
+  background: var(--app-border);
+}
+
+.navLink:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .navLink {
+    transition:
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ─────────────────────── Pagination ────────────────────── */
+
+.paginationControl {
+  height: var(--app-control-height-sm);
+  min-width: var(--app-control-height-sm);
+  border: 1px solid var(--app-border);
+  background: var(--mantine-color-body);
+  color: var(--mantine-color-text);
+  font-weight: 500;
+}
+
+.paginationControl:hover:not([data-active]) {
+  background: var(--mantine-color-default-hover);
+  border-color: var(--app-border-strong);
+}
+
+/* Filled active control — primary bg + contrast text + matching border. */
+.paginationControl[data-active] {
+  background: var(--mantine-primary-color-filled);
+  border-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-contrast);
+}
+
+.paginationControl[data-active]:hover {
+  background: var(--mantine-primary-color-filled-hover);
+  border-color: var(--mantine-primary-color-filled-hover);
+}
+
+.paginationControl:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .paginationControl {
+    transition:
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ─────────────────────── Breadcrumbs ───────────────────── */
+
+.breadcrumbsRoot a {
+  color: var(--mantine-color-dimmed);
+}
+
+.breadcrumbsRoot a:hover {
+  color: var(--mantine-color-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .breadcrumbsRoot a {
+    transition: color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ──────────────────────── Menu ─────────────────────────── */
+
+.menuDropdown {
+  background: var(--mantine-color-body);
+  border: 1px solid var(--app-border);
+}
+
+.menuItem:hover,
+.menuItem[data-hovered] {
+  background: var(--mantine-color-default-hover);
+}
+
+.menuItem:active {
+  background: var(--app-border);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .menuItem {
+    transition: background-color 120ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ──────────────────────── Tree ─────────────────────────── */
+
+.treeRoot {
+  --level-offset: 22px;
+}
+
+.treeLabel {
+  border-radius: var(--mantine-radius-sm);
+  padding: 4px 8px;
+  font-size: var(--mantine-font-size-sm);
+  letter-spacing: -0.006em;
+}
+
+.treeLabel:hover {
+  background: var(--mantine-color-default-hover);
+}
+
+.treeLabel:active {
+  background: var(--app-border);
+}
+
+.treeLabel[data-selected] {
+  background: var(--mantine-color-default-hover);
+  box-shadow: var(--app-inset-highlight);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .treeLabel {
+    transition: background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ─────────────────────── ScrollArea ────────────────────── */
+
+.scrollThumb {
+  background: var(--app-border-strong);
+}
+
+.scrollThumb:hover {
+  background: var(--app-muted);
+}
+
+/* ──────────────────────── Burger ───────────────────────── */
+
+.burger:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+  border-radius: var(--mantine-radius-sm);
+}

@@ -1,0 +1,81 @@
+/*
+ * Feedback & Overlays — motion & pseudo-state layer.
+ * Open/close motion rides Mantine's transitionProps out of the box;
+ * this layer just refines the surfaces: soft alert wash, frosted backdrop,
+ * compact tooltip, and GPU-friendly transform hints for the floating layers.
+ */
+
+/* --- Notification: a quiet appear --- */
+.notification {
+  border: 1px solid var(--app-border);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .notification {
+    animation: fb-rise 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* --- Alert: a faint semantic wash (~9% into the body) + hairline border,
+   both mixed from the runtime --alert-color so every color stays refined,
+   never saturated. Neutral resolves to a whisper of default-hover. --- */
+.alertRoot {
+  /* Mix the hue into TRANSPARENT, not the body — keeps the color clean and
+     recognisable (vibrant hue, low intensity) instead of a muddy grey wash. */
+  background-color: color-mix(
+    in srgb,
+    var(--alert-color, var(--mantine-color-default-border)) 6%,
+    transparent
+  );
+  border: 1px solid color-mix(
+    in srgb,
+    var(--alert-color, var(--mantine-color-default-border)) 16%,
+    transparent
+  );
+}
+
+/* --- Overlay header: crisp hairline divider under the title row --- */
+.overlayHeader {
+  border-bottom: 1px solid var(--app-border);
+  background: var(--app-surface);
+}
+
+/* --- Backdrop: frosted, subtly graded so the panel reads as lifted --- */
+.backdrop {
+  background: radial-gradient(
+    120% 120% at 50% 40%,
+    color-mix(in srgb, var(--mantine-color-black) 22%, transparent),
+    color-mix(in srgb, var(--mantine-color-black) 42%, transparent)
+  );
+}
+
+/* --- Drawer surface: strong hairline edge against the frosted scrim --- */
+.drawerContent {
+  border-inline-start: 1px solid var(--app-border-strong);
+  border-inline-end: 1px solid var(--app-border-strong);
+}
+
+/* --- Tooltip: crisp, no layout shift --- */
+.tooltip {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Floating layers: hint the compositor so the transitionProps pop/fade
+   stays buttery, and pop from the panel's own center. --- */
+.popoverDropdown,
+.modalContent,
+.dialogRoot {
+  will-change: transform, opacity;
+  transform-origin: center;
+}
+
+@keyframes fb-rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

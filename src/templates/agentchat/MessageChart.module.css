@@ -1,0 +1,31 @@
+/* ─────────────────────────────────────────────────────────────
+   In-message chart — a compact, card-like frame that sits inside a
+   chat bubble. Monochrome series, reads cleanly in light and dark.
+   ───────────────────────────────────────────────────────────── */
+.card {
+  max-width: 380px;
+  padding: 15px 16px 12px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-lg);
+  background: var(--app-surface);
+  color: var(--mantine-color-text);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.caption {
+  flex: none;
+}

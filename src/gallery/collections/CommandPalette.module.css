@@ -1,0 +1,64 @@
+/*
+ * Command palette — :hover / active states that can't live in the flat
+ * `styles` prop. Referenced from CommandPalette.tsx via className.
+ */
+
+/* Command row: a quiet, clickable line. Icon + label left, shortcut right.
+   Motion stays subtle — just a background wash on hover. */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-sm);
+  cursor: pointer;
+  color: var(--mantine-color-text);
+  background: transparent;
+  border: none;
+  text-align: left;
+  position: relative;
+  transition: background-color 100ms ease;
+}
+
+.row:hover {
+  background: var(--mantine-color-default-hover);
+}
+
+/* The active row: default-hover wash + an accent left edge — the launcher's
+   "you are here" marker. */
+.rowActive {
+  background: var(--mantine-color-default-hover);
+}
+
+.rowActive::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--mantine-color-accent-5);
+}
+
+/* Icon glyph — dimmed by default, firms to full text colour when the row is
+   active so the eye lands there. */
+.icon {
+  color: var(--app-muted);
+  flex-shrink: 0;
+  display: flex;
+}
+
+.rowActive .icon {
+  color: var(--mantine-color-text);
+}
+
+.label {
+  flex: 1;
+  font-size: var(--mantine-font-size-sm);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

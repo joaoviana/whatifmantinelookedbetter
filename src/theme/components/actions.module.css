@@ -1,0 +1,267 @@
+/*
+ * Buttons & Actions — CHEWY interactive states & motion.
+ * Structural styling (weight, radius, heights) lives in actions.ts; the
+ * tactile depth, press physics and focus halo live here because the `styles`
+ * prop can't reach pseudo-selectors or [data-*] states.
+ *
+ * Feel: filled controls lift out of the surface (inset highlight + raised
+ * shadow); default/outline sit on a raised depth with a strong hairline;
+ * hover deepens the raise; :active settles 1px down and drops the lift —
+ * a satisfying, chewy press. Motion is 150ms cubic-bezier(0.22,1,0.36,1),
+ * always behind prefers-reduced-motion.
+ */
+
+/* ── Motion (behind reduced-motion) ─────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .button,
+  .actionIcon,
+  .closeButton,
+  .chipLabel,
+  .kbd,
+  .cardRow {
+    transition:
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.anchor {
+  transition: color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Resting depth ──────────────────────────────────────────────── */
+/* Filled / primary: an inset top highlight + a subtle raise so the control
+   looks lifted out of the surface. */
+.button[data-variant='filled'],
+.actionIcon[data-variant='filled'] {
+  box-shadow: var(--app-inset-highlight), var(--app-shadow-raised);
+}
+
+/* Default & outline: clean, border-driven, flat — light and subtle.
+   No drop shadow, so standalone and grouped buttons read identically. */
+.button[data-variant='default'],
+.button[data-variant='outline'],
+.actionIcon[data-variant='default'],
+.actionIcon[data-variant='outline'] {
+  border-color: var(--mantine-color-default-border);
+  box-shadow: none;
+}
+
+/* Light & subtle stay intentionally flat — no shadow, they only shift tone. */
+.button[data-variant='light'],
+.button[data-variant='subtle'],
+.actionIcon[data-variant='light'],
+.actionIcon[data-variant='subtle'] {
+  box-shadow: none;
+}
+
+/* ── Hover: deepen the raise ────────────────────────────────────── */
+.button[data-variant='filled']:where(:not(:disabled, [data-disabled], [data-loading])):hover,
+.actionIcon[data-variant='filled']:where(:not(:disabled, [data-disabled], [data-loading])):hover {
+  box-shadow: var(--app-inset-highlight), var(--app-shadow-raised-hover);
+}
+
+.button[data-variant='default']:where(:not(:disabled, [data-disabled], [data-loading])):hover,
+.button[data-variant='outline']:where(:not(:disabled, [data-disabled], [data-loading])):hover,
+.actionIcon[data-variant='default']:where(:not(:disabled, [data-disabled], [data-loading])):hover,
+.actionIcon[data-variant='outline']:where(:not(:disabled, [data-disabled], [data-loading])):hover {
+  background-color: var(--mantine-color-default-hover);
+}
+
+/* ── Press: settle down, drop the lift ──────────────────────────── */
+/* Reset shadow back to the resting depth so the hover lift disappears. */
+.button[data-variant='filled']:where(:not(:disabled, [data-disabled], [data-loading])):active,
+.actionIcon[data-variant='filled']:where(:not(:disabled, [data-disabled], [data-loading])):active {
+  box-shadow: var(--app-inset-highlight), var(--app-shadow-raised);
+}
+
+.button[data-variant='default']:where(:not(:disabled, [data-disabled], [data-loading])):active,
+.button[data-variant='outline']:where(:not(:disabled, [data-disabled], [data-loading])):active,
+.actionIcon[data-variant='default']:where(:not(:disabled, [data-disabled], [data-loading])):active,
+.actionIcon[data-variant='outline']:where(:not(:disabled, [data-disabled], [data-loading])):active {
+  background-color: var(--mantine-color-default-hover);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button:where(:not(:disabled, [data-disabled], [data-loading])):active,
+  .actionIcon:where(:not(:disabled, [data-disabled], [data-loading])):active {
+    transform: translateY(1px);
+  }
+
+  .closeButton:where(:not(:disabled, [data-disabled])):active {
+    transform: translateY(1px) scale(0.96);
+  }
+}
+
+/* ── Focus: a calm, crisp halo that keeps the depth ─────────────── */
+.button:focus-visible,
+.actionIcon:focus-visible,
+.closeButton:focus-visible,
+.kbd:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+}
+
+.button[data-variant='filled']:focus-visible,
+.actionIcon[data-variant='filled']:focus-visible {
+  box-shadow: var(--app-focus-ring), var(--app-inset-highlight), var(--app-shadow-raised);
+}
+
+.button[data-variant='default']:focus-visible,
+.button[data-variant='outline']:focus-visible,
+.actionIcon[data-variant='default']:focus-visible,
+.actionIcon[data-variant='outline']:focus-visible {
+  box-shadow: var(--app-focus-ring), var(--app-shadow-raised);
+}
+
+/* ── Disabled — reference treatment: fade to 0.5, keep the shape ── */
+/* Adopt the reference disabled look (opacity 0.5). Mantine collapses the
+   border to transparent when disabled; we re-assert the hairline on bordered
+   variants so the control keeps its outline instead of dissolving. */
+.button:where(:disabled:not([data-loading]), [data-disabled]:not([data-loading])),
+.actionIcon:where(:disabled:not([data-loading]), [data-disabled]:not([data-loading])) {
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+.button[data-variant='default']:where(:disabled:not([data-loading]), [data-disabled]:not([data-loading])),
+.button[data-variant='outline']:where(:disabled:not([data-loading]), [data-disabled]:not([data-loading])),
+.actionIcon[data-variant='default']:where(:disabled:not([data-loading]), [data-disabled]:not([data-loading])),
+.actionIcon[data-variant='outline']:where(:disabled:not([data-loading]), [data-disabled]:not([data-loading])) {
+  border-color: var(--app-border-strong);
+}
+
+/* ── CloseButton — subtle hover === default-hover (reference) ────── */
+.closeButton[data-variant='subtle']:where(:not(:disabled, [data-disabled])):hover {
+  background-color: var(--mantine-color-default-hover);
+}
+
+/* ── Grouped controls — one cohesive segmented unit ─────────────── */
+/* Inside a seamless Button.Group / ActionIcon.Group, a single segment must
+   not lift or cast its own shadow — that would break the shared row. */
+[data-orientation] > .button,
+[data-orientation] > .actionIcon {
+  box-shadow: none;
+}
+
+/* SPLIT-BUTTON FIX — Mantine's group CSS only collapses the seam for its OWN
+   child type (Button.Group styles Buttons; ActionIcon.Group styles ActionIcons).
+   A mixed group (e.g. Button + trailing chevron ActionIcon) leaves the foreign
+   child with a full radius and full border, so it never sits flush. We re-apply
+   Mantine's own seam technique to BOTH .button and .actionIcon in EITHER group,
+   using the group's own border-width var (with a scaled fallback), so every
+   segment collapses into a single shared 1px seam. Heights already match via
+   the shared --app-control-height-* tokens set in actions.ts. */
+[data-orientation] > .button,
+[data-orientation] > .actionIcon {
+  --seam-bw: var(
+    --button-border-width,
+    var(--ai-border-width, calc(0.0625rem * var(--mantine-scale)))
+  );
+}
+
+/* Horizontal seams */
+[data-orientation='horizontal'] > .button:not(:only-child):first-child,
+[data-orientation='horizontal'] > .actionIcon:not(:only-child):first-child {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-inline-end-width: calc(var(--seam-bw) / 2);
+}
+
+[data-orientation='horizontal'] > .button:not(:only-child):last-child,
+[data-orientation='horizontal'] > .actionIcon:not(:only-child):last-child {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-inline-start-width: calc(var(--seam-bw) / 2);
+}
+
+[data-orientation='horizontal'] > .button:not(:only-child):not(:first-child):not(:last-child),
+[data-orientation='horizontal'] > .actionIcon:not(:only-child):not(:first-child):not(:last-child) {
+  border-radius: 0;
+  border-inline-width: calc(var(--seam-bw) / 2);
+}
+
+/* Vertical seams */
+[data-orientation='vertical'] > .button:not(:only-child):first-child,
+[data-orientation='vertical'] > .actionIcon:not(:only-child):first-child {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+  border-bottom-width: calc(var(--seam-bw) / 2);
+}
+
+[data-orientation='vertical'] > .button:not(:only-child):last-child,
+[data-orientation='vertical'] > .actionIcon:not(:only-child):last-child {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+  border-top-width: calc(var(--seam-bw) / 2);
+}
+
+[data-orientation='vertical'] > .button:not(:only-child):not(:first-child):not(:last-child),
+[data-orientation='vertical'] > .actionIcon:not(:only-child):not(:first-child):not(:last-child) {
+  border-radius: 0;
+  border-block-width: calc(var(--seam-bw) / 2);
+}
+
+/* Filled segments abut with no border of their own — add a hairline divider so
+   a split action reads as two targets. Contrast-derived so it works in both
+   schemes without hardcoding black/white (autoContrast owns the fill). */
+[data-orientation='horizontal'] > .button[data-variant='filled']:not(:only-child):not(:first-child),
+[data-orientation='horizontal'] > .actionIcon[data-variant='filled']:not(:only-child):not(:first-child) {
+  box-shadow: inset calc(var(--seam-bw)) 0 0 0
+    color-mix(in srgb, var(--mantine-primary-color-contrast) 16%, transparent);
+}
+
+[data-orientation='vertical'] > .button[data-variant='filled']:not(:only-child):not(:first-child),
+[data-orientation='vertical'] > .actionIcon[data-variant='filled']:not(:only-child):not(:first-child) {
+  box-shadow: inset 0 calc(var(--seam-bw)) 0 0
+    color-mix(in srgb, var(--mantine-primary-color-contrast) 16%, transparent);
+}
+
+[data-orientation] > .button:focus-visible,
+[data-orientation] > .actionIcon:focus-visible {
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--app-focus-ring);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-orientation] > .button:active,
+  [data-orientation] > .actionIcon:active {
+    transform: none;
+  }
+}
+
+/* ── Chips are toggles, not buttons — they shift tone, never lift. ── */
+.chipLabel[data-checked] {
+  font-weight: 500;
+}
+
+/* ── Kbd — a physical keycap ────────────────────────────────────── */
+.kbd {
+  border-color: var(--app-border-strong);
+  box-shadow: var(--app-inset-highlight), var(--app-shadow-raised);
+}
+
+/* ── UnstyledButton as a clickable card row ─────────────────────── */
+.cardRow {
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-shadow-raised);
+}
+
+.cardRow:where(:not(:disabled, [data-disabled])):hover {
+  box-shadow: var(--app-shadow-raised-hover);
+}
+
+.cardRow:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cardRow:where(:not(:disabled, [data-disabled])):active {
+    transform: translateY(1px);
+  }
+}

@@ -1,0 +1,92 @@
+/*
+ * Onboarding — :hover / selected states that can't live in the flat `styles`
+ * prop. Referenced from Onboarding.tsx via className.
+ * Aesthetic: Attio / Linear / Vercel — hairline surfaces, quiet motion, a
+ * raised selected chip (shadow + inset highlight). Tokens only.
+ */
+
+/* Selectable data-source tile. Hairline surface that firms up on hover and
+   reads as a raised, checked chip when picked. */
+.source {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  text-align: left;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--app-surface);
+  color: var(--mantine-color-text);
+}
+
+.source:hover:not([data-selected]) {
+  border-color: var(--app-border-strong);
+  background: var(--mantine-color-default-hover);
+}
+
+.source:active {
+  transform: translateY(0.5px);
+}
+
+.source[data-selected] {
+  border-color: var(--app-border-strong);
+  box-shadow: var(--app-shadow-raised), var(--app-inset-highlight);
+}
+
+.source:focus-visible {
+  outline: none;
+  box-shadow: var(--app-focus-ring);
+}
+
+/* Icon badge inside each tile. */
+.sourceIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--mantine-radius-sm);
+  border: 1px solid var(--app-border);
+  background: var(--mantine-color-body);
+  color: var(--mantine-color-text);
+}
+
+.source[data-selected] .sourceIcon {
+  background: var(--mantine-primary-color-filled);
+  border-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-contrast);
+}
+
+/* The little check that appears on a selected tile. */
+.sourceCheck {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--mantine-color-text);
+}
+
+/* Summary rows on the finish step. */
+.summaryRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--app-surface);
+}
+
+.summaryRow + .summaryRow {
+  margin-top: 8px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .source {
+    transition:
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
