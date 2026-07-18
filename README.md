@@ -1,5 +1,7 @@
 # whatifmantinelookedbetter
 
+**Live demo: [whatifmantinelookedbetter.netlify.app](https://whatifmantinelookedbetter.netlify.app/)**
+
 When a component library first ships, nobody minds that it looks generic. The alternative was building all of it yourself, so plain and working feels like a gift. But once everyone reaches for the same handful of libraries, looking generic stops being a default and becomes a choice. Usually the wrong one.
 
 The same applies to Mantine. It is a genuinely wonderful library. It is also instantly recognizable, and for a product you want customers to trust, being recognizable as "a Mantine app" is a liability, not a feature. People notice the seams even when they cannot name them.
@@ -63,7 +65,7 @@ Vite, React 19, Mantine 9, `@mantine/charts`, lucide-react, Geist, TypeScript. p
 
 ## Deploying it
 
-It is a static single page app, so any static host will serve it for free. Import the repo on Vercel, choose the Vite preset, build with `pnpm build`, output `dist`. That is the whole setup. Cloudflare Pages and Netlify work the same way. No server, no env, no database.
+It is a static single page app, so any static host will serve it for free. This one lives on **Netlify** ([whatifmantinelookedbetter.netlify.app](https://whatifmantinelookedbetter.netlify.app/)), building with `pnpm build` and publishing `dist` (see `netlify.toml`). Vercel and Cloudflare Pages work the same way. No server, no env, no database.
 
 ## A note on taste
 
