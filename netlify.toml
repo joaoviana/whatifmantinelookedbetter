@@ -3,4 +3,5 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  # pnpm 11 requires Node >= 22.13; match local (24.x).
+  NODE_VERSION = "24"
