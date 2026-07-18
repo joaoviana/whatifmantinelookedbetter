@@ -33,7 +33,6 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import {
   SlidersHorizontal,
-  ArrowUp,
   Brain,
   ChartBar,
   ChevronDown,
@@ -45,7 +44,6 @@ import {
   PanelRight,
   LogOut,
   Lightbulb,
-  Mic,
   Moon,
   Pencil,
   Image as ImageIcon,
@@ -59,6 +57,7 @@ import {
   Globe,
   Upload,
 } from 'lucide-react';
+import { AiComposer } from '../components/AiComposer';
 import classes from './AgentStudio.module.css';
 
 /* ─────────────────────────────────────────────────────────────
@@ -418,114 +417,6 @@ function Header({
  *  Main — calm empty state, the composer is the centerpiece
  * ───────────────────────────────────────────────────────────── */
 
-function Composer({ model, setModel }: { model: string; setModel: (v: string) => void }) {
-  const [value, setValue] = useState('');
-  const modelLabel = MODELS.find((m) => m.value === model)?.label ?? '';
-  const canSend = value.trim().length > 0;
-
-  return (
-    <Box className={classes.composer}>
-      <Textarea
-        value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
-        placeholder="Send a message…  (@ to mention, / for commands)"
-        autosize
-        minRows={2}
-        maxRows={10}
-        variant="unstyled"
-        className={classes.composerInput}
-        styles={{
-          input: {
-            fontSize: 15,
-            lineHeight: 1.6,
-            padding: '2px 6px',
-            border: 'none',
-            background: 'transparent',
-            minHeight: 0,
-          },
-        }}
-      />
-
-      <Group justify="space-between" mt={6} wrap="nowrap">
-        <Group gap={4} wrap="nowrap">
-          <Tooltip label="Add attachment" withArrow>
-            <ActionIcon
-              variant="subtle"
-              color="gray"
-              radius="xl"
-              size="sm"
-              aria-label="Add attachment"
-              style={{ color: 'var(--app-muted)' }}
-            >
-              <Plus size={16} />
-            </ActionIcon>
-          </Tooltip>
-
-          <Menu position="bottom-start" width={230} radius="md" shadow="md">
-            <Menu.Target>
-              <Button
-                className={classes.modelPill}
-                variant="subtle"
-                color="gray"
-                radius="xl"
-                size="xs"
-                leftSection={<Command size={13} />}
-                rightSection={<ChevronDown size={13} style={{ color: 'var(--app-muted)' }} />}
-              >
-                {modelLabel}
-              </Button>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Label>Model</Menu.Label>
-              {MODELS.map((m) => (
-                <Menu.Item
-                  key={m.value}
-                  onClick={() => setModel(m.value)}
-                  leftSection={<Command size={15} />}
-                  rightSection={
-                    m.value === model ? (
-                      <Circle size={8} fill="currentColor" style={{ color: 'var(--app-muted)' }} />
-                    ) : null
-                  }
-                >
-                  {m.label}
-                </Menu.Item>
-              ))}
-            </Menu.Dropdown>
-          </Menu>
-        </Group>
-
-        <Group gap={4} wrap="nowrap">
-          <Tooltip label="Dictate" withArrow>
-            <ActionIcon
-              variant="subtle"
-              color="gray"
-              radius="xl"
-              size="sm"
-              aria-label="Dictate"
-              style={{ color: 'var(--app-muted)' }}
-            >
-              <Mic size={16} />
-            </ActionIcon>
-          </Tooltip>
-          <ActionIcon
-            className={classes.sendBtn}
-            variant="filled"
-            color="neutral"
-            radius="xl"
-            size={30}
-            disabled={!canSend}
-            aria-label="Send message"
-            style={{ boxShadow: 'var(--app-shadow-raised), var(--app-inset-highlight)' }}
-          >
-            <ArrowUp size={16} />
-          </ActionIcon>
-        </Group>
-      </Group>
-    </Box>
-  );
-}
-
 function ExampleConversation() {
   return (
     <Stack gap={28}>
@@ -569,7 +460,7 @@ function ExampleConversation() {
   );
 }
 
-function Main({ model, setModel }: { model: string; setModel: (v: string) => void }) {
+function Main({ model }: { model: string }) {
   return (
     <Box className={classes.mainColumn}>
       <ScrollArea style={{ flex: 1 }} type="hover">
@@ -583,7 +474,7 @@ function Main({ model, setModel }: { model: string; setModel: (v: string) => voi
 
       <Box className={classes.composerDock}>
         <Box className={classes.dockInner}>
-          <Composer model={model} setModel={setModel} />
+          <AiComposer models={MODELS} defaultModel={model} />
           <Group justify="center" gap="xs" wrap="wrap" mt="sm">
             {SUGGESTIONS.map((s) => (
               <Button
@@ -904,7 +795,7 @@ export function AgentStudio() {
       </AppShell.Navbar>
 
       <AppShell.Main style={{ height: '100dvh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
-        <Main model={model} setModel={setModel} />
+        <Main model={model} />
       </AppShell.Main>
 
       <AppShell.Aside style={{ background: 'var(--app-bg)' }}>
