@@ -36,7 +36,9 @@ export function GalleryShell() {
         />
       </AppShell.Header>
 
-      <AppShell.Navbar p="md" style={{ background: 'transparent' }}>
+      {/* Opaque body colour: seamless beside content on desktop, and a solid
+          surface (not see-through) when it slides over content as a mobile overlay. */}
+      <AppShell.Navbar p="md" style={{ background: 'var(--mantine-color-body)' }}>
         <ScrollArea type="hover">
           <Stack gap="lg">
             {groups.map((g) => (

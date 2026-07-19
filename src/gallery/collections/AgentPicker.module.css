@@ -137,6 +137,9 @@
   border-radius: 50%;
   overflow: hidden;
   isolation: isolate;
+  /* Own layer so mobile WebKit clips the scaled/rotating .mesh to the circle
+     (else the mesh's square bounding box leaks and the avatar looks square). */
+  transform: translateZ(0);
   background-color: var(--c1);
   box-shadow:
     inset 0 0 0 1px var(--app-border),
