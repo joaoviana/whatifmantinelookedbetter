@@ -12,12 +12,15 @@
   border-radius: 50%;
   overflow: hidden;
   isolation: isolate; /* keep blend modes local to the avatar */
-  /* Promote to its own compositing layer. Mobile WebKit (iOS Safari) fails to
-     clip a transformed/animated child (the scaled, rotating .mesh) to a rounded
-     `overflow: hidden` box — the mesh's square bounding box leaks, so the avatar
-     renders as a square. Forcing a layer makes the round clip apply. Harmless
-     elsewhere; box-shadow (the outer ring/shadow) is unaffected. */
+  /* Mobile WebKit (iOS Safari) does NOT clip a transformed/animated child (the
+     scaled, rotating .mesh) to a rounded `overflow: hidden` box, so the mesh —
+     which is a rounded *rectangle*, not a circle (its border-radius inherits the
+     parent's computed px radius onto a bigger box) — leaks and reads as a square.
+     A mask clips reliably where rounded overflow does not. `closest-side` sizes
+     the mask circle to the inscribed avatar circle exactly. */
   transform: translateZ(0);
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 99.5%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 99.5%, transparent 100%);
   background-color: var(--c1);
   /* hairline theme ring + faint inner depth so it sits on any surface */
   box-shadow:
