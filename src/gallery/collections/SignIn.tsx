@@ -37,11 +37,11 @@ function GoogleMark({ size = 16 }: { size?: number }) {
 export function SignIn() {
   return (
     <Box
+      className={classes.outer}
       style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 40,
         minHeight: 560,
         backgroundColor: 'var(--app-bg)',
       }}

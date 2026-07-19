@@ -3,6 +3,7 @@
    chat bubble. Monochrome series, reads cleanly in light and dark.
    ───────────────────────────────────────────────────────────── */
 .card {
+  width: 100%;
   max-width: 380px;
   padding: 15px 16px 12px;
   border: 1px solid var(--app-border);

@@ -3,6 +3,19 @@
  * `styles` prop. Referenced from CommandPalette.tsx via className.
  */
 
+/* Outer frame — centers the palette; padding tightens on phones. */
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+@media (max-width: 36em) {
+  .wrap {
+    padding: 20px 12px;
+  }
+}
+
 /* Command row: a quiet, clickable line. Icon + label left, shortcut right.
    Motion stays subtle — just a background wash on hover. */
 .row {

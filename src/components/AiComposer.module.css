@@ -63,4 +63,12 @@
 /* Helper line under the composer */
 .helper {
   line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Phones (~360px): ease the composer's inset so the input keeps room. */
+@media (max-width: 36em) {
+  .composer {
+    padding: 12px 12px;
+  }
 }

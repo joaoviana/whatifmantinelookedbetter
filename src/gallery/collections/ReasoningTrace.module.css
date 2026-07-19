@@ -254,3 +254,19 @@
     box-shadow: 0 0 0 0 transparent;
   }
 }
+
+/* ── Mobile (below Mantine xs = 36em) ───────────────────────── */
+@media (max-width: 36em) {
+  .wrap {
+    padding: 20px 12px;
+  }
+
+  .header {
+    padding: 12px 14px;
+    gap: 8px;
+  }
+
+  .steps {
+    padding: 4px 14px 16px;
+  }
+}

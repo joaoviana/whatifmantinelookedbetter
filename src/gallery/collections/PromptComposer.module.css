@@ -10,3 +10,11 @@
   width: 100%;
   padding: 48px 24px;
 }
+
+/* Mobile (below Mantine xs = 36em): shrink the frame padding so the composer
+   keeps its full width and nothing pushes past the viewport. */
+@media (max-width: 36em) {
+  .frame {
+    padding: 20px 12px;
+  }
+}

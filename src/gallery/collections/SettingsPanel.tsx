@@ -6,6 +6,7 @@ import {
   Card,
   Group,
   Select,
+  SimpleGrid,
   Stack,
   Switch,
   Text,
@@ -121,7 +122,7 @@ export function SettingsPanel() {
               />
             </Stack>
 
-            <Group grow align="flex-start" gap="md">
+            <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md" verticalSpacing="md">
               <Select
                 label="Theme"
                 defaultValue="system"
@@ -143,7 +144,7 @@ export function SettingsPanel() {
                   { value: 'ja', label: '日本語' },
                 ]}
               />
-            </Group>
+            </SimpleGrid>
           </Stack>
         </Card>
 

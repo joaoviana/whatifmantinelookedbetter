@@ -1,6 +1,12 @@
 /* AgentRoster — compact team strip. Hover/pseudo/keyframes live here;
    flat inline styles (theme tokens) live in the TSX. */
 
+/* The team bar. Padding lives here so it can tighten on phones; the row never
+   wraps (nowrap) and the strip below absorbs the overflow by scrolling. */
+.bar {
+  padding: 10px 16px;
+}
+
 .strip {
   display: flex;
   align-items: center;
@@ -9,6 +15,16 @@
   overflow-y: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--app-border-strong) transparent;
+}
+
+/* Phones (< xs): tighter gutters + gap so the scrollable strip gets more room. */
+@media (max-width: 35.99em) {
+  .bar {
+    padding: 10px 10px;
+  }
+  .strip {
+    gap: 12px;
+  }
 }
 
 /* Slim, unobtrusive scrollbar for the horizontal overflow. */

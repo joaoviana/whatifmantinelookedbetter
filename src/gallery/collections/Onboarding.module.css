@@ -5,6 +5,15 @@
  * raised selected chip (shadow + inset highlight). Tokens only.
  */
 
+/* On phones the horizontal Stepper collapses to icon-only steps so the four
+   labels ("Create workspace", …) can't overflow. The header's "Step X of Y"
+   still names the current step. Desktop (>=48em) keeps the full labels. */
+@media (max-width: 47.99em) {
+  .stepperBox :global(.mantine-Stepper-stepBody) {
+    display: none;
+  }
+}
+
 /* Selectable data-source tile. Hairline surface that firms up on hover and
    reads as a raised, checked chip when picked. */
 .source {

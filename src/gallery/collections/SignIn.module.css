@@ -1,6 +1,18 @@
 /* SignIn collection — pseudo-state / decorative styling only.
    Flat layout props live inline in SignIn.tsx per the lab convention. */
 
+/* Outer centering frame — generous padding on desktop, tighter on phones so
+   the 380px card keeps breathing room without crowding the viewport edges. */
+.outer {
+  padding: 40px;
+}
+
+@media (max-width: 36em) {
+  .outer {
+    padding: 20px 16px;
+  }
+}
+
 /* Brand mark: a small tactile square that lifts off the surface, echoing the
    chewy filled-control treatment (hairline + inset highlight + raised shadow). */
 .brand {

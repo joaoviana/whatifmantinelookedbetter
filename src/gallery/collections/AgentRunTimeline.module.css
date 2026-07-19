@@ -7,6 +7,19 @@
  * run with no moving parts.
  */
 
+/* ── Outer frame — centers the run card, tightens padding on phones. ── */
+.frame {
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+@media (max-width: 36em) {
+  .frame {
+    padding: 24px 12px;
+  }
+}
+
 /* ── Top progress bar ─────────────────────────────────────────── */
 .progressTrack {
   position: relative;

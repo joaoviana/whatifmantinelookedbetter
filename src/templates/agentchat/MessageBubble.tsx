@@ -24,6 +24,7 @@ function ToolBlock({ message }: { message: Message }) {
           gap={8}
           wrap="nowrap"
           w="fit-content"
+          maw="100%"
           px={10}
           py={5}
         >
@@ -84,6 +85,8 @@ function CodeBlock({ message }: { message: Message }) {
           fontSize: 12.5,
           lineHeight: 1.6,
           boxShadow: 'var(--app-shadow-raised)',
+          maxWidth: '100%',
+          overflowX: 'auto',
         }}
       >
         {message.code}

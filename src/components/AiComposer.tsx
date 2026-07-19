@@ -43,7 +43,19 @@ export function AiComposer({
   const canSend = value.trim().length > 0;
 
   return (
-    <Box className={classes.root} style={maxWidth ? { maxWidth, marginInline: 'auto' } : undefined}>
+    <Box
+      className={classes.root}
+      style={
+        maxWidth
+          ? {
+              // Cap at the caller's width but never exceed the viewport, so the
+              // composer goes edge-to-edge on phones instead of overflowing.
+              maxWidth: `min(100%, ${typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth})`,
+              marginInline: 'auto',
+            }
+          : undefined
+      }
+    >
       <Box className={classes.composer}>
         <Textarea
           value={value}
@@ -66,7 +78,7 @@ export function AiComposer({
           }}
         />
 
-        <Group justify="space-between" mt={6} wrap="nowrap">
+        <Group justify="space-between" mt={6} gap={8} wrap="wrap">
           <Group gap={4} wrap="nowrap">
             <Tooltip label="Add attachment" withArrow>
               <ActionIcon

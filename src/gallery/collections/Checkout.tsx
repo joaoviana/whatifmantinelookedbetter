@@ -32,7 +32,7 @@ const TOTAL = SUBTOTAL + TAX; // 148
 
 export function Checkout() {
   return (
-    <Box p={32} style={{ maxWidth: 960, marginInline: 'auto' }}>
+    <Box p={{ base: 16, sm: 32 }} style={{ maxWidth: 960, marginInline: 'auto' }}>
       <Stack gap={4} mb={24}>
         <span className="eyebrow">Secure checkout</span>
         <Title order={3}>Complete your order</Title>

@@ -93,7 +93,7 @@ export function GhostCompletion() {
   const showHint = reduced || phase === 'ready';
 
   return (
-    <Box style={{ display: 'flex', justifyContent: 'center', padding: '40px 24px' }}>
+    <Box className={classes.wrap}>
       <Paper
         radius="lg"
         w="100%"

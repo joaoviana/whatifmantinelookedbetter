@@ -250,6 +250,8 @@ export function Section() {
                 variant={copied ? 'filled' : 'default'}
                 onClick={copy}
                 leftSection={copied ? <Check size={15} /> : <Copy size={15} />}
+                maw="100%"
+                styles={{ label: { whiteSpace: 'normal' } }}
               >
                 {copied ? 'Copied' : 'npm i @mantine/core'}
               </Button>

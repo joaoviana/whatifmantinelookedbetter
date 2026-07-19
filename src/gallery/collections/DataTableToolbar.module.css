@@ -8,6 +8,12 @@
   background-color: var(--app-bg);
 }
 
+@media (max-width: 36em) {
+  .wrap {
+    padding: 14px 12px;
+  }
+}
+
 /* The whole block reads as one bordered surface: hairline + soft shadow. */
 .panel {
   background-color: var(--app-surface);
@@ -25,6 +31,18 @@
 .search {
   flex: 1 1 auto;
   max-width: 320px;
+}
+
+/* On phones the search takes the full first row so the action buttons wrap
+   onto the next line instead of overflowing the toolbar. */
+@media (max-width: 36em) {
+  .search {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  .toolbarActions {
+    width: 100%;
+  }
 }
 
 /* ── Table ───────────────────────────────────────────────── */

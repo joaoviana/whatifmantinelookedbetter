@@ -11,6 +11,14 @@
   padding: clamp(20px, 4vw, 44px);
 }
 
+/* Mobile (below Mantine xs = 36em): tighten the outer gutter. The code block
+   already scrolls internally (overflow-x on .pre) so nothing escapes width. */
+@media (max-width: 36em) {
+  .wrap {
+    padding: 16px 12px;
+  }
+}
+
 /* The reply card — a quiet raised surface, capped for readable measure. */
 .card {
   width: 100%;

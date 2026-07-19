@@ -118,7 +118,7 @@ export function AgentRunTimeline() {
         : `Step ${completed + 1} of ${STEPS.length}`;
 
   return (
-    <Box style={{ display: 'flex', justifyContent: 'center', padding: '40px 24px' }}>
+    <Box className={classes.frame}>
       <Paper
         radius="lg"
         shadow="md"

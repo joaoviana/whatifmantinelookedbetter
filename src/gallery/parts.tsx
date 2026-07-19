@@ -40,9 +40,14 @@ export function Specimen({
         )}
       </Group>
       <Box
-        px="md"
-        py="lg"
-        style={{ minHeight: minH, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        style={{
+          minHeight: minH,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          // Padding eases off on phones so specimens don't feel cramped at ~360px.
+          padding: 'clamp(14px, 4vw, var(--mantine-spacing-lg)) clamp(12px, 3vw, var(--mantine-spacing-md))',
+        }}
       >
         {children}
       </Box>
@@ -53,7 +58,15 @@ export function Specimen({
 /** Responsive grid the Specimens sit in. Uses raw CSS grid so `span` works. */
 export function SpecimenGrid({ children, min = 260 }: { children: ReactNode; min?: number }) {
   return (
-    <Box style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fill, minmax(${min}px, 1fr))`, gap: 14 }}>
+    <Box
+      style={{
+        display: 'grid',
+        // min(100%, …) lets the min track collapse below its px floor so a single
+        // column shows cleanly on phones instead of overflowing horizontally.
+        gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${min}px), 1fr))`,
+        gap: 14,
+      }}
+    >
       {children}
     </Box>
   );
@@ -69,7 +82,7 @@ export function SectionIntro({ label, title, description }: { label: string; tit
   return (
     <Stack gap={4} mb="lg">
       <Text className="eyebrow">{label}</Text>
-      <Text fz={22} fw={600} lts="-0.02em">
+      <Text fw={600} lts="-0.02em" style={{ fontSize: 'clamp(18px, 5vw, 22px)' }}>
         {title}
       </Text>
       <Text c="dimmed" fz="sm" maw={620}>

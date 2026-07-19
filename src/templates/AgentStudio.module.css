@@ -115,3 +115,23 @@
 .msgAvatar {
   box-shadow: var(--app-shadow-raised), var(--app-inset-highlight);
 }
+
+/* ─────────────────────────────────────────────────────────────
+ *  Mobile (≤ sm) — tighten paddings, shrink hero, prevent overflow.
+ *  Navbar (breakpoint sm) and aside (breakpoint md) overlay here,
+ *  so Main spans the full phone width.
+ * ───────────────────────────────────────────────────────────── */
+@media (max-width: 48em) {
+  .mainColumn {
+    max-width: 100%;
+  }
+  .thread {
+    padding: 20px 16px 16px;
+  }
+  .composerDock {
+    padding: 4px 14px 14px;
+  }
+  .greeting {
+    font-size: 24px;
+  }
+}

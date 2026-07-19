@@ -1,25 +1,39 @@
 import {
   AppShell,
   Box,
+  Burger,
   Container,
   NavLink,
   ScrollArea,
   Stack,
   Text,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { AppHeader } from '../components/AppHeader';
 import { sections, groups } from './registry';
 import { SectionIntro } from './parts';
 
 export function GalleryShell() {
+  const [opened, { toggle, close }] = useDisclosure(false);
+
   return (
     <AppShell
       header={{ height: 56 }}
-      navbar={{ width: 244, breakpoint: 'sm', collapsed: { mobile: true } }}
+      navbar={{ width: 244, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding={0}
     >
       <AppShell.Header withBorder={false}>
-        <AppHeader />
+        <AppHeader
+          leftSection={
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+              aria-label="Toggle navigation"
+            />
+          }
+        />
       </AppShell.Header>
 
       <AppShell.Navbar p="md" style={{ background: 'transparent' }}>
@@ -35,6 +49,7 @@ export function GalleryShell() {
                     key={s.meta.id}
                     label={s.meta.label}
                     href={`#${s.meta.id}`}
+                    onClick={close}
                     styles={{ root: { borderRadius: 'var(--mantine-radius-md)' } }}
                   />
                 ))}
@@ -45,7 +60,7 @@ export function GalleryShell() {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <Container size={980} px="xl" pb={96} pt={48}>
+        <Container size={980} px={{ base: 'md', sm: 'xl' }} pb={96} pt={{ base: 28, sm: 48 }}>
           <Stack gap={72}>
             {sections.map(({ meta, Section }) => (
               <Box key={meta.id} id={meta.id} style={{ scrollMarginTop: 80 }}>

@@ -3,6 +3,17 @@
  * `styles` prop. Referenced from StatsDashboard.tsx via className.
  */
 
+/* Block padding — roomy on desktop, tighter on phones to avoid overflow. */
+.root {
+  padding: 24px;
+}
+
+@media (max-width: 36em) {
+  .root {
+    padding: 16px 12px;
+  }
+}
+
 /* KPI card: hairline surface that firms its border on hover (the lift itself
    comes from the themed Card). Keeps the numbers the focus, motion quiet. */
 .kpi {

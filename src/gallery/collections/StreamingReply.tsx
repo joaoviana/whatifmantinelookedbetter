@@ -104,7 +104,7 @@ export function StreamingReply() {
 
   return (
     <Box className={classes.wrap}>
-      <Paper className={classes.card} radius="lg" p="lg">
+      <Paper className={classes.card} radius="lg" p={{ base: 'md', xs: 'lg' }}>
         {/* Identity row */}
         <Group gap="sm" className={classes.head}>
           <GradientMark size={30} className={classes.avatar} />

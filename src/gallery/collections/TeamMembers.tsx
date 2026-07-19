@@ -100,7 +100,7 @@ export function TeamMembers() {
                 <Group gap={4} wrap="nowrap">
                   <Select
                     size="sm"
-                    w={128}
+                    className={classes.roleSelect}
                     variant="default"
                     data={roleData}
                     value={roles[member.email]}

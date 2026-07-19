@@ -6,6 +6,12 @@
   padding: 32px 24px;
 }
 
+@media (max-width: 36em) {
+  .root {
+    padding: 20px 14px;
+  }
+}
+
 .panel {
   max-width: 640px;
   margin: 0 auto;
@@ -20,6 +26,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+}
+
+@media (max-width: 36em) {
+  .switchRow {
+    gap: 12px;
+  }
 }
 
 /* A quiet hairline between preference rows. */
@@ -44,6 +56,16 @@
   border-radius: var(--mantine-radius-lg);
   box-shadow: var(--app-shadow-raised);
   backdrop-filter: saturate(140%) blur(6px);
+  flex-wrap: wrap;
+}
+
+/* On phones let the note + buttons stack; buttons span the full width so the
+   save bar stays comfortably tappable. */
+@media (max-width: 36em) {
+  .footer > :last-child {
+    flex: 1 1 100%;
+    justify-content: flex-end;
+  }
 }
 
 .unsaved {

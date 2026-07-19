@@ -61,6 +61,8 @@
   align-items: center;
   gap: 2px;
   margin-top: 16px;
+  /* Never overflow the reply width — wrap to a second line when cramped. */
+  flex-wrap: wrap;
 }
 
 /* Hairline separator between the rate cluster and the rest. */

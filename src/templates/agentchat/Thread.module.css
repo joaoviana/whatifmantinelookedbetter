@@ -8,6 +8,13 @@
   padding: 34px 24px 64px;
 }
 
+/* Phones (< xs): tighten the side gutters so the column still breathes. */
+@media (max-width: 35.99em) {
+  .thread {
+    padding: 20px 10px 44px;
+  }
+}
+
 .column {
   width: 100%;
   max-width: 720px;

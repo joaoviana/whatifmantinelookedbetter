@@ -145,7 +145,7 @@ function KpiCard({ item }: { item: Kpi }) {
 
 export function StatsDashboard() {
   return (
-    <div style={{ padding: 24 }}>
+    <div className={classes.root}>
       <Stack gap="lg">
         <Group justify="space-between" align="flex-end">
           <div>

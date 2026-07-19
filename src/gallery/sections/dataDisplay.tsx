@@ -26,6 +26,7 @@ import {
   Anchor,
   Center,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   Zap,
   Mail,
@@ -69,10 +70,13 @@ const statusBadge: Record<string, ReactNode> = {
 };
 
 export function Section() {
+  // Wide specimens span 2 columns on desktop; on a phone the grid is a single
+  // column, so drop them to full width to avoid an implicit second track (page overflow).
+  const wide = useMediaQuery('(min-width: 53em)', true, { getInitialValueInEffect: false });
   return (
     <SpecimenGrid>
       {/* ── Contact card — the Attio-spirit composition ─────────────── */}
-      <Specimen name="Card" hint="contact" span={2} minH={260}>
+      <Specimen name="Card" hint="contact" span={wide ? 2 : 1} minH={260}>
         <Card w="100%">
           <Card.Section inheritPadding py="md">
             <Group justify="space-between" wrap="nowrap">
@@ -122,7 +126,8 @@ export function Section() {
       </Specimen>
 
       {/* ── Member table ────────────────────────────────────────────── */}
-      <Specimen name="Table" hint="hairline · hover" span={2} minH={260}>
+      <Specimen name="Table" hint="hairline · hover" span={wide ? 2 : 1} minH={260}>
+        <Table.ScrollContainer minWidth={360} w="100%">
         <Table>
           <Table.Thead>
             <Table.Tr>
@@ -151,10 +156,11 @@ export function Section() {
             ))}
           </Table.Tbody>
         </Table>
+        </Table.ScrollContainer>
       </Specimen>
 
       {/* ── Activity feed ───────────────────────────────────────────── */}
-      <Specimen name="Timeline" hint="activity feed" span={2} minH={260}>
+      <Specimen name="Timeline" hint="activity feed" span={wide ? 2 : 1} minH={260}>
         <Timeline active={2} w="100%">
           <Timeline.Item bullet={<GitBranch size={12} />} title="Branch created">
             <Text c="dimmed" fz="xs">Ada opened <Code>feat/chewy-cards</Code></Text>
@@ -175,7 +181,7 @@ export function Section() {
       </Specimen>
 
       {/* ── Badges ──────────────────────────────────────────────────── */}
-      <Specimen name="Badge" hint="variants · filled highlight" span={2} minH={120}>
+      <Specimen name="Badge" hint="variants · filled highlight" span={wide ? 2 : 1} minH={120}>
         <Stack gap="sm" w="100%">
           <Row>
             <Badge>Default</Badge>
@@ -195,7 +201,7 @@ export function Section() {
       </Specimen>
 
       {/* ── Blockquote ──────────────────────────────────────────────── */}
-      <Specimen name="Blockquote" hint="cited" span={2} minH={120}>
+      <Specimen name="Blockquote" hint="cited" span={wide ? 2 : 1} minH={120}>
         <Blockquote
           w="100%"
           icon={<Quote size={20} />}
@@ -259,7 +265,7 @@ export function Section() {
       </Specimen>
 
       {/* ── Typography scale ────────────────────────────────────────── */}
-      <Specimen name="Typography" hint="titles · text" span={2} minH={260}>
+      <Specimen name="Typography" hint="titles · text" span={wide ? 2 : 1} minH={260}>
         <Stack gap="md" w="100%">
           <Stack gap={4}>
             <Title order={1}>Refined by default</Title>
@@ -286,7 +292,7 @@ export function Section() {
       </Specimen>
 
       {/* ── Highlight & Mark ────────────────────────────────────────── */}
-      <Specimen name="Highlight · Mark" hint="emphasis" span={2} minH={120}>
+      <Specimen name="Highlight · Mark" hint="emphasis" span={wide ? 2 : 1} minH={120}>
         <Stack gap="sm" w="100%">
           <Highlight fz="sm" highlight={['refined monochrome', 'tactile']}>
             A refined monochrome palette with tactile, layered depth — Attio meets Linear.
@@ -351,7 +357,7 @@ export function Section() {
       </Specimen>
 
       {/* ── Code ────────────────────────────────────────────────────── */}
-      <Specimen name="Code" hint="inline · block" span={2} minH={120}>
+      <Specimen name="Code" hint="inline · block" span={wide ? 2 : 1} minH={120}>
         <Stack gap="sm" w="100%">
           <Text fz="sm">
             Install with <Code>pnpm add @mantine/core</Code> then import the theme.

@@ -59,11 +59,11 @@ export function AgentRoster() {
 
   return (
     <Group
+      className={classes.bar}
       wrap="nowrap"
       align="center"
       gap={20}
       style={{
-        padding: '10px 16px',
         borderBottom: '1px solid var(--app-border)',
         backgroundColor: 'var(--app-bg)',
       }}

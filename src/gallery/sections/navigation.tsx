@@ -25,6 +25,7 @@ import {
   type TreeNodeData,
   type RenderTreeNodePayload,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   LayoutDashboard,
   Activity,
@@ -120,12 +121,15 @@ function TreeNode({ node, expanded, hasChildren, elementProps }: RenderTreeNodeP
 
 export function Section() {
   const [burgerOpen, setBurgerOpen] = useState(false);
+  // Wide specimens drop to a single column on a phone; the horizontal stepper
+  // goes vertical so its steps stay legible instead of overflowing.
+  const wide = useMediaQuery('(min-width: 53em)', true, { getInitialValueInEffect: false });
 
   return (
     <Stack gap={40}>
       <SpecimenGrid>
         {/* Tabs — default underline variant */}
-        <Specimen name="Tabs" hint="default · underline" span={2}>
+        <Specimen name="Tabs" hint="default · underline" span={wide ? 2 : 1}>
           <Tabs defaultValue="overview" w="100%">
             <Tabs.List>
               <Tabs.Tab value="overview" leftSection={<LayoutDashboard size={15} />}>
@@ -142,7 +146,7 @@ export function Section() {
         </Specimen>
 
         {/* Tabs — pills variant (raised active chip) */}
-        <Specimen name="Tabs" hint="pills · raised chip" span={2}>
+        <Specimen name="Tabs" hint="pills · raised chip" span={wide ? 2 : 1}>
           <Tabs variant="pills" defaultValue="all" w="100%">
             <Tabs.List>
               <Tabs.Tab value="all">All</Tabs.Tab>
@@ -153,12 +157,12 @@ export function Section() {
         </Specimen>
 
         {/* SegmentedControl — the archetypal chewy control */}
-        <Specimen name="SegmentedControl" hint="recessed track · raised chip" span={2}>
+        <Specimen name="SegmentedControl" hint="recessed track · raised chip" span={wide ? 2 : 1}>
           <SegmentedControl fullWidth data={['Preview', 'Code', 'Blame']} defaultValue="Preview" />
         </Specimen>
 
         {/* Tabs — vertical orientation */}
-        <Specimen name="Tabs" hint="vertical · orientation" span={2} minH={180}>
+        <Specimen name="Tabs" hint="vertical · orientation" span={wide ? 2 : 1} minH={180}>
           <Tabs orientation="vertical" defaultValue="general" w="100%" h="100%">
             <Tabs.List>
               <Tabs.Tab value="general" leftSection={<Settings size={15} />}>
@@ -190,7 +194,7 @@ export function Section() {
         </Specimen>
 
         {/* Accordion — separated / bordered */}
-        <Specimen name="Accordion" hint="separated · hairline" span={2} minH={180}>
+        <Specimen name="Accordion" hint="separated · hairline" span={wide ? 2 : 1} minH={180}>
           <Accordion defaultValue="a" w="100%">
             <Accordion.Item value="a">
               <Accordion.Control>What is a theme lab?</Accordion.Control>
@@ -211,7 +215,7 @@ export function Section() {
         </Specimen>
 
         {/* Menu */}
-        <Specimen name="Menu" hint="dropdown · sections" span={2} minH={180}>
+        <Specimen name="Menu" hint="dropdown · sections" span={wide ? 2 : 1} minH={180}>
           <Menu width={220} position="bottom-start" withinPortal={false}>
             <Menu.Target>
               <Button variant="default">Open menu</Button>
@@ -233,14 +237,14 @@ export function Section() {
         </Specimen>
 
         {/* Tree — file tree */}
-        <Specimen name="Tree" hint="file tree · hairline guides" span={2} minH={180}>
+        <Specimen name="Tree" hint="file tree · hairline guides" span={wide ? 2 : 1} minH={180}>
           <Box w="100%">
             <Tree data={treeData} levelOffset={22} renderNode={(payload) => <TreeNode {...payload} />} />
           </Box>
         </Specimen>
 
         {/* ScrollArea — a scrolling list */}
-        <Specimen name="ScrollArea" hint="scrolling list · thin thumb" span={2} minH={180}>
+        <Specimen name="ScrollArea" hint="scrolling list · thin thumb" span={wide ? 2 : 1} minH={180}>
           <ScrollArea h={148} w="100%" px="xs">
             <Stack gap={2}>
               {[
@@ -259,7 +263,7 @@ export function Section() {
         </Specimen>
 
         {/* Breadcrumbs */}
-        <Specimen name="Breadcrumbs" hint="dimmed → full" span={2}>
+        <Specimen name="Breadcrumbs" hint="dimmed → full" span={wide ? 2 : 1}>
           <Breadcrumbs separator={<ChevronRight size={13} />}>
             <Anchor href="#" fz="sm">
               Home
@@ -274,7 +278,7 @@ export function Section() {
         </Specimen>
 
         {/* Burger — toggle */}
-        <Specimen name="Burger" hint="menu toggle" span={2}>
+        <Specimen name="Burger" hint="menu toggle" span={wide ? 2 : 1}>
           <Group gap="md">
             <Burger
               opened={burgerOpen}
@@ -288,9 +292,9 @@ export function Section() {
         </Specimen>
 
         {/* Stepper — horizontal */}
-        <Specimen name="Stepper" hint="horizontal · active" span={2} minH={120}>
+        <Specimen name="Stepper" hint="horizontal · active" span={wide ? 2 : 1} minH={120}>
           <Box w="100%">
-            <Stepper active={1}>
+            <Stepper active={1} orientation={wide ? 'horizontal' : 'vertical'}>
               <Stepper.Step label="Account" description="Create profile" />
               <Stepper.Step label="Verify" description="Confirm email" />
               <Stepper.Step label="Done" description="Get started" />
@@ -299,7 +303,7 @@ export function Section() {
         </Specimen>
 
         {/* Stepper — vertical */}
-        <Specimen name="Stepper" hint="vertical · orientation" span={2} minH={180}>
+        <Specimen name="Stepper" hint="vertical · orientation" span={wide ? 2 : 1} minH={180}>
           <Box w="100%">
             <Stepper active={1} orientation="vertical" size="sm">
               <Stepper.Step label="Account" description="Create profile" />
@@ -310,7 +314,7 @@ export function Section() {
         </Specimen>
 
         {/* NavLink — active + nested */}
-        <Specimen name="NavLink" hint="active · nested" span={2} minH={180}>
+        <Specimen name="NavLink" hint="active · nested" span={wide ? 2 : 1} minH={180}>
           <Stack gap={4} w="100%">
             <NavLink label="Dashboard" leftSection={<LayoutDashboard size={16} />} active />
             <NavLink
@@ -352,7 +356,7 @@ export function Section() {
       </Stack>
 
       <SpecimenGrid>
-        <Specimen name="Group" hint="horizontal · gap" span={2}>
+        <Specimen name="Group" hint="horizontal · gap" span={wide ? 2 : 1}>
           <Group gap="sm" w="100%">
             <LBox>A</LBox>
             <LBox>B</LBox>
@@ -374,7 +378,7 @@ export function Section() {
           </Center>
         </Specimen>
 
-        <Specimen name="Flex" hint="wrap · justify" span={2}>
+        <Specimen name="Flex" hint="wrap · justify" span={wide ? 2 : 1}>
           <Flex gap="sm" wrap="wrap" justify="space-between" w="100%">
             <LBox grow>flex</LBox>
             <LBox grow>grow</LBox>
@@ -383,7 +387,7 @@ export function Section() {
           </Flex>
         </Specimen>
 
-        <Specimen name="SimpleGrid" hint="equal cols" span={2}>
+        <Specimen name="SimpleGrid" hint="equal cols" span={wide ? 2 : 1}>
           <SimpleGrid cols={3} spacing="sm" w="100%">
             <LBox grow>1</LBox>
             <LBox grow>2</LBox>
@@ -394,7 +398,7 @@ export function Section() {
           </SimpleGrid>
         </Specimen>
 
-        <Specimen name="Grid" hint="12-col spans" span={2}>
+        <Specimen name="Grid" hint="12-col spans" span={wide ? 2 : 1}>
           <Grid gap="sm" w="100%">
             <Grid.Col span={6}>
               <LBox grow>span 6</LBox>

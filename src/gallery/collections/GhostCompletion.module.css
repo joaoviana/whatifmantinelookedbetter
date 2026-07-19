@@ -4,6 +4,12 @@
  * Everything is gated on prefers-reduced-motion: no-preference.
  */
 
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
 .editor {
   position: relative;
   width: 100%;
@@ -157,5 +163,21 @@
   50% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* ── Mobile (below Mantine xs = 36em) ───────────────────────── */
+@media (max-width: 36em) {
+  .wrap {
+    padding: 20px 12px;
+  }
+
+  .editor {
+    padding: 14px 14px;
+  }
+
+  /* Let the inline hint drop to its own line instead of forcing width. */
+  .hint {
+    margin-left: 6px;
   }
 }

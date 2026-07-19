@@ -81,13 +81,7 @@ export function CommandPalette() {
   const active = visibleIds.includes(activeId) ? activeId : visibleIds[0];
 
   return (
-    <Box
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        padding: '40px 24px',
-      }}
-    >
+    <Box className={classes.wrap}>
       <Paper
         radius="lg"
         shadow="lg"

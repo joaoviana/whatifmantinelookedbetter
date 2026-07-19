@@ -25,7 +25,7 @@ import {
   Badge,
   ActionIcon,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import {
   Info,
   CircleCheck,
@@ -52,11 +52,13 @@ export function Section() {
   const [collapseOpened, collapse] = useDisclosure(false);
   const [loading, loadingCtl] = useDisclosure(false);
   const [scrim, setScrim] = useState(false);
+  // Full-width specimens drop to one column on a phone; overlays go full-width too.
+  const wide = useMediaQuery('(min-width: 53em)', true, { getInitialValueInEffect: false });
 
   return (
     <SpecimenGrid>
       {/* ── ALERTS ─────────────────────────────────────────── */}
-      <Specimen name="Alert" hint="semantic + titles" span={2} minH={0}>
+      <Specimen name="Alert" hint="semantic + titles" span={wide ? 2 : 1} minH={0}>
         <Stack gap="sm" w="100%">
           <Alert color="neutral" icon={<Info size={16} />} title="Heads up">
             A calm, monochrome alert that never shouts.
@@ -73,7 +75,7 @@ export function Section() {
         </Stack>
       </Specimen>
 
-      <Specimen name="Alert" hint="no title · closable" span={2} minH={0}>
+      <Specimen name="Alert" hint="no title · closable" span={wide ? 2 : 1} minH={0}>
         <Stack gap="sm" w="100%">
           <Alert color="neutral" icon={<Info size={16} />}>
             A titleless note — just an icon and a line of context.
@@ -193,7 +195,7 @@ export function Section() {
       </Specimen>
 
       {/* ── NOTIFICATIONS ──────────────────────────────────── */}
-      <Specimen name="Notification" hint="states" span={2} minH={0}>
+      <Specimen name="Notification" hint="states" span={wide ? 2 : 1} minH={0}>
         <Stack gap="sm" w="100%">
           <Notification title="Workspace updated" onClose={noop} withCloseButton={false}>
             Your settings were saved a moment ago.
@@ -240,7 +242,7 @@ export function Section() {
           <Button variant="default" onClick={drawer.open}>
             Open drawer
           </Button>
-          <Drawer opened={drawerOpened} onClose={drawer.close} position="right" title="Panel settings" size="sm">
+          <Drawer opened={drawerOpened} onClose={drawer.close} position="right" title="Panel settings" size={wide ? 'sm' : '100%'}>
             <Stack gap="md">
               <Text fz="sm" c="dimmed">
                 A slide-in panel on a frosted backdrop — strong hairline edge and real layered depth.

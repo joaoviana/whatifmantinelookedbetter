@@ -78,7 +78,7 @@ export function Onboarding() {
   const isLast = active === STEP_COUNT - 1;
 
   return (
-    <Box p="xl" style={{ display: 'flex', justifyContent: 'center' }}>
+    <Box p={{ base: 'md', sm: 'xl' }} style={{ display: 'flex', justifyContent: 'center' }}>
       <Card padding={0} style={{ width: '100%', maxWidth: 640 }}>
         {/* Header — eyebrow + progress meter */}
         <Stack gap={4} p="lg" pb="md">
@@ -102,7 +102,7 @@ export function Onboarding() {
           />
         </Stack>
 
-        <Box px="lg">
+        <Box px="lg" className={classes.stepperBox}>
           <Stepper
             active={active}
             onStepClick={(index) => setActive(clamp(index))}

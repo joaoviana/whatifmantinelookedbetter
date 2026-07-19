@@ -119,11 +119,36 @@
   min-width: 0;
 }
 
+/* Per-member role picker — fixed on desktop, shrinks on phones so the row
+   (avatar + identity + role + menu) never overflows. */
+.roleSelect {
+  width: 128px;
+}
+
 @media (max-width: 560px) {
   .invite {
     flex-wrap: wrap;
   }
   .inviteEmail {
     flex-basis: 100%;
+  }
+}
+
+@media (max-width: 36em) {
+  .header {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .row {
+    padding-left: 14px;
+    padding-right: 14px;
+    gap: 10px;
+  }
+  .invite {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .roleSelect {
+    width: 104px;
   }
 }

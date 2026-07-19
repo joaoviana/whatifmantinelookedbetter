@@ -78,7 +78,7 @@ export function DataTableToolbar() {
     <div className={classes.wrap}>
       <Paper className={classes.panel} p={0} radius="lg">
         {/* ── Toolbar ─────────────────────────────────────────── */}
-        <Group className={classes.toolbar} justify="space-between" wrap="nowrap" gap="sm">
+        <Group className={classes.toolbar} justify="space-between" wrap="wrap" gap="sm">
           <TextInput
             className={classes.search}
             placeholder="Search members…"
@@ -86,7 +86,7 @@ export function DataTableToolbar() {
             leftSection={<Search size={15} strokeWidth={1.75} />}
             aria-label="Search members"
           />
-          <Group gap="xs" wrap="nowrap">
+          <Group className={classes.toolbarActions} gap="xs" wrap="wrap">
             <Menu position="bottom-end" width={190} withinPortal>
               <Menu.Target>
                 <Button
@@ -253,7 +253,7 @@ export function DataTableToolbar() {
         </Table.ScrollContainer>
 
         {/* ── Footer ──────────────────────────────────────────── */}
-        <Group className={classes.footer} justify="space-between" wrap="nowrap" gap="sm">
+        <Group className={classes.footer} justify="space-between" wrap="wrap" gap="sm">
           <Group gap={6} wrap="nowrap">
             {selected.length > 0 && (
               <ThemeIcon size={18} radius="sm" variant="light" color="neutral">
