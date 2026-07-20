@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
-import * as collections from './sections/collections';
+import * as aiPatterns from './sections/aiPatterns';
+import * as blocks from './sections/blocks';
 import * as actions from './sections/actions';
 import * as inputs from './sections/inputs';
 import * as dataDisplay from './sections/dataDisplay';
@@ -17,10 +18,22 @@ export interface SectionGroup {
   sections: SectionModule[];
 }
 
-export const groups: SectionGroup[] = [
-  { label: 'Collections', sections: [collections] },
-  { label: 'Components', sections: [actions, inputs, dataDisplay, feedback, navigation] },
-];
+export interface GalleryRegistry {
+  groups: SectionGroup[];
+  sections: SectionModule[];
+}
 
-/** Flat order = order on the page and in the sidebar. */
-export const sections: SectionModule[] = groups.flatMap((g) => g.sections);
+function toRegistry(groups: SectionGroup[]): GalleryRegistry {
+  return { groups, sections: groups.flatMap((g) => g.sections) };
+}
+
+/** /patterns — the AI-forward showcase: composer, streaming, agent runs, tool calls. */
+export const patternsRegistry: GalleryRegistry = toRegistry([
+  { label: 'AI Patterns', sections: [aiPatterns] },
+]);
+
+/** /glossary — the raw component building blocks: Mantine primitives + composed product blocks. */
+export const glossaryRegistry: GalleryRegistry = toRegistry([
+  { label: 'Components', sections: [actions, inputs, dataDisplay, feedback, navigation] },
+  { label: 'Building Blocks', sections: [blocks] },
+]);

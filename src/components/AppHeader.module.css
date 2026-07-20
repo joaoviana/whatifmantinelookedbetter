@@ -1,0 +1,53 @@
+/* ─────────────────────────────────────────────────────────────
+ *  AppHeader — theme toggle micro-interaction.
+ *  Sun and moon are stacked and cross-faded with a quarter-turn
+ *  rotation, so switching schemes reads as one glyph morphing
+ *  into the other rather than a hard swap.
+ * ───────────────────────────────────────────────────────────── */
+
+.themeToggle {
+  position: relative;
+  overflow: hidden;
+}
+
+.themeIcon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--app-muted);
+  transition:
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 240ms ease;
+}
+
+.themeIconHidden {
+  opacity: 0;
+}
+
+/* Light mode: sun sits centered, moon is rotated away above it. */
+.themeToggle[data-scheme='light'] .themeIconSun {
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+.themeToggle[data-scheme='light'] .themeIconMoon {
+  transform: rotate(90deg) scale(0.4);
+  opacity: 0;
+}
+
+/* Dark mode: moon centered, sun rotated away below it. */
+.themeToggle[data-scheme='dark'] .themeIconMoon {
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+.themeToggle[data-scheme='dark'] .themeIconSun {
+  transform: rotate(-90deg) scale(0.4);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .themeIcon {
+    transition: opacity 120ms ease;
+  }
+}

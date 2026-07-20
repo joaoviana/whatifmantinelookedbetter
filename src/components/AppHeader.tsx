@@ -3,6 +3,7 @@ import { ActionIcon, Group, Text, useMantineColorScheme } from '@mantine/core';
 import { Moon, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { GradientMark } from './GradientMark';
+import classes from './AppHeader.module.css';
 
 /**
  * AppHeader — the single shared top bar used on every top-level page.
@@ -17,7 +18,6 @@ export function AppHeader({
   children?: ReactNode;
 }) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const dark = colorScheme === 'dark';
 
   return (
     <Group
@@ -35,7 +35,7 @@ export function AppHeader({
       <Group gap="xs" wrap="nowrap">
         {leftSection}
         <Link
-          to="/"
+          to="/patterns"
           style={{
             textDecoration: 'none',
             color: 'inherit',
@@ -58,8 +58,15 @@ export function AppHeader({
           size="lg"
           onClick={toggleColorScheme}
           aria-label="Toggle color scheme"
+          className={classes.themeToggle}
+          data-scheme={colorScheme}
         >
-          {dark ? <Sun size={17} /> : <Moon size={17} />}
+          <span className={`${classes.themeIcon} ${classes.themeIconSun}`}>
+            <Sun size={17} />
+          </span>
+          <span className={`${classes.themeIcon} ${classes.themeIconMoon}`}>
+            <Moon size={17} />
+          </span>
         </ActionIcon>
       </Group>
     </Group>

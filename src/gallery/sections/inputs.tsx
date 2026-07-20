@@ -39,6 +39,7 @@ import {
   Upload,
   GitBranch,
 } from 'lucide-react';
+import { useMediaQuery } from '@mantine/hooks';
 import { Specimen, SpecimenGrid } from '../parts';
 
 export const meta = {
@@ -50,6 +51,8 @@ export const meta = {
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
 export function Section() {
+  const wide = useMediaQuery('(min-width: 53em)', true, { getInitialValueInEffect: false });
+
   return (
     <>
       <SpecimenGrid>
@@ -321,7 +324,7 @@ export function Section() {
         </Specimen>
 
         {/* ── Slider ──────────────────────────────────────────────── */}
-        <Specimen name="Slider" hint="with marks" span={2}>
+        <Specimen name="Slider" hint="with marks" span={wide ? 2 : 1}>
           <Stack gap="xl" w="100%" py="xs">
             <Slider
               defaultValue={40}
@@ -345,7 +348,7 @@ export function Section() {
         </Specimen>
 
         {/* ── SegmentedControl ────────────────────────────────────── */}
-        <Specimen name="SegmentedControl" hint="text · icons" span={2}>
+        <Specimen name="SegmentedControl" hint="text · icons" span={wide ? 2 : 1}>
           <Stack gap="md" align="center">
             <SegmentedControl data={['Overview', 'Activity', 'Settings']} defaultValue="Activity" />
             <SegmentedControl
@@ -385,7 +388,7 @@ export function Section() {
         </Specimen>
 
         {/* ── Fieldset — a realistic grouped form ──────────────────── */}
-        <Specimen name="Fieldset" hint="grouped form" span={2} minH={260}>
+        <Specimen name="Fieldset" hint="grouped form" span={wide ? 2 : 1} minH={260}>
           <Fieldset legend="Connect a repository" w="100%">
             <Stack gap="md">
               <TextInput

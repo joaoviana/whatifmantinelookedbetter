@@ -2,12 +2,14 @@ import { Box, SegmentedControl } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { GalleryShell } from './gallery/GalleryShell';
+import { patternsRegistry, glossaryRegistry } from './gallery/registry';
 import { AgentStudio } from './templates/AgentStudio';
 import { AgentChat } from './templates/agentchat/AgentChat';
 
 /** Top-level views are real routes now — deep-linkable, not just state. */
 const NAV = [
-  { label: 'Components', value: '/' },
+  { label: 'Patterns', value: '/patterns' },
+  { label: 'Glossary', value: '/glossary' },
   { label: 'Agent', value: '/agent' },
   { label: 'Multi-agent', value: '/multi-agent' },
 ];
@@ -15,7 +17,7 @@ const NAV = [
 function ViewSwitcher() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const value = NAV.some((n) => n.value === pathname) ? pathname : '/';
+  const value = NAV.some((n) => n.value === pathname) ? pathname : '/patterns';
   // Synchronous first read keeps the very first paint correct (no size flash).
   const isMobile = useMediaQuery('(max-width: 36em)', false, { getInitialValueInEffect: false });
 
@@ -54,10 +56,12 @@ export function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<GalleryShell />} />
+        <Route path="/patterns" element={<GalleryShell registry={patternsRegistry} />} />
+        <Route path="/glossary" element={<GalleryShell registry={glossaryRegistry} />} />
         <Route path="/agent" element={<AgentStudio />} />
         <Route path="/multi-agent" element={<AgentChat />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/" element={<Navigate to="/patterns" replace />} />
+        <Route path="*" element={<Navigate to="/patterns" replace />} />
       </Routes>
       <ViewSwitcher />
     </>

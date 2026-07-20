@@ -10,10 +10,11 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { AppHeader } from '../components/AppHeader';
-import { sections, groups } from './registry';
+import type { GalleryRegistry } from './registry';
 import { SectionIntro } from './parts';
 
-export function GalleryShell() {
+export function GalleryShell({ registry }: { registry: GalleryRegistry }) {
+  const { groups, sections } = registry;
   const [opened, { toggle, close }] = useDisclosure(false);
 
   return (

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   Button,
   ActionIcon,
@@ -46,11 +47,12 @@ const SIZES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 export function Section() {
   const [chips, setChips] = useState<string[]>(['ready']);
   const [file, setFile] = useState<File | null>(null);
+  const wide = useMediaQuery('(min-width: 53em)', true, { getInitialValueInEffect: false });
 
   return (
     <SpecimenGrid>
       {/* ── Button: the five variants ───────────────────────────── */}
-      <Specimen name="Button" hint="variants" span={2}>
+      <Specimen name="Button" hint="variants" span={wide ? 2 : 1}>
         <Row>
           {VARIANTS.map((v) => (
             <Button key={v} variant={v}>
@@ -61,7 +63,7 @@ export function Section() {
       </Specimen>
 
       {/* ── Button: sizes ───────────────────────────────────────── */}
-      <Specimen name="Button" hint="sizes xs–xl" span={2} minH={110}>
+      <Specimen name="Button" hint="sizes xs–xl" span={wide ? 2 : 1} minH={110}>
         <Group gap="sm" align="center" justify="center" wrap="wrap">
           {SIZES.map((s) => (
             <Button key={s} size={s} variant="default">
@@ -307,7 +309,7 @@ export function Section() {
       </Specimen>
 
       {/* ── UnstyledButton: clickable card row ──────────────────── */}
-      <Specimen name="UnstyledButton" hint="clickable row" span={2}>
+      <Specimen name="UnstyledButton" hint="clickable row" span={wide ? 2 : 1}>
         <Stack gap="sm" style={{ width: '100%' }}>
           {[
             { icon: <Bell size={17} />, title: 'Notifications', desc: 'Manage alerts & digests' },

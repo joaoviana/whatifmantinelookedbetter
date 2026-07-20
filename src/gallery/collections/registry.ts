@@ -19,6 +19,7 @@ import { ResponseActions } from './ResponseActions';
 import { SourceCitations } from './SourceCitations';
 import { VoiceOrb } from './VoiceOrb';
 import { AgentPicker } from './AgentPicker';
+import { ToolCalling } from './ToolCalling';
 
 export interface Collection {
   id: string;
@@ -27,21 +28,23 @@ export interface Collection {
   Component: ComponentType;
 }
 
-/** Curated blocks composed from the themed components. */
-export const COLLECTIONS: Collection[] = [
-  // AI-product patterns, animation-forward.
+/** AI-product patterns — animation-forward, the "how AI feels" showcase. */
+export const AI_PATTERNS: Collection[] = [
   { id: 'prompt-composer', title: 'AI composer', description: 'A prompt composer with slash commands and an animated send.', Component: PromptComposer },
   { id: 'ask-ai-bar', title: 'Ask AI', description: 'An omni bar with a cycling prompt and a streaming answer.', Component: AskAiBar },
   { id: 'ghost-completion', title: 'Ghost completion', description: 'Inline AI autocomplete with Tab to accept.', Component: GhostCompletion },
   { id: 'streaming-reply', title: 'Streaming reply', description: 'An assistant response streaming in token by token.', Component: StreamingReply },
   { id: 'reasoning-trace', title: 'Reasoning trace', description: 'A collapsible chain-of-thought that reveals as it thinks.', Component: ReasoningTrace },
   { id: 'agent-run', title: 'Agent run', description: 'A live multi-step agent run completing in real time.', Component: AgentRunTimeline },
+  { id: 'tool-calling', title: 'Tool calling', description: 'Sequential tool calls that run, morph to a check, and expand to reveal args + result.', Component: ToolCalling },
   { id: 'response-actions', title: 'Response actions', description: 'Copy, rate and regenerate with tactile micro-feedback.', Component: ResponseActions },
   { id: 'source-citations', title: 'Citations', description: 'Sources that reveal on a stagger and preview on hover.', Component: SourceCitations },
   { id: 'voice-orb', title: 'Voice input', description: 'A breathing gradient orb that listens.', Component: VoiceOrb },
   { id: 'agent-picker', title: 'Agent picker', description: 'Choose an agent, each a grainy gradient identity.', Component: AgentPicker },
+];
 
-  // Product blocks.
+/** Product blocks — everyday building blocks, not AI-specific. */
+export const PRODUCT_BLOCKS: Collection[] = [
   { id: 'stats-dashboard', title: 'Stats dashboard', description: 'A KPI row with sparklines and a compact table.', Component: StatsDashboard },
   { id: 'data-table', title: 'Data table + toolbar', description: 'Search, filter, selection, row actions and pagination.', Component: DataTableToolbar },
   { id: 'pricing', title: 'Pricing', description: 'Three tiers with feature lists and a highlighted plan.', Component: Pricing },

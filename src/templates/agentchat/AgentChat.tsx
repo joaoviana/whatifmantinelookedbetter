@@ -17,7 +17,7 @@ export function AgentChat() {
   const active = THREADS.find((t) => t.id === threadId) ?? THREADS[0];
 
   return (
-    <Flex direction="column" h="100vh" style={{ background: 'var(--app-bg)' }}>
+    <Flex direction="column" h="100dvh" style={{ background: 'var(--app-bg)' }}>
       {/* Header */}
       <AppHeader>
         <SegmentedControl
