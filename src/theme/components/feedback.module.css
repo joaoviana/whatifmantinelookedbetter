@@ -79,3 +79,8 @@
     transform: translateY(0);
   }
 }
+
+/* Loader (oval) — thin the ring from Mantine's default size/8 to size/12. */
+.loader {
+  border-width: calc(var(--loader-size) / 12) !important;
+}

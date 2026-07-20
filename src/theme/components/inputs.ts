@@ -205,8 +205,12 @@ export const inputsComponents = {
     classNames: { root: classes.fieldset, legend: classes.fieldsetLegend },
   }),
 
+  // Mantine computes the check icon's contrast without knowing the active
+  // color scheme (see actions.ts's variantColorResolver comment for the full
+  // story) — it always guesses white. Point it at our own scheme-aware
+  // contrast var instead of leaving it to that broken guess.
   Checkbox: Checkbox.extend({
-    defaultProps: { radius: 'sm', icon: CheckboxIcon },
+    defaultProps: { radius: 'sm', icon: CheckboxIcon, iconColor: 'var(--mantine-primary-color-contrast)' },
     classNames: {
       input: classes.checkbox,
       icon: classes.checkboxIcon,

@@ -1,4 +1,11 @@
-import { rem, type MantineColorsTuple, type CSSVariablesResolver, type MantineThemeOverride } from '@mantine/core';
+import {
+  rem,
+  defaultVariantColorsResolver,
+  type MantineColorsTuple,
+  type CSSVariablesResolver,
+  type MantineThemeOverride,
+  type VariantColorsResolver,
+} from '@mantine/core';
 
 /**
  * ─────────────────────────────────────────────────────────────
@@ -28,6 +35,27 @@ const accent: MantineColorsTuple = [
   '#6366f1', '#4f46e5', '#4338ca', '#3730a3', '#312e81',
 ];
 
+/**
+ * Mantine's default filled-variant contrast resolver decides black-vs-white
+ * text by parsing the color WITHOUT knowing the active color scheme — it
+ * always evaluates against `primaryShade.light`. That's invisible for a
+ * theme with a normal (scheme-agnostic) primaryShade, but ours deliberately
+ * inverts shade per scheme (light: 9 near-black, dark: 0 near-white) so the
+ * filled control's *background* flips — and Mantine picks white text for
+ * both, because it thinks it's still looking at the light shade. Fix it
+ * once, here: for the primary color's filled/light/subtle variants, use our
+ * own scheme-aware `--mantine-primary-color-contrast` var (set per scheme in
+ * the CSS variables resolver below) instead of Mantine's miscomputed guess.
+ */
+const variantColorResolver: VariantColorsResolver = (input) => {
+  const base = defaultVariantColorsResolver(input);
+  const isPrimary = !input.color || input.color === input.theme.primaryColor;
+  if (isPrimary && (input.variant ?? 'filled') === 'filled') {
+    return { ...base, color: 'var(--mantine-primary-color-contrast)' };
+  }
+  return base;
+};
+
 export const baseTheme = {
   colors: { neutral, dark, accent },
 
@@ -36,6 +64,7 @@ export const baseTheme = {
   primaryShade: { light: 9, dark: 0 },
   autoContrast: true,
   luminanceThreshold: 0.4,
+  variantColorResolver,
 
   white: '#ffffff',
   black: '#09090b',

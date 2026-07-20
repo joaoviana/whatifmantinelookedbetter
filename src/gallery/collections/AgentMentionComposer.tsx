@@ -3,7 +3,7 @@
    agent identities; picking one drops an inline, atomic mention chip into the text.
    Self-contained roster — not imported from templates/agentchat. */
 import { useRef, useState, type KeyboardEvent, type FormEvent } from 'react';
-import { Box, Button, Group, Stack, Text } from '@mantine/core';
+import { Box, Button, Group, Portal, Stack, Text } from '@mantine/core';
 import { Send } from 'lucide-react';
 import { GradientMark } from '../../components/GradientMark';
 import classes from './AgentMentionComposer.module.css';
@@ -85,13 +85,14 @@ export function AgentMentionComposer() {
     setQuery(between);
     setHighlight(0);
 
-    // Anchor the dropdown under the caret itself, relative to the editor.
+    // Anchor the dropdown under the caret itself, in viewport space — it's
+    // portaled to <body> (see render) so it can escape the collection
+    // card's `overflow: hidden`, which would otherwise clip it.
     const caretRange = document.createRange();
     caretRange.setStart(anchorNode, anchorOffset);
     caretRange.collapse(true);
     const rect = caretRange.getBoundingClientRect();
-    const editorRect = editor.getBoundingClientRect();
-    setDropdownPos({ top: rect.bottom - editorRect.top + 6, left: rect.left - editorRect.left });
+    setDropdownPos({ top: rect.bottom + 6, left: rect.left });
   }
 
   function handleInput() {
@@ -194,27 +195,29 @@ export function AgentMentionComposer() {
             />
 
             {query !== null && matches.length > 0 && (
-              <div className={classes.dropdown} style={{ top: dropdownPos.top, left: dropdownPos.left }}>
-                {matches.map((agent, index) => (
-                  <button
-                    type="button"
-                    key={agent.id}
-                    className={classes.option}
-                    data-active={index === highlight}
-                    onMouseEnter={() => setHighlight(index)}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      insertMention(agent);
-                    }}
-                  >
-                    <GradientMark size={22} colors={agent.colors} seed={agent.id} />
-                    <span className={classes.optionText}>
-                      <span className={classes.optionName}>{agent.name}</span>
-                      <span className={classes.optionRole}>{agent.role}</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
+              <Portal>
+                <div className={classes.dropdown} style={{ top: dropdownPos.top, left: dropdownPos.left }}>
+                  {matches.map((agent, index) => (
+                    <button
+                      type="button"
+                      key={agent.id}
+                      className={classes.option}
+                      data-active={index === highlight}
+                      onMouseEnter={() => setHighlight(index)}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        insertMention(agent);
+                      }}
+                    >
+                      <GradientMark size={22} colors={agent.colors} seed={agent.id} />
+                      <span className={classes.optionText}>
+                        <span className={classes.optionName}>{agent.name}</span>
+                        <span className={classes.optionRole}>{agent.role}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </Portal>
             )}
           </Box>
 

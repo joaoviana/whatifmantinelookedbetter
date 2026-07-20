@@ -50,10 +50,24 @@ export const actionsComponents = {
     styles: { root: { fontWeight: 500, letterSpacing: '-0.006em' } },
   }),
 
+  // Mantine's own Chip stylesheet hardcodes the checked state's text to
+  // `--mantine-color-white` unless a `color`/`variant` prop is explicitly
+  // passed (only then does it run `theme.variantColorResolver`, which we've
+  // already fixed above). Force that resolver to run unconditionally so a
+  // plain, propless <Chip> also gets scheme-correct contrast.
   Chip: Chip.extend({
     defaultProps: { radius: 'sm' },
     classNames: { label: classes.chipLabel },
     styles: { label: { fontWeight: 500, letterSpacing: '-0.006em' } },
+    vars: (theme, { color, variant, autoContrast }) => {
+      const colors = theme.variantColorResolver({
+        color: color || theme.primaryColor,
+        theme,
+        variant: variant || 'filled',
+        autoContrast,
+      });
+      return { root: { '--chip-bg': colors.background, '--chip-hover': colors.hover, '--chip-color': colors.color, '--chip-bd': colors.border } };
+    },
   }),
 
   CloseButton: CloseButton.extend({

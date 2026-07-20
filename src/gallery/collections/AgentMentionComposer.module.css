@@ -29,6 +29,7 @@
 }
 
 .editor {
+  position: relative;
   min-height: 72px;
   padding: 12px 14px;
   border: 1px solid var(--app-border);
@@ -48,8 +49,17 @@
   box-shadow: var(--app-focus-ring);
 }
 
+/* Absolutely positioned so it never sits in normal flow — otherwise, for a
+   brief moment right when the first character is typed (before React
+   re-renders `data-empty` to false), this text would still occupy inline
+   layout space and shove the just-typed character to the right, throwing
+   off the caret-rect math the @-mention dropdown anchors to. */
 .editor[data-empty='true']::before {
   content: attr(data-placeholder);
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  right: 14px;
   color: var(--app-muted);
   pointer-events: none;
 }
@@ -80,9 +90,12 @@
 }
 
 /* ── Dropdown ─────────────────────────────────────────────────── */
+/* Portaled to <body> and positioned in viewport space (see the .tsx) so it
+   escapes the collection card's `overflow: hidden` instead of being clipped
+   by it, and sits above everything else on the page. */
 .dropdown {
-  position: absolute;
-  z-index: 20;
+  position: fixed;
+  z-index: 2000;
   min-width: 200px;
   display: flex;
   flex-direction: column;

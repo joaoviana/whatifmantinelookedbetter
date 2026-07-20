@@ -175,10 +175,18 @@
   }
 }
 
-/* Checked track = primary fill (Mantine sets --switch-bg) + pressed highlight. */
+/* Checked track = primary fill (Mantine sets --switch-bg) + pressed highlight.
+   The thumb's own light-dark() above assumes a dark filled track (true in
+   light mode) — but our primaryShade inverts per scheme, so in dark mode the
+   checked track is near-white too and a white thumb vanishes into it. Force
+   the thumb to the scheme-correct contrast of that specific fill instead. */
 .switchInput:checked + .switchTrack {
   border-color: transparent;
   box-shadow: var(--app-inset-highlight);
+}
+
+.switchInput:checked + .switchTrack .switchThumb {
+  background-color: var(--mantine-primary-color-contrast);
 }
 
 .switchInput:focus-visible + .switchTrack {

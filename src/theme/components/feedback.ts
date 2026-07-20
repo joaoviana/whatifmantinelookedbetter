@@ -79,9 +79,12 @@ export const feedbackComponents = {
     defaultProps: { roundCaps: true, thickness: 8 },
   }),
 
-  // Monochrome, refined default type.
+  // Monochrome, refined default type. Mantine's oval ring hardcodes its
+  // stroke to size/8 with no exposed var — a touch thick for our taste, so
+  // we thin it to size/12 via a classNames override.
   Loader: Loader.extend({
     defaultProps: { type: 'oval', color: 'neutral', size: 'sm' },
+    classNames: { root: classes.loader },
   }),
 
   // Hairline border, radius 8, gentle depth, crisp title/description hierarchy.
