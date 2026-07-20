@@ -25,9 +25,9 @@ patterns, not apps, and the idea reads at specimen scale.
 
 The specimen is a small dashboard: three KPI tiles in a row (revenue, active users,
 conversion — reusing `StatsDashboard`'s numbers so the gallery stays internally
-consistent) over one wider chart tile with a handful of addressable datapoints. Four
-targets. Enough to prove the pattern, few enough that the stagger doesn't become a light
-show.
+consistent) over one wider trend tile. Four targets — three KPIs and the trend tile,
+which is addressed as a whole rather than per-bar. Enough to prove the pattern, few
+enough that the stagger doesn't become a light show.
 
 Three components in `src/gallery/collections/askanything/`:
 
