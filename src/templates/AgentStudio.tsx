@@ -56,6 +56,7 @@ import {
 } from 'lucide-react';
 import { AppHeader } from '../components/AppHeader';
 import { AiComposer } from '../components/AiComposer';
+import { SiteNav } from '../components/SiteNav';
 import classes from './AgentStudio.module.css';
 
 /* ─────────────────────────────────────────────────────────────
@@ -177,12 +178,21 @@ function ToolChip({ icon, label, meta }: { icon: React.ReactNode; label: string;
  *  Left navbar
  * ───────────────────────────────────────────────────────────── */
 
-function Navbar() {
+function Navbar({ onNavigate }: { onNavigate?: () => void }) {
   const [active, setActive] = useState('Collapsible AppShell aside in Mantine 9');
   const [search, setSearch] = useState('');
 
   return (
     <Stack h="100%" gap={0}>
+      {/* Site-level nav lives in the header on desktop; below `sm` it rides
+          along in this same mobile drawer, above the page's own nav. */}
+      <Box hiddenFrom="sm" p="md" pb={0}>
+        <Stack gap={2}>
+          <SiteNav variant="list" onNavigate={onNavigate} />
+        </Stack>
+        <Divider mt="md" />
+      </Box>
+
       {/* Brand + workspace */}
       <Box p="md" pb="xs">
         <Group justify="space-between" mb="md">
@@ -741,7 +751,7 @@ function ConfigPanel({ model, setModel }: { model: string; setModel: (v: string)
  * ───────────────────────────────────────────────────────────── */
 
 export function AgentStudio() {
-  const [navMobileOpened, { toggle: toggleNavMobile }] = useDisclosure(false);
+  const [navMobileOpened, { toggle: toggleNavMobile, close: closeNavMobile }] = useDisclosure(false);
   const [navDesktopOpened, { toggle: toggleNavDesktop }] = useDisclosure(true);
   const [panelOpen, { toggle: togglePanel }] = useDisclosure(false);
   const [model, setModel] = useState('opus-4.8');
@@ -771,7 +781,7 @@ export function AgentStudio() {
       </AppShell.Header>
 
       <AppShell.Navbar style={{ background: 'var(--app-bg)' }}>
-        <Navbar />
+        <Navbar onNavigate={closeNavMobile} />
       </AppShell.Navbar>
 
       <AppShell.Main style={{ height: '100dvh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>

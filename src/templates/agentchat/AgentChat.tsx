@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Box, Button, Flex, SegmentedControl } from '@mantine/core';
+import { Box, Burger, Button, Drawer, Flex, SegmentedControl, Stack } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { Plus } from 'lucide-react';
 import { AppHeader } from '../../components/AppHeader';
+import { SiteNav } from '../../components/SiteNav';
 import { THREADS } from './agents';
 import { AgentRoster } from './AgentRoster';
 import { Thread } from './Thread';
@@ -15,11 +17,14 @@ import { Composer } from './Composer';
 export function AgentChat() {
   const [threadId, setThreadId] = useState(THREADS[0].id);
   const active = THREADS.find((t) => t.id === threadId) ?? THREADS[0];
+  // This page has no persistent sidebar of its own, so the site nav gets a
+  // dedicated mobile drawer rather than riding along in someone else's.
+  const [navOpened, { toggle: toggleNav, close: closeNav }] = useDisclosure(false);
 
   return (
     <Flex direction="column" h="100dvh" style={{ background: 'var(--app-bg)' }}>
       {/* Header */}
-      <AppHeader>
+      <AppHeader leftSection={<Burger opened={navOpened} onClick={toggleNav} hiddenFrom="sm" size="sm" aria-label="Toggle navigation" />}>
         <SegmentedControl
           size="xs"
           value={threadId}
@@ -29,6 +34,12 @@ export function AgentChat() {
         />
         <Button variant="default" size="xs" leftSection={<Plus size={14} />}>New run</Button>
       </AppHeader>
+
+      <Drawer opened={navOpened} onClose={closeNav} position="left" size={240} title="Navigate" hiddenFrom="sm">
+        <Stack gap={2}>
+          <SiteNav variant="list" onNavigate={closeNav} />
+        </Stack>
+      </Drawer>
 
       {/* Agent roster strip */}
       <Box style={{ borderBottom: '1px solid var(--app-border)', flexShrink: 0 }}>

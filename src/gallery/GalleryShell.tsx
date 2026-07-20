@@ -3,6 +3,7 @@ import {
   Box,
   Burger,
   Container,
+  Divider,
   NavLink,
   ScrollArea,
   Stack,
@@ -10,6 +11,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { AppHeader } from '../components/AppHeader';
+import { SiteNav } from '../components/SiteNav';
 import type { GalleryRegistry } from './registry';
 import { SectionIntro } from './parts';
 
@@ -42,6 +44,14 @@ export function GalleryShell({ registry }: { registry: GalleryRegistry }) {
       <AppShell.Navbar p="md" style={{ background: 'var(--mantine-color-body)' }}>
         <ScrollArea type="hover">
           <Stack gap="lg">
+            {/* Site-level nav lives in the header on desktop; below `sm` it
+                rides along in this same mobile drawer, above the page nav. */}
+            <Box hiddenFrom="sm">
+              <Stack gap={2}>
+                <SiteNav variant="list" onNavigate={close} />
+              </Stack>
+              <Divider my="sm" />
+            </Box>
             {groups.map((g) => (
               <Stack key={g.label} gap={2}>
                 <Text className="eyebrow" mb={4} px="sm">
