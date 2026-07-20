@@ -1,0 +1,40 @@
+/*
+ * The agent cursor. Position is written to .orb's transform every frame by
+ * rAF — never by a CSS transition, because a transitioned cursor lags the
+ * pointer and reads as broken. Only opacity and blur are transitioned here.
+ */
+
+.orb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+  transition:
+    opacity 140ms var(--ease-out),
+    filter 200ms var(--ease-out);
+}
+
+.orb[data-visible='true'] {
+  opacity: 1;
+}
+
+/* Blur bridges the orb → composer handoff. Without it the eye sees two
+   objects crossfading; with it, one thing becoming another. Kept at 2px —
+   heavy blur is expensive, especially in Safari. */
+.orb[data-handoff='true'] {
+  filter: blur(2px);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    transition-duration: 100ms;
+  }
+
+  .orb[data-handoff='true'] {
+    filter: none;
+  }
+}

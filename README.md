@@ -40,6 +40,8 @@ Agent is a clean AI chat studio, the kind of layout every LLM product converges 
 
 Multi agent is an orchestration view: grainy mesh gradient avatars, a delegation timeline, and real charts rendered inline with `@mantine/charts`.
 
+Ask anything is the newest of the AI patterns: hold ⌘ over a dashboard and it orbitises, the cursor becomes an agent orb, and clicking any tile docks a composer scoped to what you clicked, with the answer landing under the number you asked about.
+
 ## The theme is three files
 
 ```
