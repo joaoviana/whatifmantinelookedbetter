@@ -16,9 +16,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(20px, 4vw, 30px);
+  gap: clamp(18px, 3.4vw, 26px);
   width: 100%;
-  max-width: 380px;
+  max-width: 440px;
 }
 
 /* ── Stage: orb + the ripples that radiate behind it ──────────────────── */
@@ -26,8 +26,19 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: 176px;
-  height: 176px;
+  width: 200px;
+  height: 200px;
+}
+
+/* Soft nebula halo, only present while thinking — ties this pattern to the
+   drifting-cloud wait state used elsewhere, at orb scale. */
+.halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, color-mix(in srgb, #b3bbee 45%, transparent), transparent 72%);
+  filter: blur(6px);
+  pointer-events: none;
 }
 
 .ripple {
@@ -42,8 +53,8 @@
 /* ── The orb button ───────────────────────────────────────────────────── */
 .orb {
   position: relative;
-  width: 132px;
-  height: 132px;
+  width: 152px;
+  height: 152px;
   border: none;
   padding: 0;
   border-radius: 999px;
@@ -168,11 +179,42 @@
 /* Transcript — a monospace-ish caption that types in. */
 .transcript {
   min-height: 34px;
-  max-width: 320px;
+  max-width: 340px;
   text-align: center;
   font-size: var(--mantine-font-size-sm);
   line-height: 1.45;
   color: var(--app-muted);
+}
+
+.transcript[data-role='assistant'] {
+  color: var(--mantine-color-text);
+  font-weight: 500;
+}
+
+/* ── Conversation history — past turns, most recent at the bottom ─────── */
+.history {
+  width: 100%;
+}
+
+.historyInner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 2px 4px;
+}
+
+.historyTurn {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 8px 10px;
+  border-radius: var(--mantine-radius-sm);
+  background: var(--mantine-color-default-hover);
+}
+
+.historyTurn[data-role='assistant'] {
+  background: transparent;
+  border: 1px solid var(--app-border);
 }
 
 .caret {
@@ -203,6 +245,10 @@
 
   .orb[data-state='thinking']::after {
     animation: shimmer 1.15s ease-in-out infinite;
+  }
+
+  .halo {
+    animation: haloBreathe 2.2s ease-in-out infinite;
   }
 
   .ripple {
@@ -326,6 +372,18 @@
   }
   50% {
     transform: scaleY(1);
+  }
+}
+
+@keyframes haloBreathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
   }
 }
 

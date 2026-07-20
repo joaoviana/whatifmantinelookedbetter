@@ -1,0 +1,196 @@
+/*
+ * ThinkingCloud — an ambient wait state: a drifting, blurred gradient nebula
+ * instead of a spinner. Dissolves (blur + fade + scale) to reveal the answer
+ * underneath once the agent resolves. All motion gated behind
+ * prefers-reduced-motion: no-preference — reduced motion skips straight to
+ * the answer with no timers.
+ */
+
+.frame {
+  display: flex;
+  justify-content: center;
+  padding: clamp(24px, 5vw, 40px);
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  padding: 16px;
+  border-radius: var(--mantine-radius-lg);
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+}
+
+.stage {
+  position: relative;
+  min-height: 108px;
+  border-radius: var(--mantine-radius-md);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  background: var(--app-bg);
+}
+
+.stage[data-phase='done'] {
+  min-height: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+/* ── The nebula ───────────────────────────────────────────────────────── */
+.cloud {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  opacity: 1;
+  filter: blur(0px);
+  transform: scale(1);
+  transition:
+    opacity 480ms ease,
+    filter 480ms ease,
+    transform 480ms ease;
+}
+
+.cloud[data-resolving='true'] {
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(1.15);
+}
+
+.blob {
+  position: absolute;
+  width: 70%;
+  height: 140%;
+  border-radius: 999px;
+  filter: blur(22px);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+
+:root[data-mantine-color-scheme='light'] .blob,
+[data-mantine-color-scheme='light'] .blob {
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+.blob[data-n='1'] {
+  left: -10%;
+  top: -30%;
+  background: radial-gradient(closest-side, #b3c6ff, transparent 70%);
+}
+.blob[data-n='2'] {
+  right: -14%;
+  top: -20%;
+  background: radial-gradient(closest-side, #f3b8e6, transparent 70%);
+}
+.blob[data-n='3'] {
+  left: 10%;
+  bottom: -40%;
+  background: radial-gradient(closest-side, #b7f0e0, transparent 70%);
+}
+.blob[data-n='4'] {
+  right: 4%;
+  bottom: -30%;
+  background: radial-gradient(closest-side, #d9c9fb, transparent 70%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .blob[data-n='1'] {
+    animation: drift1 7s ease-in-out infinite;
+  }
+  .blob[data-n='2'] {
+    animation: drift2 8.5s ease-in-out infinite;
+  }
+  .blob[data-n='3'] {
+    animation: drift3 6.5s ease-in-out infinite;
+  }
+  .blob[data-n='4'] {
+    animation: drift4 9s ease-in-out infinite;
+  }
+}
+
+@keyframes drift1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(8%, 6%) scale(1.12);
+  }
+}
+@keyframes drift2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-6%, 8%) scale(1.08);
+  }
+}
+@keyframes drift3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(6%, -8%) scale(1.15);
+  }
+}
+@keyframes drift4 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-8%, -6%) scale(1.1);
+  }
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* ── Label + answer ───────────────────────────────────────────────────── */
+.thinkingLabel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--app-bg) 75%, transparent) 40%, transparent);
+}
+
+.answer {
+  color: var(--mantine-color-text);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .answer {
+    animation: answerIn 420ms ease both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .answer {
+    opacity: 1;
+  }
+}
+
+@keyframes answerIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,153 @@
+/*
+ * AgentHandoff — a baton-pass between two gradient-orb agents. A spark
+ * travels the connecting line and the receiving agent lights up from dim to
+ * full color the instant it lands. All motion gated behind
+ * prefers-reduced-motion: no-preference.
+ */
+
+.frame {
+  display: flex;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 40px);
+}
+
+.column {
+  width: 100%;
+  max-width: 420px;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.agent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 96px;
+  flex-shrink: 0;
+}
+
+.orb {
+  transition:
+    filter 260ms ease,
+    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: saturate(1);
+}
+
+/* The incoming agent starts dim/idle and lights up on arrival. */
+.agent:last-child .orb {
+  filter: saturate(0.15) brightness(1.1);
+}
+
+.agent[data-lit='true'] .orb {
+  filter: saturate(1) brightness(1);
+  transform: scale(1.08);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .agent[data-lit='true'] .orb {
+    animation: litPop 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@keyframes litPop {
+  0% {
+    transform: scale(1.08);
+  }
+  40% {
+    transform: scale(1.22);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+/* ── The connecting track + traveling baton ───────────────────────────── */
+.track {
+  position: relative;
+  flex: 1;
+  height: 44px;
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.trackLine {
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--app-border);
+}
+
+.baton {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--c0), var(--c1));
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--c1) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .baton {
+    animation: travel 900ms cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .baton {
+    display: none;
+  }
+}
+
+@keyframes travel {
+  from {
+    left: 0;
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  to {
+    left: calc(100% - 12px);
+    opacity: 0;
+  }
+}
+
+/* ── Status line crossfade ────────────────────────────────────────────── */
+.status {
+  color: var(--mantine-color-text);
+  opacity: 0;
+  min-height: 1.4em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .status {
+    animation: statusIn 260ms ease both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status {
+    opacity: 1;
+  }
+}
+
+@keyframes statusIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

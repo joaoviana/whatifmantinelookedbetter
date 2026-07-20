@@ -1,0 +1,258 @@
+/*
+ * AmbientOrb — a docked, always-available assistant launcher. A small dreamy
+ * gradient orb breathes quietly in the corner; clicking it unfurls a scoped
+ * quick-composer from that exact point, so the panel always reads as coming
+ * *from* the orb. All motion gated behind prefers-reduced-motion: no-preference.
+ */
+
+.frame {
+  position: relative;
+  height: 360px;
+  border-radius: var(--mantine-radius-lg);
+  overflow: hidden;
+  background: var(--app-bg);
+}
+
+/* ── Mock backdrop — just enough "app" for the orb to read as docked ──── */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.backdropLine {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--mantine-color-default-hover);
+}
+
+.backdropCard {
+  margin-top: 12px;
+  flex: 1;
+  border-radius: var(--mantine-radius-md);
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+}
+
+/* ── Dock — anchors both the launcher and the panel to the same corner ─── */
+.dock {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/* ── Launcher orb ─────────────────────────────────────────────────────── */
+.launcher {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border: none;
+  padding: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  isolation: isolate;
+  flex-shrink: 0;
+}
+
+.launcherGlow {
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, color-mix(in srgb, #b3bbee 55%, transparent), transparent);
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .launcherGlow {
+    animation: glowBreathe 3.2s ease-in-out infinite;
+  }
+}
+
+@keyframes glowBreathe {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+.launcherOrb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background:
+    radial-gradient(58% 56% at 30% 26%, rgba(255, 255, 255, 0.92) 0%, transparent 54%),
+    radial-gradient(60% 60% at 34% 28%, #d6e4ff 0%, transparent 60%),
+    radial-gradient(58% 58% at 70% 74%, #e0d3fb 0%, transparent 62%),
+    radial-gradient(120% 120% at 50% 42%, #d5ddf8 0%, #b3bbee 70%, #a2a8e2 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    var(--app-shadow-raised-hover);
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .launcherOrb {
+    animation: orbBreathe 4.4s ease-in-out infinite;
+  }
+}
+
+@keyframes orbBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.launcher:hover .launcherOrb {
+  transform: scale(1.12);
+}
+
+.launcher[data-open='true'] .launcherOrb {
+  transform: scale(0.9);
+}
+
+/* ── Panel — unfurls from the orb's corner ────────────────────────────── */
+.panel {
+  width: 280px;
+  border-radius: var(--mantine-radius-lg);
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+  box-shadow: var(--mantine-shadow-lg);
+  overflow: hidden;
+  transform-origin: bottom right;
+  opacity: 0;
+  transform: scale(0.85) translateY(6px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel {
+    animation: panelIn 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes panelIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px 10px 12px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.panelOrb {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: radial-gradient(120% 120% at 35% 30%, #e6ecff 0%, #b3bbee 60%, #a2a8e2 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.chips {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+}
+
+.chip {
+  text-align: left;
+  padding: 7px 10px;
+  border-radius: var(--mantine-radius-sm);
+  border: 1px solid var(--app-border);
+  background: var(--app-bg);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--mantine-color-text);
+  transition: background-color 140ms ease;
+}
+
+.chip:hover {
+  background: var(--mantine-color-default-hover);
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 10px;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--app-bg);
+  padding: 7px 10px;
+  font-size: 13px;
+  color: inherit;
+  outline: none;
+  transition: border-color 140ms ease;
+}
+
+.input:focus {
+  border-color: var(--app-border-strong);
+}
+
+.answer {
+  padding: 12px;
+}
+
+.caret {
+  display: inline-block;
+  width: 5px;
+  height: 11px;
+  margin-left: 1px;
+  vertical-align: -1px;
+  background: var(--mantine-color-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .caret {
+    animation: caretBlink 900ms step-end infinite;
+  }
+}
+
+@keyframes caretBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,163 @@
+/*
+ * SelectionSpark — a gradient-orb action toolbar that sparks up over a text
+ * selection. Portaled + fixed-positioned (see the .tsx) so it escapes the
+ * collection card's overflow: hidden and always reads above everything.
+ */
+
+.frame {
+  display: flex;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 40px);
+}
+
+.column {
+  width: 100%;
+  max-width: 560px;
+}
+
+.passage {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--mantine-color-text);
+  user-select: text;
+  cursor: text;
+}
+
+.passage::selection {
+  background: color-mix(in srgb, #b3bbee 45%, transparent);
+}
+
+/* ── Floating toolbar ─────────────────────────────────────────────────── */
+.toolbar {
+  position: fixed;
+  z-index: 2000;
+  transform: translate(-50%, -100%);
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #17151f;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .toolbar {
+    animation: sparkIn 160ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolbar {
+    opacity: 1;
+  }
+}
+
+@keyframes sparkIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% + 4px)) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%) scale(1);
+  }
+}
+
+.toolbarTail {
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 8px;
+  height: 8px;
+  background: #17151f;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 1px;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.action:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.action:first-child svg {
+  color: #b3bbee;
+}
+
+/* ── Result card — a dreamy gradient rail marks it as AI-produced ─────── */
+.result {
+  position: relative;
+  margin-top: 18px;
+  padding: 12px 14px 12px 17px;
+  border-radius: var(--mantine-radius-md);
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.result::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, #d6e4ff, #e0d3fb, #f9dcf1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .result {
+    animation: resultIn 320ms ease both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes resultIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.resultHead {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 6px;
+}
+
+.resultOrb {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: radial-gradient(120% 120% at 35% 30%, #e6ecff 0%, #b3bbee 60%, #a2a8e2 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.resultBody {
+  color: var(--mantine-color-text);
+}

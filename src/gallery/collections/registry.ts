@@ -21,6 +21,11 @@ import { VoiceOrb } from './VoiceOrb';
 import { AgentPicker } from './AgentPicker';
 import { ToolCalling } from './ToolCalling';
 import { AgentMentionComposer } from './AgentMentionComposer';
+import { AskAnything } from './askanything/AskAnything';
+import { AmbientOrb } from './AmbientOrb';
+import { SelectionSpark } from './SelectionSpark';
+import { AgentHandoff } from './AgentHandoff';
+import { ThinkingCloud } from './ThinkingCloud';
 
 export interface Collection {
   id: string;
@@ -43,6 +48,11 @@ export const AI_PATTERNS: Collection[] = [
   { id: 'voice-orb', title: 'Voice input', description: 'A breathing gradient orb that listens.', Component: VoiceOrb },
   { id: 'agent-picker', title: 'Agent picker', description: 'Choose an agent, each a grainy gradient identity.', Component: AgentPicker },
   { id: 'agent-mention', title: 'Agent anywhere', description: 'Call an agent from any text box — type @ to tag one inline, gradient orb and all.', Component: AgentMentionComposer },
+  { id: 'ask-anything', title: 'Ask anything', description: 'Hold ⌘ and the dashboard orbitises — point the agent orb at any tile to ask about it.', Component: AskAnything },
+  { id: 'ambient-orb', title: 'Ambient orb', description: 'A docked assistant that breathes quietly in the corner and unfurls into a scoped composer on click.', Component: AmbientOrb },
+  { id: 'selection-spark', title: 'Selection spark', description: 'Select any text and a gradient-orb toolbar sparks up with quick, scoped AI actions.', Component: SelectionSpark },
+  { id: 'agent-handoff', title: 'Agent handoff', description: 'A gradient baton passes between agents — the incoming one lights up the instant it lands.', Component: AgentHandoff },
+  { id: 'thinking-cloud', title: 'Thinking cloud', description: 'A drifting gradient nebula instead of a spinner — it dissolves to reveal the answer once the agent resolves.', Component: ThinkingCloud },
 ];
 
 /** Product blocks — everyday building blocks, not AI-specific. */
