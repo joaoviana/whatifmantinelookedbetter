@@ -14,6 +14,14 @@
 }
 .card {
   background-color: var(--mantine-color-default);
+  /* Card composes Paper internally but never forwards its own `padding` prop
+     to Paper's `p` — Card only uses `padding` to compute --card-padding for
+     Card.Section math. That leaves Paper's own theme default (p: 'md') as
+     the root's actual padding regardless of what `padding` a <Card> passes,
+     so e.g. `padding={0}` (hand-rolling internal spacing, as in
+     TeamMembers) silently keeps a 16px gutter. Force the root to actually
+     honor --card-padding instead. */
+  padding: var(--card-padding) !important;
 }
 
 /* Card.Section separators (withBorder) adopt the reference default-border so
