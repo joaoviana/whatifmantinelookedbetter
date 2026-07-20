@@ -1,9 +1,8 @@
 /*
- * ToolCalling — chat-embedded tool call chips. Each chip morphs its status
- * icon (queued → spinner → check) and expands on click to reveal raw args
- * + result, animated with the 0fr/1fr grid-rows trick so height animates
- * without a measured pixel value. All motion is gated behind
- * prefers-reduced-motion: no-preference.
+ * ToolCalling — a live-run thread of gradient-orb tool identities. Each orb
+ * spins up a conic ring while its call is active, morphs to a check badge
+ * on completion, and the chip beside it types its own args out in real time.
+ * All motion is gated behind prefers-reduced-motion: no-preference.
  */
 
 .frame {
@@ -37,35 +36,183 @@
   color: var(--mantine-color-body);
 }
 
-/* ── Chip ─────────────────────────────────────────────────────── */
-.chip {
-  border: 1px solid var(--app-border);
-  border-radius: var(--mantine-radius-md);
-  background: var(--app-surface);
-  overflow: hidden;
+/* ── Thread list ──────────────────────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
   opacity: 0;
   transform: translateY(4px);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .chip {
-    animation: chipIn 320ms ease both;
+  .row {
+    animation: rowIn 320ms ease both;
     animation-delay: var(--stagger, 0ms);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chip {
+  .row {
     opacity: 1;
     transform: none;
   }
 }
 
-@keyframes chipIn {
+@keyframes rowIn {
   to {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ── Rail: orb + connecting thread down to the next call ─────────── */
+.rail {
+  width: 22px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.orbWrap {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orb {
+  filter: saturate(0.55) brightness(1.02);
+  transition: filter 300ms ease;
+}
+
+.orbWrap[data-status='pending'] .orb {
+  filter: saturate(0.15) brightness(1.08);
+  opacity: 0.7;
+}
+
+.orbWrap[data-status='active'] .orb {
+  filter: saturate(1) brightness(1);
+}
+
+.orbWrap[data-status='done'] .orb {
+  filter: saturate(0.7) brightness(0.98);
+}
+
+/* Spinning conic-gradient ring — only present while the call is active. */
+.orbWrap[data-status='active']::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    color-mix(in srgb, var(--mantine-color-text) 55%, transparent) 22%,
+    transparent 46%
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .orbWrap[data-status='active']::before {
+    animation: orbSpin 1.1s linear infinite;
+  }
+}
+
+@keyframes orbSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Check badge pops onto the orb's corner once the call lands. */
+.checkBadge {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mantine-color-text);
+  color: var(--mantine-color-body);
+  box-shadow: 0 0 0 2px var(--app-surface);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .checkBadge {
+    animation: badgePop 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@keyframes badgePop {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.connector {
+  width: 2px;
+  flex: 1;
+  min-height: 14px;
+  margin: 4px 0;
+  border-radius: 2px;
+  background: var(--app-border);
+  overflow: hidden;
+}
+
+.connectorFill {
+  width: 100%;
+  height: 0;
+  background: var(--mantine-color-text);
+  transition: height 420ms ease;
+}
+
+.connectorFill[data-filled='true'] {
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connectorFill {
+    transition: none;
+  }
+}
+
+/* ── Chip body ────────────────────────────────────────────────── */
+.chip {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 8px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--app-surface);
+  overflow: hidden;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.chip[data-status='active'] {
+  border-color: color-mix(in srgb, var(--mantine-color-text) 28%, var(--app-border));
+  box-shadow: var(--mantine-shadow-xs);
 }
 
 .chipHead {
@@ -73,7 +220,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
+  padding: 7px 10px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -87,69 +234,7 @@
 }
 
 .chip[data-status='pending'] .chipHead {
-  opacity: 0.5;
-}
-
-/* Status glyph — swaps queued icon → spinner → check morph. */
-.icon {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--app-muted);
-  border: 1px solid var(--app-border);
-  background: var(--app-bg);
-  transition:
-    color 200ms ease,
-    border-color 200ms ease,
-    background-color 200ms ease;
-}
-
-.icon[data-status='active'] {
-  color: var(--mantine-color-text);
-  border-color: var(--mantine-color-text);
-}
-
-.icon[data-status='done'] {
-  color: var(--mantine-color-body);
-  background: var(--mantine-color-text);
-  border-color: var(--mantine-color-text);
-}
-
-.spinner {
-  display: flex;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .spinner {
-    animation: spin 900ms linear infinite;
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .checkPop {
-    animation: checkPop 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-}
-
-@keyframes checkPop {
-  0% {
-    transform: scale(0.4);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  opacity: 0.48;
 }
 
 .name {
@@ -162,6 +247,11 @@
   margin-left: auto;
   font-size: var(--mantine-font-size-xs);
   color: var(--app-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.statusText[data-status='active'] {
+  color: var(--mantine-color-text);
 }
 
 .chevron {
@@ -178,7 +268,7 @@
 .collapse {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 260ms ease;
+  transition: grid-template-rows 280ms ease;
 }
 
 .collapse[data-open='true'] {
@@ -196,7 +286,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   padding: 0 10px;
 }
 
@@ -214,18 +304,77 @@
   border: 1px solid var(--app-border);
   white-space: pre-wrap;
   word-break: break-word;
+  min-height: 1.6em;
+}
+
+.caret {
+  display: inline-block;
+  width: 6px;
+  height: 12px;
+  margin-left: 1px;
+  vertical-align: -2px;
+  background: var(--mantine-color-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .caret {
+    animation: caretBlink 900ms step-end infinite;
+  }
+}
+
+@keyframes caretBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.resultRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 1px 2px 0;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+.resultRow[data-show='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resultRow {
+    transition: none;
+  }
+}
+
+.resultDot {
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--mantine-color-text);
 }
 
 .result {
   font-size: 13px;
   line-height: 1.45;
   color: var(--mantine-color-text);
-  padding: 2px 2px 0;
 }
 
 /* ── Assistant closing summary ────────────────────────────────── */
 .summary {
   opacity: 0;
+  padding-top: 4px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -253,4 +402,21 @@
   border: 1px solid var(--app-border);
   border-radius: 4px;
   padding: 1px 5px;
+}
+
+.replay {
+  align-self: flex-start;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .replay {
+    animation: fadeIn 360ms ease 260ms both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .replay {
+    opacity: 1;
+  }
 }

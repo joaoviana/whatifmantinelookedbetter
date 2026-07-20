@@ -20,6 +20,7 @@ import { SourceCitations } from './SourceCitations';
 import { VoiceOrb } from './VoiceOrb';
 import { AgentPicker } from './AgentPicker';
 import { ToolCalling } from './ToolCalling';
+import { AgentMentionComposer } from './AgentMentionComposer';
 
 export interface Collection {
   id: string;
@@ -41,6 +42,7 @@ export const AI_PATTERNS: Collection[] = [
   { id: 'source-citations', title: 'Citations', description: 'Sources that reveal on a stagger and preview on hover.', Component: SourceCitations },
   { id: 'voice-orb', title: 'Voice input', description: 'A breathing gradient orb that listens.', Component: VoiceOrb },
   { id: 'agent-picker', title: 'Agent picker', description: 'Choose an agent, each a grainy gradient identity.', Component: AgentPicker },
+  { id: 'agent-mention', title: 'Agent anywhere', description: 'Call an agent from any text box — type @ to tag one inline, gradient orb and all.', Component: AgentMentionComposer },
 ];
 
 /** Product blocks — everyday building blocks, not AI-specific. */

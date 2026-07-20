@@ -115,27 +115,28 @@ export function AgentRunTimeline() {
       ? `Finished ${STEPS.length} steps`
       : phase === 'stopped'
         ? `Stopped at step ${Math.min(completed + 1, STEPS.length)} of ${STEPS.length}`
-        : `Step ${completed + 1} of ${STEPS.length}`;
+        : `Step ${Math.min(completed + 1, STEPS.length)} of ${STEPS.length}`;
 
   return (
     <Box className={classes.frame}>
       <Paper
-        radius="lg"
-        shadow="md"
+        radius="md"
+        shadow="xs"
         w="100%"
         styles={{
           root: {
-            maxWidth: 600,
+            maxWidth: 580,
             background: 'var(--app-surface)',
             border: '1px solid var(--app-border)',
             overflow: 'hidden',
           },
         }}
       >
-        {/* Top progress bar. */}
+        {/* Top progress bar — a moving sheen sweeps across it while running. */}
         <div className={classes.progressTrack}>
           <div
             className={classes.progressFill}
+            data-running={isRunning}
             style={{
               width: `${targetFraction * 100}%`,
               transition: `width ${barDuration}ms ${isRunning ? 'linear' : 'ease'}`,
@@ -144,18 +145,18 @@ export function AgentRunTimeline() {
         </div>
 
         {/* Header — live dot + title on the left, elapsed clock on the right. */}
-        <Group justify="space-between" align="flex-start" px="lg" pt="md" pb="sm">
-          <Group gap={10} align="center" wrap="nowrap">
+        <Group justify="space-between" align="flex-start" px="md" pt="sm" pb="xs">
+          <Group gap={8} align="center" wrap="nowrap">
             <span className={classes.dot} data-live={isRunning} />
-            <Stack gap={1}>
+            <Stack gap={0}>
               <Text className="eyebrow">Agent run</Text>
-              <Text fz="sm" fw={600} lh={1.2}>
+              <Text key={heading} fz="sm" fw={600} lh={1.25} className={classes.crossfade}>
                 {heading}
               </Text>
             </Stack>
           </Group>
           <Text
-            fz="sm"
+            fz={13}
             fw={500}
             c="dimmed"
             style={{
@@ -168,7 +169,7 @@ export function AgentRunTimeline() {
         </Group>
 
         {/* Ordered step list. */}
-        <Box px="lg" pt={4}>
+        <Box px="md" pt={2}>
           <div className={classes.list}>
             {STEPS.map((step, index) => {
               const status = statusOf(index);
@@ -179,13 +180,13 @@ export function AgentRunTimeline() {
                   <div className={classes.rail}>
                     <div className={classes.node} data-status={status}>
                       {status === 'done' ? (
-                        <Check size={14} strokeWidth={2.5} className={classes.checkPop} />
+                        <Check size={12} strokeWidth={2.75} className={classes.checkPop} />
                       ) : status === 'active' ? (
                         <span className={classes.spinner}>
-                          <LoaderCircle size={15} strokeWidth={2.25} />
+                          <LoaderCircle size={13} strokeWidth={2.25} />
                         </span>
                       ) : (
-                        <StepIcon size={14} strokeWidth={2} />
+                        <StepIcon size={12} strokeWidth={2} />
                       )}
                     </div>
                     {!isLast && (
@@ -207,12 +208,12 @@ export function AgentRunTimeline() {
         {/* Footer — status text + replay / stop controls. */}
         <Group
           justify="space-between"
-          px="lg"
-          py="md"
-          mt={4}
+          px="md"
+          py="sm"
+          mt={2}
           style={{ borderTop: '1px solid var(--app-border)' }}
         >
-          <Text fz="xs" c="dimmed">
+          <Text key={statusLine} fz="xs" c="dimmed" className={classes.crossfade}>
             {statusLine}
           </Text>
           <Group gap={8}>
