@@ -75,7 +75,7 @@
   height: 28px;
   padding: 0 10px;
   border: 1px solid var(--app-border);
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: transparent;
   color: var(--app-muted);
   font-size: 12.5px;
@@ -94,7 +94,7 @@
 .routeDot {
   width: 6px;
   height: 6px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   flex-shrink: 0;
 }
 
@@ -111,6 +111,6 @@
 .optionDot {
   width: 7px;
   height: 7px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   flex-shrink: 0;
 }

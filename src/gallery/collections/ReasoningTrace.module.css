@@ -76,7 +76,7 @@
 .dot {
   width: 5px;
   height: 5px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: var(--app-muted);
 }
 
@@ -146,7 +146,7 @@
 .dotPending {
   width: 9px;
   height: 9px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: var(--app-surface);
   border: 1.5px solid var(--app-border-strong);
 }
@@ -154,7 +154,7 @@
 .dotActive {
   width: 9px;
   height: 9px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: var(--mantine-color-text);
   box-shadow: 0 0 0 0 var(--mantine-color-default-hover);
 }
@@ -164,7 +164,7 @@
   place-items: center;
   width: 13px;
   height: 13px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   color: var(--mantine-color-text);
 }
 
@@ -190,7 +190,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .bodyGrid {
     transition:
-      grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1);
+      grid-template-rows 320ms var(--app-ease-out);
   }
 
   .bodyClip {
@@ -208,7 +208,7 @@
   }
 
   .stepReveal {
-    animation: stepIn 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: stepIn 420ms var(--app-ease-out) both;
   }
 
   .dotActive {
@@ -216,7 +216,7 @@
   }
 
   .chevron {
-    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 260ms var(--app-ease-out);
   }
 }
 

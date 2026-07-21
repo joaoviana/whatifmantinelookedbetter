@@ -398,7 +398,7 @@ export function Section() {
                 size={15}
                 style={{
                   transform: collapseOpened ? 'rotate(180deg)' : 'none',
-                  transition: 'transform 160ms cubic-bezier(0.22,1,0.36,1)',
+                  transition: 'transform 160ms var(--app-ease-out)',
                 }}
               />
             </ActionIcon>

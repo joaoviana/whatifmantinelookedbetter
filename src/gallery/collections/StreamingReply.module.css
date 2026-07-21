@@ -44,7 +44,7 @@
 .pulse {
   width: 6px;
   height: 6px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: var(--app-muted);
   display: inline-block;
 }
@@ -56,7 +56,7 @@
   width: fit-content;
   padding: 5px 10px;
   margin-bottom: 14px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: var(--mantine-color-default-hover);
   border: 1px solid var(--app-border);
 }
@@ -111,7 +111,7 @@
 .dot {
   width: 7px;
   height: 7px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: var(--app-border-strong);
 }
 
@@ -173,7 +173,7 @@
 @media (prefers-reduced-motion: no-preference) {
   /* Each streamed word fades + rises into place — the reveal signature. */
   .word {
-    animation: wordIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: wordIn 220ms var(--app-ease-out) both;
   }
 
   @keyframes wordIn {
@@ -226,7 +226,7 @@
     transform: translateY(4px);
     transition:
       opacity 260ms ease,
-      transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+      transform 260ms var(--app-ease-out);
   }
   .tool[data-visible] {
     opacity: 1;
@@ -239,7 +239,7 @@
     transform: translateY(6px);
     transition:
       opacity 320ms ease,
-      transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+      transform 320ms var(--app-ease-out);
   }
   .code[data-in] {
     opacity: 1;
@@ -260,7 +260,7 @@
   .mCheck {
     transition:
       opacity 200ms ease,
-      transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform 260ms var(--app-ease-spring);
   }
   .morph[data-copied] .mCopy {
     opacity: 0;
@@ -273,7 +273,7 @@
 
   /* Regenerate icon gives a small spin on hover — tactile, not busy. */
   .regen {
-    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 400ms var(--app-ease-out);
   }
   button:hover .regen {
     transform: rotate(-180deg);

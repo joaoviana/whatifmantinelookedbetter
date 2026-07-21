@@ -227,7 +227,7 @@
 
   .chip {
     transition:
-      transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 200ms var(--app-ease-out),
       border-color 160ms ease,
       background-color 160ms ease,
       box-shadow 200ms ease;
@@ -241,7 +241,7 @@
   /* Staggered fade + slide as sources reveal. `--i` set inline per chip. */
   .chipReveal {
     opacity: 0;
-    animation: chipIn 460ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: chipIn 460ms var(--app-ease-out) forwards;
     animation-delay: calc(var(--i, 0) * 70ms);
   }
 

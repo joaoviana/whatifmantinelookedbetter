@@ -35,7 +35,7 @@
 .halo {
   position: absolute;
   inset: -6px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: radial-gradient(closest-side, color-mix(in srgb, #b3bbee 45%, transparent), transparent 72%);
   filter: blur(6px);
   pointer-events: none;
@@ -44,7 +44,7 @@
 .ripple {
   position: absolute;
   inset: 18px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   border: 1px solid color-mix(in srgb, var(--mantine-color-text) 20%, transparent);
   opacity: 0;
   pointer-events: none;
@@ -57,7 +57,7 @@
   height: 152px;
   border: none;
   padding: 0;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   cursor: pointer;
   isolation: isolate;
   /* Dreamy, cloudy mesh sphere — pastel hues with lots of white woven in. */
@@ -145,7 +145,7 @@
 .pip {
   width: 7px;
   height: 7px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background: var(--app-muted);
   flex-shrink: 0;
 }

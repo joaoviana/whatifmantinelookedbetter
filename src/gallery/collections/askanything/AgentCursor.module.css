@@ -13,8 +13,8 @@
   opacity: 0;
   will-change: transform;
   transition:
-    opacity 140ms var(--ease-out),
-    filter 200ms var(--ease-out);
+    opacity 140ms var(--app-ease-out),
+    filter 200ms var(--app-ease-out);
 }
 
 .orb[data-visible='true'] {

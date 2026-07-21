@@ -256,7 +256,7 @@
   align-items: center;
   justify-content: center;
   color: var(--app-muted);
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   margin-inline-start: 1px;
   transition: color 120ms ease, background-color 120ms ease;
 }

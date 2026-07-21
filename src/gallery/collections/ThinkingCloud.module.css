@@ -61,7 +61,7 @@
   position: absolute;
   width: 70%;
   height: 140%;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   filter: blur(22px);
   mix-blend-mode: screen;
   opacity: 0.6;

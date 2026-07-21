@@ -103,7 +103,7 @@ function TreeNode({ node, expanded, hasChildren, elementProps }: RenderTreeNodeP
           style={{
             color: 'var(--mantine-color-dimmed)',
             transform: expanded ? 'rotate(90deg)' : 'none',
-            transition: 'transform 150ms cubic-bezier(0.22,1,0.36,1)',
+            transition: 'transform 150ms var(--app-ease-out)',
           }}
         />
       ) : (

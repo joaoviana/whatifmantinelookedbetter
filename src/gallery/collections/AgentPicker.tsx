@@ -141,7 +141,7 @@ export function AgentPicker() {
 
               <Group gap={6} className={classes.chips}>
                 {agent.capabilities.map((cap) => (
-                  <Badge key={cap} variant="default" size="sm" radius="sm" fw={500}>
+                  <Badge key={cap} variant="default" size="sm" radius="sm">
                     {cap}
                   </Badge>
                 ))}
