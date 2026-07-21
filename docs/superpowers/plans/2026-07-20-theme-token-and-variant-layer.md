@@ -13,10 +13,18 @@
 ## Global Constraints
 
 - **No test framework exists in this repo.** `package.json` defines `dev`, `build`, `preview`, `lint`, `lint:fix`, `format`, `format:check` — no test runner, no test files. Do not add one; that is out of scope. Every task below uses a **grep-count assertion** as its red→green check, plus the build and lint commands. Run the grep BEFORE the change to confirm the stated "before" count, and AFTER to confirm the "after" count.
-- **Verification commands** (exact):
-  - `pnpm build` — runs `tsc -b && vite build`. Must exit 0.
-  - `pnpm lint` — runs `oxlint`. Must exit 0.
-  - `pnpm format:check` — runs `oxfmt --check .`. Must exit 0.
+- **Verification commands** (exact). **`pnpm` is unusable in this environment** — the installed
+  pnpm is 9.12.2 but `pnpm-workspace.yaml` omits the `packages:` field (valid only in pnpm 10+,
+  and `package.json` pins 11.14.0), so every `pnpm <script>` fails with "packages field missing
+  or empty". `corepack` cannot bridge it (Node 20.19.5 throws
+  `ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING`). The repo is correct; the local toolchain is not.
+  Netlify is unaffected. Call the binaries directly:
+  - `./node_modules/.bin/tsc -b` — must exit 0.
+  - `./node_modules/.bin/vite build` — must exit 0.
+  - `./node_modules/.bin/oxlint` — must exit 0. **Baseline:** exits 0 with pre-existing
+    `react-in-jsx-scope` warnings in `src/gallery/sections/dataDisplay.tsx`. These predate this
+    work — do not "fix" them, and do not treat them as a regression.
+  - `./node_modules/.bin/oxfmt --check .` — must exit 0.
 - **No screenshot baseline was authorized.** Visual checking is by `pnpm dev` and eyeballing in the browser, in **both** color schemes (the app boots in light; use the scheme toggle in the header). When reporting, say "the routes I checked looked correct" — never "no visual regressions", which cannot be evidenced without a baseline.
 - **Branch:** `theme/token-and-variant-layer`, already created and holding the spec commit.
 - **Naming:** all new CSS custom properties use the existing `--app-*` prefix. No new prefixes.
