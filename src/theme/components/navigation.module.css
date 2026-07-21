@@ -173,6 +173,7 @@
   font-weight: 500;
   letter-spacing: -0.006em;
   color: var(--mantine-color-dimmed);
+  padding-inline: 20px;
 }
 
 .segmentControl[data-active] .segmentLabel,

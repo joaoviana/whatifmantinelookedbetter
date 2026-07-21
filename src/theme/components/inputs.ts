@@ -9,7 +9,6 @@ import {
   Radio,
   Switch,
   Slider,
-  SegmentedControl,
   NumberInput,
   PasswordInput,
   Autocomplete,
@@ -237,14 +236,6 @@ export const inputsComponents = {
     classNames: {
       thumb: classes.sliderThumb,
       mark: classes.sliderMark,
-    },
-  }),
-  SegmentedControl: SegmentedControl.extend({
-    defaultProps: { radius: 'md' },
-    classNames: {
-      root: classes.segmented,
-      indicator: classes.segmentedIndicator,
-      label: classes.segmentedLabel,
     },
   }),
 };

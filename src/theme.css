@@ -146,11 +146,6 @@ kbd {
   height: 0.72em;
 }
 
-/* Segmented control — wider segments so labels breathe. */
-.mantine-SegmentedControl-label {
-  padding-inline: 20px;
-}
-
 /* Timeline — thinner, more refined bullet border. */
 .mantine-Timeline-itemBullet {
   border-width: 1px;
