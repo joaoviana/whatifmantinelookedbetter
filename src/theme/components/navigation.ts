@@ -105,7 +105,7 @@ export const navigationComponents = {
         textTransform: 'uppercase',
         color: 'var(--app-muted)',
       },
-      divider: { borderColor: 'var(--app-border)' },
+      divider: { borderColor: 'var(--mantine-color-default-border)' },
     },
   }),
 

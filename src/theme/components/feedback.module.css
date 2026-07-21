@@ -69,6 +69,12 @@
   transform-origin: center;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .popoverDropdown {
+    transition: opacity 150ms ease, transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
 @keyframes fb-rise {
   from {
     opacity: 0;

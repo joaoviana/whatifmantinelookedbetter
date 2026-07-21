@@ -63,6 +63,7 @@
 
 /* Timeline bullets sit cleanly on whatever surface they're on. */
 .timelineBullet {
+  border-width: 1px;
   border-color: var(--app-border-strong);
   background-color: var(--app-surface);
   color: var(--mantine-color-dimmed);

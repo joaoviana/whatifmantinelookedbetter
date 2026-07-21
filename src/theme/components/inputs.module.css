@@ -194,8 +194,8 @@
 }
 
 /* ── Dropdowns (Select / Autocomplete / MultiSelect / TagsInput) ──
-   Body surface, hairline border, md radius, tidy padding; hover + selected
-   both settle on default-hover so the row highlight stays quiet. */
+   Body surface, hairline border, md radius, tidy padding; hover settles on
+   default-hover, selected takes the filled primary treatment. */
 .dropdown {
   background-color: var(--mantine-color-body);
   border: 1px solid var(--mantine-color-default-border);
@@ -204,9 +204,16 @@
   padding: 4px;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .dropdown {
+    transition: opacity 150ms ease, transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
 .option {
   border-radius: var(--mantine-radius-sm);
-  padding: 7px 10px;
+  padding-block: 6px;
+  padding-inline: 9px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -215,16 +222,16 @@
   }
 }
 
-.option:hover:not([data-combobox-disabled]) {
+.option:hover:not([data-combobox-disabled]),
+.option[data-combobox-active] {
   background-color: var(--mantine-color-default-hover);
 }
 
-/* Selected (and keyboard-highlighted) rows stay subtle — the check icon,
-   not a heavy fill, signals selection. */
+/* Selected rows take the filled primary treatment — a solid, unambiguous
+   signal rather than a quiet hover-tinted state. */
 .option[data-combobox-selected] {
-  background-color: var(--mantine-color-default-hover);
-  color: var(--mantine-color-text);
-  font-weight: 500;
+  background-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-contrast);
 }
 
 /* ── Pills (MultiSelect / TagsInput / PillsInput) — chic bordered chips
