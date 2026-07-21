@@ -9,7 +9,9 @@ import {
 
 /**
  * ─────────────────────────────────────────────────────────────
- *  BASE TOKENS — colors, type, radius, shadows.
+ *  BASE TOKENS — colors, type, radius.
+ *  (Shadows are NOT here: they must flip per color scheme, so they live in
+ *  the light/dark branches of `cssVariablesResolver` below.)
  *  Aesthetic target: Attio / Linear / Vercel — refined monochrome,
  *  hairline borders, small radii, quiet shadows, crisp typography,
  *  subtle motion. Per-component styling lives in ./components/*.
@@ -119,6 +121,8 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
     '--app-shadow-raised-hover': '0 2px 4px rgba(9,9,11,0.08), 0 1px 2px rgba(9,9,11,0.05)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.10)',
     '--app-focus-ring': '0 0 0 3px rgba(9,9,11,0.10)',
+    // Chewy, layered shadows — border + soft depth. Multi-layer so surfaces
+    // feel tactile and substantial (the Vercel / Linear / Attio signature).
     '--mantine-shadow-xs': '0 1px 2px rgba(9,9,11,0.05), 0 1px 1px rgba(9,9,11,0.04)',
     '--mantine-shadow-sm':
       '0 1px 2px rgba(9,9,11,0.05), 0 2px 4px rgba(9,9,11,0.05), 0 4px 8px rgba(9,9,11,0.03)',
