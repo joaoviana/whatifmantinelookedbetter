@@ -83,17 +83,11 @@ export function CommandPalette() {
   return (
     <Box className={classes.wrap}>
       <Paper
+        variant="panel"
         radius="lg"
         shadow="lg"
         w="100%"
-        styles={{
-          root: {
-            maxWidth: 560,
-            background: 'var(--app-surface)',
-            border: '1px solid var(--app-border)',
-            overflow: 'hidden',
-          },
-        }}
+        styles={{ root: { maxWidth: 560, boxShadow: 'var(--mantine-shadow-lg)', overflow: 'hidden' } }}
       >
         {/* Search header — borderless input, Search glyph, Esc affordance. */}
         <Box
@@ -122,13 +116,13 @@ export function CommandPalette() {
         <ScrollArea.Autosize mah={330} type="hover" scrollbarSize={8}>
           <Box p={8}>
             {filtered.length === 0 ? (
-              <Text c="dimmed" fz="sm" ta="center" py={28}>
+              <Text variant="secondary" ta="center" py={28}>
                 No commands match “{query.trim()}”
               </Text>
             ) : (
               filtered.map((group, groupIndex) => (
                 <Box key={group.label} mt={groupIndex === 0 ? 0 : 10}>
-                  <Text className="eyebrow" px={12} pt={6} pb={4}>
+                  <Text variant="eyebrow" px={12} pt={6} pb={4}>
                     {group.label}
                   </Text>
                   {group.items.map((item) => {
@@ -174,7 +168,7 @@ export function CommandPalette() {
             <Group gap={6} wrap="nowrap">
               <Kbd>↑</Kbd>
               <Kbd>↓</Kbd>
-              <Text c="dimmed" fz="xs">
+              <Text variant="meta">
                 to navigate
               </Text>
             </Group>
@@ -182,7 +176,7 @@ export function CommandPalette() {
               <Kbd>
                 <CornerDownLeft size={11} style={{ display: 'block' }} />
               </Kbd>
-              <Text c="dimmed" fz="xs">
+              <Text variant="meta">
                 to select
               </Text>
             </Group>

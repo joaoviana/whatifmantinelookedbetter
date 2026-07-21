@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { Text } from '@mantine/core';
 import { CornerDownRight } from 'lucide-react';
 import { AGENTS_BY_ID, CONVERSATION, type Message } from './agents';
 import { MessageBubble } from './MessageBubble';
@@ -35,7 +36,7 @@ export function Thread({ messages = CONVERSATION }: { messages?: Message[] }) {
               ))}
             </div>
             <div className={classes.orchText}>
-              <span className="eyebrow">Orchestration</span>
+              <Text variant="eyebrow" span>Orchestration</Text>
               <div className={classes.orchTitle}>
                 <strong>{orchestrator.name}</strong> is coordinating {delegatedAgents.length} agents
               </div>

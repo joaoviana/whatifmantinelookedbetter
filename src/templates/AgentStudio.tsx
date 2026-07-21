@@ -245,7 +245,7 @@ function Navbar({ onNavigate }: { onNavigate?: () => void }) {
         <Stack gap="lg" pb="md">
           {CONVERSATIONS.map((section) => (
             <Box key={section.group}>
-              <Text className="eyebrow" mb={6} px={4}>
+              <Text variant="eyebrow" mb={6} px={4}>
                 {section.group}
               </Text>
               <Stack gap={2}>

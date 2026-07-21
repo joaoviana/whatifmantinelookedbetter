@@ -99,12 +99,13 @@ function KpiCard({ item }: { item: Kpi }) {
   return (
     <Card className={classes.kpi} padding="md">
       <Stack gap="xs" h="100%">
-        <span className="eyebrow">{item.label}</span>
+        <Text variant="eyebrow" span>{item.label}</Text>
 
         <Group justify="space-between" align="center" wrap="nowrap" gap="sm">
           <Text
+            variant="numeric"
             fw={600}
-            style={{ fontSize: 30, lineHeight: 1.05, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}
+            style={{ fontSize: 30, lineHeight: 1.05, letterSpacing: '-0.02em' }}
           >
             {item.value}
           </Text>
@@ -149,7 +150,7 @@ export function StatsDashboard() {
       <Stack gap="lg">
         <Group justify="space-between" align="flex-end">
           <div>
-            <span className="eyebrow">Overview</span>
+            <Text variant="eyebrow" span>Overview</Text>
             <Title order={3} mt={4}>
               Dashboard
             </Title>
@@ -170,7 +171,7 @@ export function StatsDashboard() {
             <Text fw={600} size="sm">
               Top workspaces
             </Text>
-            <span className="eyebrow">By MRR</span>
+            <Text variant="eyebrow" span>By MRR</Text>
           </Group>
           <Table.ScrollContainer minWidth={520}>
             <Table>

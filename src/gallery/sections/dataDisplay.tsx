@@ -85,8 +85,8 @@ export function Section() {
                   <Avatar name="Maya Chen" color="neutral" size="md" radius="xl" />
                 </Indicator>
                 <Stack gap={0}>
-                  <Text fw={600} fz="sm" lh={1.2}>Maya Chen</Text>
-                  <Text c="dimmed" fz="xs">Founder · Northwind</Text>
+                  <Text variant="label" lh={1.2}>Maya Chen</Text>
+                  <Text variant="meta">Founder · Northwind</Text>
                 </Stack>
               </Group>
               <Badge color="teal" leftSection={<CircleCheck size={12} />}>Active</Badge>
@@ -114,8 +114,8 @@ export function Section() {
           <Card.Section inheritPadding py="sm">
             <Group justify="space-between">
               <Group gap="lg">
-                <Text fz="xs" c="dimmed"><Text span fw={600} c="var(--mantine-color-text)">128</Text> deals</Text>
-                <Text fz="xs" c="dimmed"><Text span fw={600} c="var(--mantine-color-text)">£2.4M</Text> pipeline</Text>
+                <Text variant="meta"><Text span fw={600} c="var(--mantine-color-text)">128</Text> deals</Text>
+                <Text variant="meta"><Text span fw={600} c="var(--mantine-color-text)">£2.4M</Text> pipeline</Text>
               </Group>
               <Anchor fz="xs" fw={500}>
                 <Group gap={3}>Open<ArrowUpRight size={13} /></Group>
@@ -144,7 +144,7 @@ export function Section() {
                     <Avatar name={m.name} color={m.color} size={28} radius="xl" />
                     <Stack gap={0}>
                       <Text fz="sm" fw={500} lh={1.2}>{m.name}</Text>
-                      <Text c="dimmed" fz="xs">{m.email}</Text>
+                      <Text variant="meta">{m.email}</Text>
                     </Stack>
                   </Group>
                 </Table.Td>
@@ -163,19 +163,19 @@ export function Section() {
       <Specimen name="Timeline" hint="activity feed" span={wide ? 2 : 1} minH={260}>
         <Timeline active={2} w="100%">
           <Timeline.Item bullet={<GitBranch size={12} />} title="Branch created">
-            <Text c="dimmed" fz="xs">Ada opened <Code>feat/chewy-cards</Code></Text>
-            <Text c="dimmed" fz="xs" mt={2}>2 days ago</Text>
+            <Text variant="meta">Ada opened <Code>feat/chewy-cards</Code></Text>
+            <Text variant="meta" mt={2}>2 days ago</Text>
           </Timeline.Item>
           <Timeline.Item bullet={<GitCommitHorizontal size={12} />} title="14 commits pushed">
-            <Text c="dimmed" fz="xs">Layered shadows + hover lift wired up</Text>
-            <Text c="dimmed" fz="xs" mt={2}>yesterday</Text>
+            <Text variant="meta">Layered shadows + hover lift wired up</Text>
+            <Text variant="meta" mt={2}>yesterday</Text>
           </Timeline.Item>
           <Timeline.Item bullet={<GitPullRequest size={12} />} title="Pull request opened">
-            <Text c="dimmed" fz="xs">Review requested from <Text span fw={500} c="var(--mantine-color-text)">Leo</Text></Text>
-            <Text c="dimmed" fz="xs" mt={2}>3 hours ago</Text>
+            <Text variant="meta">Review requested from <Text span fw={500} c="var(--mantine-color-text)">Leo</Text></Text>
+            <Text variant="meta" mt={2}>3 hours ago</Text>
           </Timeline.Item>
           <Timeline.Item bullet={<Rocket size={12} />} title="Deploy queued" lineVariant="dashed">
-            <Text c="dimmed" fz="xs">Waiting on CI checks</Text>
+            <Text variant="meta">Waiting on CI checks</Text>
           </Timeline.Item>
         </Timeline>
       </Specimen>
@@ -306,7 +306,7 @@ export function Section() {
       {/* ── Spoiler ─────────────────────────────────────────────────── */}
       <Specimen name="Spoiler" hint="expand" minH={120}>
         <Spoiler maxHeight={44} showLabel="Show more" hideLabel="Show less" w="100%">
-          <Text fz="sm" c="dimmed">
+          <Text variant="secondary">
             The design language leans on restraint: a single accent reserved for links and focus,
             near-black filled controls, and shadows that stay quiet until you interact. Everything
             else is left to breathe on a hairline grid.
@@ -321,10 +321,10 @@ export function Section() {
             <NumberFormatter prefix="£" value={2412500} thousandSeparator />
           </Text>
           <Group gap="lg">
-            <Text fz="sm" c="dimmed">
+            <Text variant="secondary">
               <NumberFormatter value={1284567} thousandSeparator /> rows
             </Text>
-            <Text fz="sm" c="dimmed">
+            <Text variant="secondary">
               <NumberFormatter value={98.6} decimalScale={1} suffix="%" /> uptime
             </Text>
           </Group>
@@ -386,9 +386,9 @@ export function Section() {
           <Stack gap={4}>
             <Group gap={6}>
               <ThemeIcon size="sm" variant="default" radius="sm"><MessageCircleMore size={13} /></ThemeIcon>
-              <Text className="eyebrow">Surface</Text>
+              <Text variant="eyebrow">Surface</Text>
             </Group>
-            <Text fz="sm" c="dimmed">
+            <Text variant="secondary">
               A bordered Paper — the base panel every card is built on. Hover to feel it lift.
             </Text>
           </Stack>

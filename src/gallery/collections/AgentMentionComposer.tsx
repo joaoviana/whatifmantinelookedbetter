@@ -168,7 +168,7 @@ export function AgentMentionComposer() {
     <Box className={classes.frame}>
       <Stack gap="md" className={classes.column}>
         <div>
-          <Text className="eyebrow" mb={4}>
+          <Text variant="eyebrow" mb={4}>
             Anywhere you can leave a note
           </Text>
           <Text fz={13} c="dimmed">

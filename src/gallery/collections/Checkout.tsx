@@ -16,7 +16,6 @@ import {
 import { CreditCard, Lock } from 'lucide-react';
 
 // Tabular, right-aligned money — keeps the totals column pixel-aligned.
-const tnum = { fontVariantNumeric: 'tabular-nums' } as const;
 const usd = (n: number) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
@@ -34,7 +33,7 @@ export function Checkout() {
   return (
     <Box p={{ base: 16, sm: 32 }} style={{ maxWidth: 960, marginInline: 'auto' }}>
       <Stack gap={4} mb={24}>
-        <span className="eyebrow">Secure checkout</span>
+        <Text variant="eyebrow" span>Secure checkout</Text>
         <Title order={3}>Complete your order</Title>
       </Stack>
 
@@ -42,7 +41,7 @@ export function Checkout() {
         {/* ── LEFT · Order summary ─────────────────────────────── */}
         <Grid.Col span={{ base: 12, sm: 5 }}>
           <Card padding="lg" h="100%">
-            <Text fw={600} fz="sm" mb="md">
+            <Text variant="label" mb="md">
               Order summary
             </Text>
 
@@ -53,11 +52,11 @@ export function Checkout() {
                     <Text fz="sm" fw={500} lh={1.3}>
                       {item.name}
                     </Text>
-                    <Text fz="xs" c="dimmed">
+                    <Text variant="meta">
                       Qty {item.qty}
                     </Text>
                   </div>
-                  <Text fz="sm" fw={500} style={tnum}>
+                  <Text variant="numeric" fz="sm" fw={500}>
                     {usd(item.price)}
                   </Text>
                 </Group>
@@ -79,25 +78,25 @@ export function Checkout() {
 
             <Stack gap={8}>
               <Group justify="space-between">
-                <Text fz="sm" c="dimmed">
+                <Text variant="secondary">
                   Subtotal
                 </Text>
-                <Text fz="sm" style={tnum}>
+                <Text variant="numeric" fz="sm">
                   {usd(SUBTOTAL)}
                 </Text>
               </Group>
               <Group justify="space-between">
-                <Text fz="sm" c="dimmed">
+                <Text variant="secondary">
                   Tax (est.)
                 </Text>
-                <Text fz="sm" style={tnum}>
+                <Text variant="numeric" fz="sm">
                   {usd(TAX)}
                 </Text>
               </Group>
               <Divider my={4} color="var(--mantine-color-default-border)" />
               <Group justify="space-between" align="baseline">
                 <Text fw={600}>Total</Text>
-                <Text fw={700} fz={20} style={tnum}>
+                <Text variant="numeric" fw={700} fz={20}>
                   {usd(TOTAL)}
                 </Text>
               </Group>
@@ -108,7 +107,7 @@ export function Checkout() {
         {/* ── RIGHT · Payment ──────────────────────────────────── */}
         <Grid.Col span={{ base: 12, sm: 7 }}>
           <Card padding="lg" h="100%">
-            <Text fw={600} fz="sm" mb="md">
+            <Text variant="label" mb="md">
               Payment details
             </Text>
 
@@ -158,7 +157,7 @@ export function Checkout() {
 
               <Group gap={6} justify="center" c="dimmed">
                 <Lock size={13} strokeWidth={1.75} />
-                <Text fz="xs" c="dimmed">
+                <Text variant="meta">
                   Secure checkout · encrypted end-to-end
                 </Text>
               </Group>

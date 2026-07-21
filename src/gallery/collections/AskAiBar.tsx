@@ -147,7 +147,7 @@ export function AskAiBar() {
         {showAnswer && (
           <Box className={`${classes.answer} ${reduceMotion ? '' : classes.answerEnter}`}>
             <Group justify="space-between" mb={10} align="center">
-              <Text className="eyebrow" component="span">
+              <Text variant="eyebrow" component="span">
                 Answer
               </Text>
               {status === 'done' && (

@@ -15,9 +15,9 @@
 }
 
 /* The whole block reads as one bordered surface: hairline + soft shadow. */
+/* Surface + hairline come from variant="panel"; this keeps only the two
+   things that differ: a deliberately heavier shadow and the clip. */
 .panel {
-  background-color: var(--app-surface);
-  border: 1px solid var(--app-border);
   box-shadow: var(--mantine-shadow-sm);
   overflow: hidden;
 }

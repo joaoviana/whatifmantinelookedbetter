@@ -97,7 +97,7 @@ export function Section() {
             <Progress value={64} size="sm" />
             <Progress value={82} size="md" />
           </Stack>
-          <Text fz="xs" c="dimmed" ta="center">
+          <Text variant="meta" ta="center">
             xs · sm · md — thin monochrome track
           </Text>
         </Stack>
@@ -111,8 +111,8 @@ export function Section() {
             <Progress.Section value={14} color="neutral.3" />
           </Progress.Root>
           <Group justify="space-between">
-            <Text fz="xs" c="dimmed">Used 70%</Text>
-            <Text fz="xs" c="dimmed">30% free</Text>
+            <Text variant="meta">Used 70%</Text>
+            <Text variant="meta">30% free</Text>
           </Group>
         </Stack>
       </Specimen>
@@ -122,13 +122,13 @@ export function Section() {
           <RingProgress
             size={92}
             sections={[{ value: 72, color: 'neutral' }]}
-            label={<Text ta="center" fz="sm" fw={600}>72%</Text>}
+            label={<Text variant="label" ta="center">72%</Text>}
           />
           <RingProgress
             size={64}
             thickness={6}
             sections={[{ value: 40, color: 'neutral' }]}
-            label={<Text ta="center" fz="xs" c="dimmed">40%</Text>}
+            label={<Text variant="meta" ta="center">40%</Text>}
           />
         </Group>
       </Specimen>
@@ -222,7 +222,7 @@ export function Section() {
           </Button>
           <Modal opened={modalOpened} onClose={modal.close} title="Invite teammate">
             <Stack gap="md">
-              <Text fz="sm" c="dimmed">
+              <Text variant="secondary">
                 Send an invitation to join this workspace. They will get access to all shared projects.
               </Text>
               <Divider />
@@ -244,7 +244,7 @@ export function Section() {
           </Button>
           <Drawer opened={drawerOpened} onClose={drawer.close} position="right" title="Panel settings" size={wide ? 'sm' : '100%'}>
             <Stack gap="md">
-              <Text fz="sm" c="dimmed">
+              <Text variant="secondary">
                 A slide-in panel on a frosted backdrop — strong hairline edge and real layered depth.
               </Text>
               <Divider />
@@ -273,10 +273,10 @@ export function Section() {
           </Popover.Target>
           <Popover.Dropdown>
             <Stack gap={6}>
-              <Text fz="sm" fw={600}>
+              <Text variant="label">
                 Keyboard shortcuts
               </Text>
-              <Text fz="xs" c="dimmed">
+              <Text variant="meta">
                 A clean, arrowless dropdown on the body surface — hairline border, layered shadow.
               </Text>
             </Stack>
@@ -296,8 +296,8 @@ export function Section() {
             <Group gap="sm" wrap="nowrap">
               <Avatar radius="xl" size={44} color="neutral">JV</Avatar>
               <Stack gap={2}>
-                <Text fz="sm" fw={600}>Joana Viana</Text>
-                <Text fz="xs" c="dimmed">Product Engineer · Lisbon</Text>
+                <Text variant="label">Joana Viana</Text>
+                <Text variant="meta">Product Engineer · Lisbon</Text>
                 <Group gap={6} mt={4}>
                   <Badge size="xs" variant="light" color="neutral">248 commits</Badge>
                   <Badge size="xs" variant="light" color="neutral">12 repos</Badge>
@@ -322,8 +322,8 @@ export function Section() {
           >
             <LoadingOverlay visible={loading} />
             <Stack gap={6}>
-              <Text fz="sm" fw={600}>Monthly report</Text>
-              <Text fz="xs" c="dimmed">Revenue is up 12% versus the prior period.</Text>
+              <Text variant="label">Monthly report</Text>
+              <Text variant="meta">Revenue is up 12% versus the prior period.</Text>
               <Progress value={62} mt={4} />
             </Stack>
           </Box>
@@ -347,8 +347,8 @@ export function Section() {
           }}
         >
           <Stack gap={6}>
-            <Text fz="sm" fw={600}>Premium template</Text>
-            <Text fz="xs" c="dimmed">Unlock to edit this layout and export assets.</Text>
+            <Text variant="label">Premium template</Text>
+            <Text variant="meta">Unlock to edit this layout and export assets.</Text>
           </Stack>
           {scrim && (
             <Overlay center backgroundOpacity={0.4} blur={2} radius="lg">
@@ -377,8 +377,8 @@ export function Section() {
             size="lg"
             position={{ bottom: 20, right: 20 }}
           >
-            <Text fz="sm" fw={600} mb={4}>Subscribe to updates</Text>
-            <Text fz="xs" c="dimmed" mb="sm">
+            <Text variant="label" mb={4}>Subscribe to updates</Text>
+            <Text variant="meta" mb="sm">
               A floating corner dialog with a hairline edge and real depth.
             </Text>
             <Group gap="xs" justify="flex-end">
@@ -413,7 +413,7 @@ export function Section() {
                 background: 'var(--app-bg)',
               }}
             >
-              <Text fz="xs" c="dimmed">Rate limit, retries and webhook secrets live here.</Text>
+              <Text variant="meta">Rate limit, retries and webhook secrets live here.</Text>
               <Progress value={30} size="xs" />
             </Stack>
           </Collapse>

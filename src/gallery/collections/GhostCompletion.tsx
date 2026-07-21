@@ -95,17 +95,10 @@ export function GhostCompletion() {
   return (
     <Box className={classes.wrap}>
       <Paper
+        variant="panel"
         radius="lg"
         w="100%"
-        styles={{
-          root: {
-            maxWidth: 620,
-            background: 'var(--app-surface)',
-            border: '1px solid var(--app-border)',
-            boxShadow: 'var(--app-shadow-raised)',
-            overflow: 'hidden',
-          },
-        }}
+        styles={{ root: { maxWidth: 620, overflow: 'hidden' } }}
       >
         <Stack gap={0}>
           {/* Header — product identity + a live "AI on" marker. */}
@@ -117,7 +110,7 @@ export function GhostCompletion() {
           >
             <Group gap={9}>
               <GradientMark size={15} />
-              <Text fz="sm" fw={600}>
+              <Text variant="label">
                 Northwind Composer
               </Text>
             </Group>
@@ -140,7 +133,7 @@ export function GhostCompletion() {
           </Group>
 
           <Box p="lg">
-            <Text className="eyebrow" mb={8}>
+            <Text variant="eyebrow" mb={8}>
               Release notes · draft
             </Text>
 
@@ -168,7 +161,7 @@ export function GhostCompletion() {
                   {!reduced && phase === 'pause' && (
                     <span className={classes.thinking}>
                       <span className={classes.thinkingDot} aria-hidden />
-                      <Text component="span" fz="xs" c="dimmed">
+                      <Text variant="meta" component="span">
                         thinking
                       </Text>
                     </span>
@@ -189,7 +182,7 @@ export function GhostCompletion() {
 
             {/* Footer — status line + explicit accept affordance. */}
             <Group justify="space-between" mt="md">
-              <Text fz="xs" c="dimmed">
+              <Text variant="meta">
                 {reduced
                   ? 'Suggestion ready'
                   : phase === 'pause'

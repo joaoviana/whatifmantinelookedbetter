@@ -32,7 +32,7 @@ export function Specimen({
       }}
     >
       <Group justify="space-between" px="md" py={8} style={{ borderBottom: '1px solid var(--app-border)' }}>
-        <Text className="eyebrow">{name}</Text>
+        <Text variant="eyebrow">{name}</Text>
         {hint && (
           <Text fz={11} c="dimmed">
             {hint}
@@ -81,11 +81,11 @@ export function TwoUp({ children }: { children: ReactNode }) {
 export function SectionIntro({ label, title, description }: { label: string; title: string; description: string }) {
   return (
     <Stack gap={4} mb="lg">
-      <Text className="eyebrow">{label}</Text>
+      <Text variant="eyebrow">{label}</Text>
       <Text fw={600} lts="-0.02em" style={{ fontSize: 'clamp(18px, 5vw, 22px)' }}>
         {title}
       </Text>
-      <Text c="dimmed" fz="sm" maw={620}>
+      <Text variant="secondary" maw={620}>
         {description}
       </Text>
     </Stack>

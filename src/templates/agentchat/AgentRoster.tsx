@@ -69,7 +69,7 @@ export function AgentRoster() {
       }}
     >
       <Stack gap={2} style={{ flex: '0 0 auto' }}>
-        <Text className="eyebrow">Team</Text>
+        <Text variant="eyebrow">Team</Text>
         <Text fz={12.5} fw={500} c="var(--app-muted)" style={{ whiteSpace: 'nowrap' }}>
           {activeCount} agents collaborating
         </Text>

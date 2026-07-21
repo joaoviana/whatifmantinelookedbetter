@@ -76,7 +76,7 @@ export function DataTableToolbar() {
 
   return (
     <div className={classes.wrap}>
-      <Paper className={classes.panel} p={0} radius="lg">
+      <Paper variant="panel" className={classes.panel} p={0} radius="lg">
         {/* ── Toolbar ─────────────────────────────────────────── */}
         <Group className={classes.toolbar} justify="space-between" wrap="wrap" gap="sm">
           <TextInput

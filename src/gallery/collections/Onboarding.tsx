@@ -83,7 +83,7 @@ export function Onboarding() {
         {/* Header — eyebrow + progress meter */}
         <Stack gap={4} p="lg" pb="md">
           <Group justify="space-between" align="center">
-            <span className="eyebrow">Get started</span>
+            <Text variant="eyebrow" span>Get started</Text>
             <Text size="xs" c="dimmed" fw={500} style={{ fontVariantNumeric: 'tabular-nums' }}>
               Step {active + 1} of {STEP_COUNT}
             </Text>

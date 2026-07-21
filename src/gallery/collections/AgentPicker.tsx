@@ -99,7 +99,7 @@ export function AgentPicker() {
   return (
     <div className={classes.wrap}>
       <div className={classes.head}>
-        <Text className="eyebrow" component="p">
+        <Text variant="eyebrow" component="p">
           Agents
         </Text>
         <Title order={3} className={classes.title} mt={6}>

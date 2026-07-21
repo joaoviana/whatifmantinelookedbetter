@@ -20,12 +20,11 @@
 }
 
 /* The reply card — a quiet raised surface, capped for readable measure. */
+/* Surface, hairline and raised shadow all come from variant="panel" — this
+   keeps only the measure. */
 .card {
   width: 100%;
   max-width: 640px;
-  background: var(--app-surface);
-  border: 1px solid var(--app-border);
-  box-shadow: var(--app-shadow-raised);
 }
 
 .head {

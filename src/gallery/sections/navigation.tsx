@@ -176,17 +176,17 @@ export function Section() {
               </Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="general" px="md" pt={2}>
-              <Text fz="sm" c="dimmed">
+              <Text variant="secondary">
                 Workspace name, locale and defaults.
               </Text>
             </Tabs.Panel>
             <Tabs.Panel value="notifs" px="md" pt={2}>
-              <Text fz="sm" c="dimmed">
+              <Text variant="secondary">
                 Email and in-app notification rules.
               </Text>
             </Tabs.Panel>
             <Tabs.Panel value="security" px="md" pt={2}>
-              <Text fz="sm" c="dimmed">
+              <Text variant="secondary">
                 Sessions, 2FA and access tokens.
               </Text>
             </Tabs.Panel>
@@ -253,7 +253,7 @@ export function Section() {
               ].map((name, i) => (
                 <Group key={name} justify="space-between" px="sm" py={6}>
                   <Text fz="sm">{name}</Text>
-                  <Text fz="xs" c="dimmed">
+                  <Text variant="meta">
                     #{String(i + 1).padStart(2, '0')}
                   </Text>
                 </Group>
@@ -285,7 +285,7 @@ export function Section() {
               onClick={() => setBurgerOpen((o) => !o)}
               aria-label="Toggle navigation"
             />
-            <Text fz="sm" c="dimmed">
+            <Text variant="secondary">
               {burgerOpen ? 'Menu open' : 'Menu closed'}
             </Text>
           </Group>
@@ -346,11 +346,11 @@ export function Section() {
 
       {/* ── Layout primitives ─────────────────────────────────────────── */}
       <Stack gap={4}>
-        <Text className="eyebrow">
+        <Text variant="eyebrow">
           <Palette size={12} style={{ verticalAlign: '-2px', marginRight: 6 }} />
           Layout primitives
         </Text>
-        <Text c="dimmed" fz="sm" maw={620}>
+        <Text variant="secondary" maw={620}>
           The spacing and grid system made visible — the scaffolding every screen is composed from.
         </Text>
       </Stack>
