@@ -7,6 +7,8 @@ import {
   type VariantColorsResolver,
 } from '@mantine/core';
 
+import type { AppTokens } from './tokens.types';
+
 /**
  * ─────────────────────────────────────────────────────────────
  *  BASE TOKENS — colors, type, radius.
@@ -61,6 +63,19 @@ const variantColorResolver: VariantColorsResolver = (input) => {
 export const baseTheme = {
   colors: { neutral, dark, accent },
 
+  other: {
+    motion: {
+      ease: {
+        // The house curve. 81 hand-written copies of this existed before it
+        // had a name; four near-identical variants had drifted alongside it.
+        out: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        inOut: 'cubic-bezier(0.65, 0, 0.35, 1)',
+      },
+      duration: { instant: 120, fast: 160, base: 220, slow: 420 },
+    },
+  } satisfies AppTokens,
+
   // Filled controls: near-black (light) / near-white (dark).
   primaryColor: 'neutral',
   primaryShade: { light: 9, dark: 0 },
@@ -97,7 +112,7 @@ export const baseTheme = {
  * - --app-control-height-*        : consistent control heights across the set
  * - --app-focus-ring              : a calm, crisp focus halo
  */
-export const cssVariablesResolver: CSSVariablesResolver = () => ({
+export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
   variables: {
     // Consistent base heights — inputs & buttons share these.
     // Sized to comfortably fit content (never clip the label).
@@ -106,6 +121,14 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
     '--app-control-height-md': '42px',
     '--app-control-height-lg': '48px',
     '--app-control-height-xl': '58px',
+
+    '--app-ease-out': theme.other.motion.ease.out,
+    '--app-ease-spring': theme.other.motion.ease.spring,
+    '--app-ease-in-out': theme.other.motion.ease.inOut,
+    '--app-duration-instant': `${theme.other.motion.duration.instant}ms`,
+    '--app-duration-fast': `${theme.other.motion.duration.fast}ms`,
+    '--app-duration-base': `${theme.other.motion.duration.base}ms`,
+    '--app-duration-slow': `${theme.other.motion.duration.slow}ms`,
   },
   light: {
     /* Filled primary is near-black in light → its text/icon must be light. */
