@@ -66,12 +66,15 @@ export function SourceCitations() {
   const sourcesById = new Map(SOURCES.map((s) => [s.id, s]));
   const revealed = reducedMotion || shown;
 
-  const renderMarker = (id: number) => {
+  // `key` is the segment's position, not the citation id: the same source can
+  // legitimately be cited more than once (id 1 appears twice in ANSWER), so
+  // keying on the id gives sibling markers a duplicate key.
+  const renderMarker = (id: number, index: number) => {
     const source = sourcesById.get(id);
     if (!source) return null;
     return (
       <HoverCard
-        key={`m-${id}`}
+        key={`m-${index}`}
         width={264}
         shadow="md"
         radius="md"
@@ -114,7 +117,7 @@ export function SourceCitations() {
         <p className={classes.answer}>
           {ANSWER.map((seg, i) =>
             typeof seg === 'number' ? (
-              renderMarker(seg)
+              renderMarker(seg, i)
             ) : (
               <Fragment key={`t-${i}`}>{seg}</Fragment>
             ),

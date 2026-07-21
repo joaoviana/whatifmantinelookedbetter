@@ -34,7 +34,7 @@
   .card,
   .paper {
     transition:
-      transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 200ms var(--app-ease-out),
       border-color 200ms ease,
       box-shadow 200ms ease;
   }
@@ -63,6 +63,7 @@
 
 /* Timeline bullets sit cleanly on whatever surface they're on. */
 .timelineBullet {
+  border-width: 1px;
   border-color: var(--app-border-strong);
   background-color: var(--app-surface);
   color: var(--mantine-color-dimmed);

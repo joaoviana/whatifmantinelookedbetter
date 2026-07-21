@@ -8,7 +8,7 @@
  * most. Toggles adopt the reference pattern (transparent + primary border,
  * primary fill when on). Switch gets a premium, well-proportioned redesign
  * and dropdowns get a refined, animated surface.
- * Motion: 150ms cubic-bezier(0.22, 1, 0.36, 1), reduced-motion aware.
+ * Motion: 150ms var(--app-ease-out), reduced-motion aware.
  */
 
 /* ── Text fields: TextInput, Textarea, Select, NumberInput, PasswordInput,
@@ -30,9 +30,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .input {
     transition:
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out),
+      background-color 150ms var(--app-ease-out);
   }
 }
 
@@ -68,9 +68,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .checkbox {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
 }
 
@@ -117,9 +117,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .radio {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
 }
 
@@ -158,14 +158,14 @@
 @media (prefers-reduced-motion: no-preference) {
   .switchTrack {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
   .switchThumb {
     transition:
-      inset-inline-start 160ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      inset-inline-start 160ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
 }
 
@@ -193,51 +193,9 @@
   box-shadow: var(--app-focus-ring);
 }
 
-/* ── SegmentedControl — recessed track, 500-weight dimmed→text labels,
-   crisp raised active indicator ── */
-.segmented {
-  background-color: var(--mantine-color-default-hover);
-  border: 1px solid var(--mantine-color-default-border);
-}
-
-.segmentedLabel {
-  font-weight: 500;
-  letter-spacing: -0.006em;
-  color: var(--mantine-color-dimmed);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .segmentedLabel {
-    transition: color 150ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-}
-
-/* Hover raises inactive labels to full text colour. */
-.segmentedLabel:not([data-disabled]):hover {
-  color: var(--mantine-color-text);
-}
-
-/* Active label snaps to full text colour. */
-.segmentedLabel[data-active] {
-  color: var(--mantine-color-text);
-}
-
-.segmentedIndicator {
-  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-4));
-  border: 1px solid light-dark(var(--mantine-color-neutral-2), var(--mantine-color-dark-3));
-  box-shadow: var(--app-shadow-raised);
-  border-radius: var(--mantine-radius-sm);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .segmentedIndicator {
-    transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-}
-
 /* ── Dropdowns (Select / Autocomplete / MultiSelect / TagsInput) ──
-   Body surface, hairline border, md radius, tidy padding; hover + selected
-   both settle on default-hover so the row highlight stays quiet. */
+   Body surface, hairline border, md radius, tidy padding; hover settles on
+   default-hover, selected takes the filled primary treatment. */
 .dropdown {
   background-color: var(--mantine-color-body);
   border: 1px solid var(--mantine-color-default-border);
@@ -246,27 +204,71 @@
   padding: 4px;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .dropdown {
+    transition: opacity 150ms ease, transform 150ms var(--app-ease-out);
+  }
+}
+
 .option {
   border-radius: var(--mantine-radius-sm);
-  padding: 7px 10px;
+  padding-block: 6px;
+  padding-inline: 9px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .option {
-    transition: background-color 120ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 120ms var(--app-ease-out);
   }
 }
 
-.option:hover:not([data-combobox-disabled]) {
+.option:hover:not([data-combobox-disabled]),
+.option[data-combobox-active] {
   background-color: var(--mantine-color-default-hover);
 }
 
-/* Selected (and keyboard-highlighted) rows stay subtle — the check icon,
-   not a heavy fill, signals selection. */
+/* Selected rows take the filled primary treatment — a solid, unambiguous
+   signal rather than a quiet hover-tinted state. */
 .option[data-combobox-selected] {
-  background-color: var(--mantine-color-default-hover);
-  color: var(--mantine-color-text);
+  background-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-contrast);
+}
+
+/* ── Pills (MultiSelect / TagsInput / PillsInput) — chic bordered chips
+   instead of grey blobs: surface bg, hairline border, 500 weight, a cleaner
+   remove button that firms up on hover. ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--app-surface);
+  border: 1px solid var(--mantine-color-default-border);
   font-weight: 500;
+}
+
+.pillLabel {
+  height: inherit;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pillRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--app-muted);
+  border-radius: 999px;
+  margin-inline-start: 1px;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.pillRemove:hover {
+  color: var(--mantine-color-text);
+  background-color: var(--mantine-color-default-hover);
+}
+.pillRemove svg {
+  display: block;
+  stroke-width: 1.5;
+  width: 0.72em;
+  height: 0.72em;
 }
 
 /* ── Slider ── */
@@ -279,8 +281,8 @@
 @media (prefers-reduced-motion: no-preference) {
   .sliderThumb {
     transition:
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow 150ms var(--app-ease-out),
+      transform 150ms var(--app-ease-out);
   }
 }
 
@@ -299,7 +301,7 @@
 
 /* ── Rating ── */
 .ratingStar {
-  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 150ms var(--app-ease-out);
 }
 
 @media (prefers-reduced-motion: no-preference) {

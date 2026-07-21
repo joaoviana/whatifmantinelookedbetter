@@ -7,9 +7,13 @@ import {
   type VariantColorsResolver,
 } from '@mantine/core';
 
+import type { AppTokens } from './tokens.types';
+
 /**
  * ─────────────────────────────────────────────────────────────
- *  BASE TOKENS — colors, type, radius, shadows.
+ *  BASE TOKENS — colors, type, radius.
+ *  (Shadows are NOT here: they must flip per color scheme, so they live in
+ *  the light/dark branches of `cssVariablesResolver` below.)
  *  Aesthetic target: Attio / Linear / Vercel — refined monochrome,
  *  hairline borders, small radii, quiet shadows, crisp typography,
  *  subtle motion. Per-component styling lives in ./components/*.
@@ -59,6 +63,93 @@ const variantColorResolver: VariantColorsResolver = (input) => {
 export const baseTheme = {
   colors: { neutral, dark, accent },
 
+  other: {
+    motion: {
+      ease: {
+        // The house curve. 81 hand-written copies of this existed before it
+        // had a name; four near-identical variants had drifted alongside it.
+        out: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        inOut: 'cubic-bezier(0.65, 0, 0.35, 1)',
+      },
+      duration: { instant: 120, fast: 160, base: 220, slow: 420 },
+    },
+    // The three the Mantine radius scale cannot express (it starts at xs: 5px
+    // and stops at xl: 16px). 41 hardcoded `999px` existed before this.
+    radius: { pill: '999px', nub: '2px', hairline: '1px' },
+    // elevation/surface are scheme-sensitive: each token carries its light and
+    // dark value here, and `cssVariablesResolver` below just reads through
+    // into the matching branch. theme.other is the single source of truth
+    // for every family — including these two.
+    elevation: {
+      flat: { light: 'none', dark: 'none' },
+      raised: { light: 'var(--app-shadow-raised)', dark: 'var(--app-shadow-raised)' },
+      overlay: { light: 'var(--mantine-shadow-md)', dark: 'var(--mantine-shadow-md)' },
+      modal: { light: 'var(--mantine-shadow-lg)', dark: 'var(--mantine-shadow-lg)' },
+    },
+    surface: {
+      invertedBg: { light: 'var(--mantine-color-dark-6)', dark: 'var(--mantine-color-dark-4)' },
+      invertedText: { light: 'rgba(255,255,255,0.86)', dark: 'var(--mantine-color-dark-0)' },
+      scrim: { light: 'rgba(9,9,11,0.35)', dark: 'rgba(0,0,0,0.62)' },
+      punchoutRing: { light: 'var(--app-bg)', dark: 'var(--app-bg)' },
+      pulseRing: {
+        light: 'color-mix(in srgb, var(--mantine-color-text) 35%, transparent)',
+        dark: 'color-mix(in srgb, var(--mantine-color-text) 30%, transparent)',
+      },
+      activePress: { light: 'var(--app-border)', dark: 'var(--app-border)' },
+      onFill: {
+        light: 'var(--mantine-primary-color-contrast)',
+        dark: 'var(--mantine-primary-color-contrast)',
+      },
+      focusRingError: {
+        light: '0 0 0 3px rgba(224,49,49,0.16)',
+        dark: '0 0 0 3px rgba(255,120,120,0.20)',
+      },
+    },
+    type: {
+      tracking: { tight: '-0.025em', snug: '-0.011em', normal: '-0.006em', label: '0.04em' },
+      // Written by hand three times before this, with 0.06em vs 0.04em drift.
+      eyebrow: { fontSize: '11px', letterSpacing: '0.04em', textTransform: 'uppercase' },
+    },
+    // The shared menu / combobox-option / tree-label inset, previously three
+    // different values (6px/9px, 7px/10px, 4px/8px). 6px/9px chosen to match
+    // .option (inputs.module.css) and .menuItem (navigation.module.css),
+    // which already ship padding-block: 6px; padding-inline: 9px.
+    space: { rowInset: '6px 9px' },
+    // state is scheme-sensitive (each slot flips with the color scheme), so —
+    // like elevation/surface above — it carries light/dark pairs here and
+    // cssVariablesResolver just reads through into the matching branch.
+    state: {
+      success: {
+        surface: { light: 'var(--mantine-color-teal-0)', dark: 'var(--mantine-color-teal-9)' },
+        border: { light: 'var(--mantine-color-teal-3)', dark: 'var(--mantine-color-teal-7)' },
+        text: { light: 'var(--mantine-color-teal-8)', dark: 'var(--mantine-color-teal-3)' },
+      },
+      warning: {
+        surface: {
+          light: 'var(--mantine-color-yellow-0)',
+          dark: 'var(--mantine-color-yellow-9)',
+        },
+        border: {
+          light: 'var(--mantine-color-yellow-3)',
+          dark: 'var(--mantine-color-yellow-7)',
+        },
+        text: { light: 'var(--mantine-color-yellow-8)', dark: 'var(--mantine-color-yellow-3)' },
+      },
+      danger: {
+        surface: { light: 'var(--mantine-color-red-0)', dark: 'var(--mantine-color-red-9)' },
+        border: { light: 'var(--mantine-color-red-3)', dark: 'var(--mantine-color-red-7)' },
+        text: { light: 'var(--mantine-color-red-8)', dark: 'var(--mantine-color-red-3)' },
+      },
+      info: {
+        surface: { light: 'var(--mantine-color-accent-0)', dark: 'var(--mantine-color-accent-9)' },
+        border: { light: 'var(--mantine-color-accent-3)', dark: 'var(--mantine-color-accent-7)' },
+        text: { light: 'var(--mantine-color-accent-8)', dark: 'var(--mantine-color-accent-3)' },
+      },
+    },
+    z: { base: 1, sticky: 100, dropdown: 300, overlay: 400, modal: 500, toast: 600 },
+  } satisfies AppTokens,
+
   // Filled controls: near-black (light) / near-white (dark).
   primaryColor: 'neutral',
   primaryShade: { light: 9, dark: 0 },
@@ -78,21 +169,14 @@ export const baseTheme = {
       h1: { fontSize: rem(34), lineHeight: '1.15', fontWeight: '600' },
       h2: { fontSize: rem(26), lineHeight: '1.2', fontWeight: '600' },
       h3: { fontSize: rem(20), lineHeight: '1.3', fontWeight: '600' },
+      h4: { fontSize: rem(17), lineHeight: '1.35', fontWeight: '600' },
+      h5: { fontSize: rem(15), lineHeight: '1.4', fontWeight: '600' },
+      h6: { fontSize: rem(13), lineHeight: '1.45', fontWeight: '600' },
     },
   },
 
   defaultRadius: 'md',
   radius: { xs: rem(5), sm: rem(6), md: rem(8), lg: rem(12), xl: rem(16) },
-
-  // Chewy, layered shadows — border + soft depth. Multi-layer so surfaces
-  // feel tactile and substantial (the Vercel / Linear / Attio signature).
-  shadows: {
-    xs: '0 1px 2px rgba(9,9,11,0.05), 0 1px 1px rgba(9,9,11,0.04)',
-    sm: '0 1px 2px rgba(9,9,11,0.05), 0 2px 4px rgba(9,9,11,0.05), 0 4px 8px rgba(9,9,11,0.03)',
-    md: '0 2px 4px rgba(9,9,11,0.04), 0 4px 8px rgba(9,9,11,0.05), 0 8px 16px rgba(9,9,11,0.05)',
-    lg: '0 4px 8px rgba(9,9,11,0.04), 0 8px 20px rgba(9,9,11,0.06), 0 16px 32px rgba(9,9,11,0.06)',
-    xl: '0 8px 24px rgba(9,9,11,0.08), 0 16px 40px rgba(9,9,11,0.08), 0 32px 64px rgba(9,9,11,0.06)',
-  },
 
   cursorType: 'pointer',
   focusRing: 'auto',
@@ -105,7 +189,7 @@ export const baseTheme = {
  * - --app-control-height-*        : consistent control heights across the set
  * - --app-focus-ring              : a calm, crisp focus halo
  */
-export const cssVariablesResolver: CSSVariablesResolver = () => ({
+export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
   variables: {
     // Consistent base heights — inputs & buttons share these.
     // Sized to comfortably fit content (never clip the label).
@@ -114,6 +198,35 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
     '--app-control-height-md': '42px',
     '--app-control-height-lg': '48px',
     '--app-control-height-xl': '58px',
+
+    '--app-ease-out': theme.other.motion.ease.out,
+    '--app-ease-spring': theme.other.motion.ease.spring,
+    '--app-ease-in-out': theme.other.motion.ease.inOut,
+    '--app-duration-instant': `${theme.other.motion.duration.instant}ms`,
+    '--app-duration-fast': `${theme.other.motion.duration.fast}ms`,
+    '--app-duration-base': `${theme.other.motion.duration.base}ms`,
+    '--app-duration-slow': `${theme.other.motion.duration.slow}ms`,
+
+    '--app-radius-pill': theme.other.radius.pill,
+    '--app-radius-nub': theme.other.radius.nub,
+    '--app-radius-hairline': theme.other.radius.hairline,
+
+    '--app-tracking-tight': theme.other.type.tracking.tight,
+    '--app-tracking-snug': theme.other.type.tracking.snug,
+    '--app-tracking-normal': theme.other.type.tracking.normal,
+    '--app-tracking-label': theme.other.type.tracking.label,
+    '--app-eyebrow-font-size': theme.other.type.eyebrow.fontSize,
+    '--app-eyebrow-letter-spacing': theme.other.type.eyebrow.letterSpacing,
+    '--app-eyebrow-text-transform': theme.other.type.eyebrow.textTransform,
+
+    '--app-row-inset': theme.other.space.rowInset,
+
+    '--app-z-base': String(theme.other.z.base),
+    '--app-z-sticky': String(theme.other.z.sticky),
+    '--app-z-dropdown': String(theme.other.z.dropdown),
+    '--app-z-overlay': String(theme.other.z.overlay),
+    '--app-z-modal': String(theme.other.z.modal),
+    '--app-z-toast': String(theme.other.z.toast),
   },
   light: {
     /* Filled primary is near-black in light → its text/icon must be light. */
@@ -129,6 +242,46 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
     '--app-shadow-raised-hover': '0 2px 4px rgba(9,9,11,0.08), 0 1px 2px rgba(9,9,11,0.05)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.10)',
     '--app-focus-ring': '0 0 0 3px rgba(9,9,11,0.10)',
+    // Chewy, layered shadows — border + soft depth. Multi-layer so surfaces
+    // feel tactile and substantial (the Vercel / Linear / Attio signature).
+    '--mantine-shadow-xs': '0 1px 2px rgba(9,9,11,0.05), 0 1px 1px rgba(9,9,11,0.04)',
+    '--mantine-shadow-sm':
+      '0 1px 2px rgba(9,9,11,0.05), 0 2px 4px rgba(9,9,11,0.05), 0 4px 8px rgba(9,9,11,0.03)',
+    '--mantine-shadow-md':
+      '0 2px 4px rgba(9,9,11,0.04), 0 4px 8px rgba(9,9,11,0.05), 0 8px 16px rgba(9,9,11,0.05)',
+    '--mantine-shadow-lg':
+      '0 4px 8px rgba(9,9,11,0.04), 0 8px 20px rgba(9,9,11,0.06), 0 16px 32px rgba(9,9,11,0.06)',
+    '--mantine-shadow-xl':
+      '0 8px 24px rgba(9,9,11,0.08), 0 16px 40px rgba(9,9,11,0.08), 0 32px 64px rgba(9,9,11,0.06)',
+
+    // Names the *role* over the shadow scale, so changing overlay depth
+    // becomes one edit instead of six files. Values live on theme.other —
+    // this just reads through into the light branch.
+    '--app-elevation-flat': theme.other.elevation.flat.light,
+    '--app-elevation-raised': theme.other.elevation.raised.light,
+    '--app-elevation-overlay': theme.other.elevation.overlay.light,
+    '--app-elevation-modal': theme.other.elevation.modal.light,
+    '--app-surface-inverted-bg': theme.other.surface.invertedBg.light,
+    '--app-surface-inverted-text': theme.other.surface.invertedText.light,
+    '--app-surface-scrim': theme.other.surface.scrim.light,
+    '--app-surface-punchout-ring': theme.other.surface.punchoutRing.light,
+    '--app-surface-pulse-ring': theme.other.surface.pulseRing.light,
+    '--app-surface-active-press': theme.other.surface.activePress.light,
+    '--app-surface-on-fill': theme.other.surface.onFill.light,
+    '--app-surface-focus-ring-error': theme.other.surface.focusRingError.light,
+
+    '--app-state-success-surface': theme.other.state.success.surface.light,
+    '--app-state-success-border': theme.other.state.success.border.light,
+    '--app-state-success-text': theme.other.state.success.text.light,
+    '--app-state-warning-surface': theme.other.state.warning.surface.light,
+    '--app-state-warning-border': theme.other.state.warning.border.light,
+    '--app-state-warning-text': theme.other.state.warning.text.light,
+    '--app-state-danger-surface': theme.other.state.danger.surface.light,
+    '--app-state-danger-border': theme.other.state.danger.border.light,
+    '--app-state-danger-text': theme.other.state.danger.text.light,
+    '--app-state-info-surface': theme.other.state.info.surface.light,
+    '--app-state-info-border': theme.other.state.info.border.light,
+    '--app-state-info-text': theme.other.state.info.text.light,
   },
   dark: {
     /* Filled primary is near-white in dark → its text/icon must be dark. */
@@ -143,5 +296,45 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
     '--app-shadow-raised-hover': '0 2px 6px rgba(0,0,0,0.50), 0 1px 2px rgba(0,0,0,0.35)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.06)',
     '--app-focus-ring': '0 0 0 3px rgba(255,255,255,0.14)',
+    '--mantine-shadow-xs': '0 1px 2px rgba(0,0,0,0.40), 0 1px 1px rgba(0,0,0,0.30)',
+    '--mantine-shadow-sm':
+      '0 1px 2px rgba(0,0,0,0.44), 0 2px 4px rgba(0,0,0,0.36), 0 4px 8px rgba(0,0,0,0.28)',
+    '--mantine-shadow-md':
+      '0 2px 4px rgba(0,0,0,0.44), 0 4px 8px rgba(0,0,0,0.40), 0 8px 16px rgba(0,0,0,0.34)',
+    '--mantine-shadow-lg':
+      '0 4px 8px rgba(0,0,0,0.46), 0 8px 20px rgba(0,0,0,0.44), 0 16px 32px rgba(0,0,0,0.38)',
+    '--mantine-shadow-xl':
+      '0 8px 24px rgba(0,0,0,0.52), 0 16px 40px rgba(0,0,0,0.48), 0 32px 64px rgba(0,0,0,0.42)',
+
+    // The elevation aliases below are identical text to the light branch —
+    // they resolve through already-scheme-aware vars (--app-shadow-raised,
+    // --mantine-shadow-md/lg), so they stay per-scheme on purpose: a future
+    // divergence becomes a one-line change instead of a restructure.
+    '--app-elevation-flat': theme.other.elevation.flat.dark,
+    '--app-elevation-raised': theme.other.elevation.raised.dark,
+    '--app-elevation-overlay': theme.other.elevation.overlay.dark,
+    '--app-elevation-modal': theme.other.elevation.modal.dark,
+    '--app-surface-inverted-bg': theme.other.surface.invertedBg.dark,
+    '--app-surface-inverted-text': theme.other.surface.invertedText.dark,
+    // Pure black over a #0a0a0b body gives no separation; lift the scrim.
+    '--app-surface-scrim': theme.other.surface.scrim.dark,
+    '--app-surface-punchout-ring': theme.other.surface.punchoutRing.dark,
+    '--app-surface-pulse-ring': theme.other.surface.pulseRing.dark,
+    '--app-surface-active-press': theme.other.surface.activePress.dark,
+    '--app-surface-on-fill': theme.other.surface.onFill.dark,
+    '--app-surface-focus-ring-error': theme.other.surface.focusRingError.dark,
+
+    '--app-state-success-surface': theme.other.state.success.surface.dark,
+    '--app-state-success-border': theme.other.state.success.border.dark,
+    '--app-state-success-text': theme.other.state.success.text.dark,
+    '--app-state-warning-surface': theme.other.state.warning.surface.dark,
+    '--app-state-warning-border': theme.other.state.warning.border.dark,
+    '--app-state-warning-text': theme.other.state.warning.text.dark,
+    '--app-state-danger-surface': theme.other.state.danger.surface.dark,
+    '--app-state-danger-border': theme.other.state.danger.border.dark,
+    '--app-state-danger-text': theme.other.state.danger.text.dark,
+    '--app-state-info-surface': theme.other.state.info.surface.dark,
+    '--app-state-info-border': theme.other.state.info.border.dark,
+    '--app-state-info-text': theme.other.state.info.text.dark,
   },
 });

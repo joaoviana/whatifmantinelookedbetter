@@ -7,7 +7,7 @@
  * Feel: filled controls lift out of the surface (inset highlight + raised
  * shadow); default/outline sit on a raised depth with a strong hairline;
  * hover deepens the raise; :active settles 1px down and drops the lift —
- * a satisfying, chewy press. Motion is 150ms cubic-bezier(0.22,1,0.36,1),
+ * a satisfying, chewy press. Motion is 150ms var(--app-ease-out),
  * always behind prefers-reduced-motion.
  */
 
@@ -20,16 +20,16 @@
   .kbd,
   .cardRow {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out),
+      transform 150ms var(--app-ease-out);
   }
 }
 
 .anchor {
-  transition: color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: color 150ms var(--app-ease-out);
 }
 
 /* ── Resting depth ──────────────────────────────────────────────── */

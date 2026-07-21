@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import type { CSSProperties } from 'react';
 import classes from './navigation.module.css';
+import { baseTheme } from '../tokens';
 
 /**
  * GROUP: Navigation & Layout
@@ -23,6 +24,11 @@ import classes from './navigation.module.css';
  * Pseudo-states (:hover / :active / [data-active]) live in the CSS module;
  * flat props here, autoContrast drives active colours in both schemes.
  */
+
+// Shared "pop" open/close recipe for dropdown-style overlays (Menu here;
+// mirrored in inputs.ts's comboboxProps and feedback.ts's popIn).
+const POP = { transition: 'pop', duration: baseTheme.other.motion.duration.fast } as const;
+
 export const navigationComponents = {
   Tabs: Tabs.extend({
     defaultProps: { color: 'neutral' },
@@ -91,7 +97,7 @@ export const navigationComponents = {
       radius: 'md',
       shadow: 'md',
       withArrow: false,
-      transitionProps: { transition: 'pop', duration: 150 },
+      transitionProps: POP,
     },
     classNames: {
       dropdown: classes.menuDropdown,
@@ -105,7 +111,7 @@ export const navigationComponents = {
         textTransform: 'uppercase',
         color: 'var(--app-muted)',
       },
-      divider: { borderColor: 'var(--app-border)' },
+      divider: { borderColor: 'var(--mantine-color-default-border)' },
     },
   }),
 
