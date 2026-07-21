@@ -24,6 +24,30 @@
   padding: var(--card-padding) !important;
 }
 
+/* VARIANTS — the surface recipes the app re-authored by hand ~32 times.
+   `panel` is the plain bordered surface on the elevation scale; `glass` is the
+   same hairline over a translucent, blurred backdrop. */
+.panel {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  box-shadow: var(--app-elevation-raised);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--app-surface) 72%, transparent);
+  backdrop-filter: saturate(140%) blur(6px);
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+}
+
+/* `sectioned` hands all gutters to Card.Section; `roomy` is the airier card.
+   The gutter itself is set by the `vars` resolver in dataDisplay.ts — Mantine
+   writes --card-padding inline, so a class can't win. */
+.sectioned {
+  overflow: hidden;
+}
+
 /* Card.Section separators (withBorder) adopt the reference default-border so
    any bordered section aligns with the divider tone used inside compositions. */
 .cardSection {
