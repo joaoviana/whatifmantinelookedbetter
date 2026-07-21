@@ -23,6 +23,8 @@ import {
   ColorInput,
   ColorPicker,
   Fieldset,
+  Pill,
+  Combobox,
 } from '@mantine/core';
 import classes from './inputs.module.css';
 
@@ -236,6 +238,21 @@ export const inputsComponents = {
     classNames: {
       thumb: classes.sliderThumb,
       mark: classes.sliderMark,
+    },
+  }),
+
+  Pill: Pill.extend({
+    classNames: {
+      root: classes.pill,
+      label: classes.pillLabel,
+      remove: classes.pillRemove,
+    },
+  }),
+
+  Combobox: Combobox.extend({
+    classNames: {
+      dropdown: classes.dropdown,
+      option: classes.option,
     },
   }),
 };

@@ -104,48 +104,6 @@ kbd {
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Pills (MultiSelect / TagsInput / PillsInput) — chic bordered chips
-   instead of grey blobs: surface bg, hairline border, 500 weight,
-   a cleaner remove button that firms up on hover.
-   ───────────────────────────────────────────────────────────── */
-.mantine-Pill-root {
-  display: inline-flex;
-  align-items: center;
-  background-color: var(--app-surface);
-  border: 1px solid var(--mantine-color-default-border);
-  font-weight: 500;
-}
-
-/* Label fills the pill height so text + remove button sit centered. */
-.mantine-Pill-label {
-  height: inherit;
-  display: inline-flex;
-  align-items: center;
-}
-
-.mantine-Pill-remove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--app-muted);
-  border-radius: 999px;
-  /* Align the X optically with the label baseline. */
-  margin-inline-start: 1px;
-  transition: color 120ms ease, background-color 120ms ease;
-}
-.mantine-Pill-remove:hover {
-  color: var(--mantine-color-text);
-  background-color: var(--mantine-color-default-hover);
-}
-/* Thinner, more refined X glyph, centered in the button. */
-.mantine-Pill-remove svg {
-  display: block;
-  stroke-width: 1.5;
-  width: 0.72em;
-  height: 0.72em;
-}
-
 /* Timeline — thinner, more refined bullet border. */
 .mantine-Timeline-itemBullet {
   border-width: 1px;

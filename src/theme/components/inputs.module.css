@@ -227,6 +227,43 @@
   font-weight: 500;
 }
 
+/* ── Pills (MultiSelect / TagsInput / PillsInput) — chic bordered chips
+   instead of grey blobs: surface bg, hairline border, 500 weight, a cleaner
+   remove button that firms up on hover. ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--app-surface);
+  border: 1px solid var(--mantine-color-default-border);
+  font-weight: 500;
+}
+
+.pillLabel {
+  height: inherit;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pillRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--app-muted);
+  border-radius: 999px;
+  margin-inline-start: 1px;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.pillRemove:hover {
+  color: var(--mantine-color-text);
+  background-color: var(--mantine-color-default-hover);
+}
+.pillRemove svg {
+  display: block;
+  stroke-width: 1.5;
+  width: 0.72em;
+  height: 0.72em;
+}
+
 /* ── Slider ── */
 .sliderThumb {
   border: 1px solid light-dark(var(--mantine-color-neutral-3), var(--mantine-color-dark-2));
