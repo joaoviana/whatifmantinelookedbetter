@@ -63,7 +63,6 @@ export function GalleryShell({ registry }: { registry: GalleryRegistry }) {
                     label={s.meta.label}
                     href={`#${s.meta.id}`}
                     onClick={close}
-                    styles={{ root: { borderRadius: 'var(--mantine-radius-md)' } }}
                   />
                 ))}
               </Stack>
