@@ -64,6 +64,40 @@ export const baseTheme = {
   colors: { neutral, dark, accent },
 
   other: {
+    // The six-pastel AI palette + gradients — the most-copied literal set in
+    // the repo (8 hardcoded copies of #b3bbee alone). grain.opacity is the one
+    // scheme-sensitive member here (matches AgentAvatar.module.css:78 and
+    // AgentPicker.module.css:195); everything else is scheme-invariant.
+    ai: {
+      palette: {
+        1: '#b3bbee', // periwinkle — the anchor, 8 hardcoded copies
+        2: '#a2a8e2', // periwinkle deep
+        3: '#d6e4ff', // sky
+        4: '#e0d3fb', // lilac
+        5: '#f9dcf1', // blush
+        6: '#cef1f6', // mint
+      },
+      dotGradient:
+        'radial-gradient(120% 120% at 35% 30%, #e6ecff 0%, #b3bbee 60%, #a2a8e2 100%)',
+      specular:
+        'radial-gradient(56% 52% at 32% 26%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.14) 45%, rgba(255,255,255,0) 70%)',
+      glossRing: 'inset 0 0 0 1px rgba(255,255,255,0.5)',
+      // Transcribed verbatim from VoiceOrb.module.css:65-70 (the `.orb`
+      // background's multi-layer radial stack).
+      orbGradient:
+        'radial-gradient(58% 56% at 30% 26%, rgba(255, 255, 255, 0.92) 0%, transparent 54%), radial-gradient(60% 60% at 34% 28%, #d6e4ff 0%, transparent 60%), radial-gradient(52% 52% at 72% 30%, #cef1f6 0%, transparent 58%), radial-gradient(58% 58% at 70% 74%, #e0d3fb 0%, transparent 62%), radial-gradient(55% 55% at 30% 72%, #f9dcf1 0%, transparent 58%), radial-gradient(120% 120% at 50% 42%, #d5ddf8 0%, #b3bbee 70%, #a2a8e2 100%)',
+      // Transcribed verbatim from AskAiBar.module.css:217-222 (the
+      // `.shimmerLine::after` sweep gradient).
+      sheen:
+        'linear-gradient(90deg, transparent 0%, var(--mantine-color-default-border) 50%, transparent 100%)',
+      grain: {
+        // Transcribed verbatim from GradientMark.module.css:57 — byte-identical
+        // across GradientMark/AgentAvatar/AgentPicker/VoiceOrb.
+        image:
+          'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'2\' stitchTiles=\'stitch\'/%3E%3CfeColorMatrix type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+        opacity: { light: '0.07', dark: '0.13' },
+      },
+    },
     motion: {
       ease: {
         // The house curve. 81 hand-written copies of this existed before it
@@ -221,6 +255,19 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
 
     '--app-row-inset': theme.other.space.rowInset,
 
+    '--app-ai-1': theme.other.ai.palette[1],
+    '--app-ai-2': theme.other.ai.palette[2],
+    '--app-ai-3': theme.other.ai.palette[3],
+    '--app-ai-4': theme.other.ai.palette[4],
+    '--app-ai-5': theme.other.ai.palette[5],
+    '--app-ai-6': theme.other.ai.palette[6],
+    '--app-ai-orb-gradient': theme.other.ai.orbGradient,
+    '--app-ai-dot-gradient': theme.other.ai.dotGradient,
+    '--app-ai-specular': theme.other.ai.specular,
+    '--app-ai-sheen': theme.other.ai.sheen,
+    '--app-gloss-ring': theme.other.ai.glossRing,
+    '--app-grain-image': theme.other.ai.grain.image,
+
     '--app-z-base': String(theme.other.z.base),
     '--app-z-sticky': String(theme.other.z.sticky),
     '--app-z-dropdown': String(theme.other.z.dropdown),
@@ -242,6 +289,7 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     '--app-shadow-raised-hover': '0 2px 4px rgba(9,9,11,0.08), 0 1px 2px rgba(9,9,11,0.05)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.10)',
     '--app-focus-ring': '0 0 0 3px rgba(9,9,11,0.10)',
+    '--app-grain-opacity': theme.other.ai.grain.opacity.light,
     // Chewy, layered shadows — border + soft depth. Multi-layer so surfaces
     // feel tactile and substantial (the Vercel / Linear / Attio signature).
     '--mantine-shadow-xs': '0 1px 2px rgba(9,9,11,0.05), 0 1px 1px rgba(9,9,11,0.04)',
@@ -296,6 +344,7 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     '--app-shadow-raised-hover': '0 2px 6px rgba(0,0,0,0.50), 0 1px 2px rgba(0,0,0,0.35)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.06)',
     '--app-focus-ring': '0 0 0 3px rgba(255,255,255,0.14)',
+    '--app-grain-opacity': theme.other.ai.grain.opacity.dark,
     '--mantine-shadow-xs': '0 1px 2px rgba(0,0,0,0.40), 0 1px 1px rgba(0,0,0,0.30)',
     '--mantine-shadow-sm':
       '0 1px 2px rgba(0,0,0,0.44), 0 2px 4px rgba(0,0,0,0.36), 0 4px 8px rgba(0,0,0,0.28)',

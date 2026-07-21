@@ -4,6 +4,15 @@
  * `theme.other.*`; CSS modules read `var(--app-*)`. One source, two readers.
  */
 export interface AppTokens {
+  ai: {
+    palette: { 1: string; 2: string; 3: string; 4: string; 5: string; 6: string };
+    orbGradient: string;
+    dotGradient: string;
+    specular: string;
+    sheen: string;
+    glossRing: string;
+    grain: { image: string; opacity: { light: string; dark: string } };
+  };
   motion: {
     ease: { out: string; spring: string; inOut: string };
     duration: { instant: number; fast: number; base: number; slow: number };
