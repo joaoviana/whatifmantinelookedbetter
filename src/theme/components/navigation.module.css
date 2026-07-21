@@ -320,7 +320,10 @@
 
 .menuDropdown {
   background: var(--mantine-color-body);
-  border: 1px solid var(--app-border);
+  /* Must match the other floating surfaces (Combobox/Popover/HoverCard), which
+     all use --mantine-color-default-border. In light mode --app-border is a
+     different colour (#e4e4e7 vs #ced4da); they only coincide in dark. */
+  border: 1px solid var(--mantine-color-default-border);
 }
 
 @media (prefers-reduced-motion: no-preference) {
