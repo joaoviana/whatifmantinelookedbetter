@@ -9,17 +9,18 @@ export interface AppTokens {
     duration: { instant: number; fast: number; base: number; slow: number };
   };
   radius: { pill: string; nub: string; hairline: string };
-  elevation: { flat: string; raised: string; overlay: string; modal: string };
-  surface: {
-    invertedBg: string;
-    invertedText: string;
-    scrim: string;
-    punchoutRing: string;
-    pulseRing: string;
-    activePress: string;
-    onFill: string;
-    focusRingError: string;
-  };
+  elevation: Record<'flat' | 'raised' | 'overlay' | 'modal', { light: string; dark: string }>;
+  surface: Record<
+    | 'invertedBg'
+    | 'invertedText'
+    | 'scrim'
+    | 'punchoutRing'
+    | 'pulseRing'
+    | 'activePress'
+    | 'onFill'
+    | 'focusRingError',
+    { light: string; dark: string }
+  >;
 }
 
 declare module '@mantine/core' {

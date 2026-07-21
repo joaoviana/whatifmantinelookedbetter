@@ -77,25 +77,34 @@ export const baseTheme = {
     // The three the Mantine radius scale cannot express (it starts at xs: 5px
     // and stops at xl: 16px). 41 hardcoded `999px` existed before this.
     radius: { pill: '999px', nub: '2px', hairline: '1px' },
-    // elevation/surface are scheme-sensitive (their literal values live in the
-    // light/dark branches of `cssVariablesResolver` below), so the values
-    // here are just the CSS custom property references — always valid
-    // regardless of the active scheme, and safe for TS consumers to read.
+    // elevation/surface are scheme-sensitive: each token carries its light and
+    // dark value here, and `cssVariablesResolver` below just reads through
+    // into the matching branch. theme.other is the single source of truth
+    // for every family — including these two.
     elevation: {
-      flat: 'var(--app-elevation-flat)',
-      raised: 'var(--app-elevation-raised)',
-      overlay: 'var(--app-elevation-overlay)',
-      modal: 'var(--app-elevation-modal)',
+      flat: { light: 'none', dark: 'none' },
+      raised: { light: 'var(--app-shadow-raised)', dark: 'var(--app-shadow-raised)' },
+      overlay: { light: 'var(--mantine-shadow-md)', dark: 'var(--mantine-shadow-md)' },
+      modal: { light: 'var(--mantine-shadow-lg)', dark: 'var(--mantine-shadow-lg)' },
     },
     surface: {
-      invertedBg: 'var(--app-surface-inverted-bg)',
-      invertedText: 'var(--app-surface-inverted-text)',
-      scrim: 'var(--app-surface-scrim)',
-      punchoutRing: 'var(--app-surface-punchout-ring)',
-      pulseRing: 'var(--app-surface-pulse-ring)',
-      activePress: 'var(--app-surface-active-press)',
-      onFill: 'var(--app-surface-on-fill)',
-      focusRingError: 'var(--app-surface-focus-ring-error)',
+      invertedBg: { light: 'var(--mantine-color-dark-6)', dark: 'var(--mantine-color-dark-4)' },
+      invertedText: { light: 'rgba(255,255,255,0.86)', dark: 'var(--mantine-color-dark-0)' },
+      scrim: { light: 'rgba(9,9,11,0.35)', dark: 'rgba(0,0,0,0.62)' },
+      punchoutRing: { light: 'var(--app-bg)', dark: 'var(--app-bg)' },
+      pulseRing: {
+        light: 'color-mix(in srgb, var(--mantine-color-text) 35%, transparent)',
+        dark: 'color-mix(in srgb, var(--mantine-color-text) 30%, transparent)',
+      },
+      activePress: { light: 'var(--app-border)', dark: 'var(--app-border)' },
+      onFill: {
+        light: 'var(--mantine-primary-color-contrast)',
+        dark: 'var(--mantine-primary-color-contrast)',
+      },
+      focusRingError: {
+        light: '0 0 0 3px rgba(224,49,49,0.16)',
+        dark: '0 0 0 3px rgba(255,120,120,0.20)',
+      },
     },
   } satisfies AppTokens,
 
@@ -184,19 +193,20 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
       '0 8px 24px rgba(9,9,11,0.08), 0 16px 40px rgba(9,9,11,0.08), 0 32px 64px rgba(9,9,11,0.06)',
 
     // Names the *role* over the shadow scale, so changing overlay depth
-    // becomes one edit instead of six files.
-    '--app-elevation-flat': 'none',
-    '--app-elevation-raised': 'var(--app-shadow-raised)',
-    '--app-elevation-overlay': 'var(--mantine-shadow-md)',
-    '--app-elevation-modal': 'var(--mantine-shadow-lg)',
-    '--app-surface-inverted-bg': 'var(--mantine-color-dark-6)',
-    '--app-surface-inverted-text': 'rgba(255,255,255,0.86)',
-    '--app-surface-scrim': 'rgba(9,9,11,0.35)',
-    '--app-surface-punchout-ring': 'var(--app-bg)',
-    '--app-surface-pulse-ring': 'color-mix(in srgb, var(--mantine-color-text) 35%, transparent)',
-    '--app-surface-active-press': 'var(--app-border)',
-    '--app-surface-on-fill': 'var(--mantine-primary-color-contrast)',
-    '--app-surface-focus-ring-error': '0 0 0 3px rgba(224,49,49,0.16)',
+    // becomes one edit instead of six files. Values live on theme.other —
+    // this just reads through into the light branch.
+    '--app-elevation-flat': theme.other.elevation.flat.light,
+    '--app-elevation-raised': theme.other.elevation.raised.light,
+    '--app-elevation-overlay': theme.other.elevation.overlay.light,
+    '--app-elevation-modal': theme.other.elevation.modal.light,
+    '--app-surface-inverted-bg': theme.other.surface.invertedBg.light,
+    '--app-surface-inverted-text': theme.other.surface.invertedText.light,
+    '--app-surface-scrim': theme.other.surface.scrim.light,
+    '--app-surface-punchout-ring': theme.other.surface.punchoutRing.light,
+    '--app-surface-pulse-ring': theme.other.surface.pulseRing.light,
+    '--app-surface-active-press': theme.other.surface.activePress.light,
+    '--app-surface-on-fill': theme.other.surface.onFill.light,
+    '--app-surface-focus-ring-error': theme.other.surface.focusRingError.light,
   },
   dark: {
     /* Filled primary is near-white in dark → its text/icon must be dark. */
@@ -225,18 +235,18 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     // they resolve through already-scheme-aware vars (--app-shadow-raised,
     // --mantine-shadow-md/lg), so they stay per-scheme on purpose: a future
     // divergence becomes a one-line change instead of a restructure.
-    '--app-elevation-flat': 'none',
-    '--app-elevation-raised': 'var(--app-shadow-raised)',
-    '--app-elevation-overlay': 'var(--mantine-shadow-md)',
-    '--app-elevation-modal': 'var(--mantine-shadow-lg)',
-    '--app-surface-inverted-bg': 'var(--mantine-color-dark-4)',
-    '--app-surface-inverted-text': 'var(--mantine-color-dark-0)',
+    '--app-elevation-flat': theme.other.elevation.flat.dark,
+    '--app-elevation-raised': theme.other.elevation.raised.dark,
+    '--app-elevation-overlay': theme.other.elevation.overlay.dark,
+    '--app-elevation-modal': theme.other.elevation.modal.dark,
+    '--app-surface-inverted-bg': theme.other.surface.invertedBg.dark,
+    '--app-surface-inverted-text': theme.other.surface.invertedText.dark,
     // Pure black over a #0a0a0b body gives no separation; lift the scrim.
-    '--app-surface-scrim': 'rgba(0,0,0,0.62)',
-    '--app-surface-punchout-ring': 'var(--app-bg)',
-    '--app-surface-pulse-ring': 'color-mix(in srgb, var(--mantine-color-text) 30%, transparent)',
-    '--app-surface-active-press': 'var(--app-border)',
-    '--app-surface-on-fill': 'var(--mantine-primary-color-contrast)',
-    '--app-surface-focus-ring-error': '0 0 0 3px rgba(255,120,120,0.20)',
+    '--app-surface-scrim': theme.other.surface.scrim.dark,
+    '--app-surface-punchout-ring': theme.other.surface.punchoutRing.dark,
+    '--app-surface-pulse-ring': theme.other.surface.pulseRing.dark,
+    '--app-surface-active-press': theme.other.surface.activePress.dark,
+    '--app-surface-on-fill': theme.other.surface.onFill.dark,
+    '--app-surface-focus-ring-error': theme.other.surface.focusRingError.dark,
   },
 });
