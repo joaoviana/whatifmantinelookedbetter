@@ -8,6 +8,18 @@ export interface AppTokens {
     ease: { out: string; spring: string; inOut: string };
     duration: { instant: number; fast: number; base: number; slow: number };
   };
+  radius: { pill: string; nub: string; hairline: string };
+  elevation: { flat: string; raised: string; overlay: string; modal: string };
+  surface: {
+    invertedBg: string;
+    invertedText: string;
+    scrim: string;
+    punchoutRing: string;
+    pulseRing: string;
+    activePress: string;
+    onFill: string;
+    focusRingError: string;
+  };
 }
 
 declare module '@mantine/core' {

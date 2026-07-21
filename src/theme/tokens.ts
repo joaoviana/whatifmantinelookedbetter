@@ -74,6 +74,29 @@ export const baseTheme = {
       },
       duration: { instant: 120, fast: 160, base: 220, slow: 420 },
     },
+    // The three the Mantine radius scale cannot express (it starts at xs: 5px
+    // and stops at xl: 16px). 41 hardcoded `999px` existed before this.
+    radius: { pill: '999px', nub: '2px', hairline: '1px' },
+    // elevation/surface are scheme-sensitive (their literal values live in the
+    // light/dark branches of `cssVariablesResolver` below), so the values
+    // here are just the CSS custom property references — always valid
+    // regardless of the active scheme, and safe for TS consumers to read.
+    elevation: {
+      flat: 'var(--app-elevation-flat)',
+      raised: 'var(--app-elevation-raised)',
+      overlay: 'var(--app-elevation-overlay)',
+      modal: 'var(--app-elevation-modal)',
+    },
+    surface: {
+      invertedBg: 'var(--app-surface-inverted-bg)',
+      invertedText: 'var(--app-surface-inverted-text)',
+      scrim: 'var(--app-surface-scrim)',
+      punchoutRing: 'var(--app-surface-punchout-ring)',
+      pulseRing: 'var(--app-surface-pulse-ring)',
+      activePress: 'var(--app-surface-active-press)',
+      onFill: 'var(--app-surface-on-fill)',
+      focusRingError: 'var(--app-surface-focus-ring-error)',
+    },
   } satisfies AppTokens,
 
   // Filled controls: near-black (light) / near-white (dark).
@@ -129,6 +152,10 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     '--app-duration-fast': `${theme.other.motion.duration.fast}ms`,
     '--app-duration-base': `${theme.other.motion.duration.base}ms`,
     '--app-duration-slow': `${theme.other.motion.duration.slow}ms`,
+
+    '--app-radius-pill': theme.other.radius.pill,
+    '--app-radius-nub': theme.other.radius.nub,
+    '--app-radius-hairline': theme.other.radius.hairline,
   },
   light: {
     /* Filled primary is near-black in light → its text/icon must be light. */
@@ -155,6 +182,21 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
       '0 4px 8px rgba(9,9,11,0.04), 0 8px 20px rgba(9,9,11,0.06), 0 16px 32px rgba(9,9,11,0.06)',
     '--mantine-shadow-xl':
       '0 8px 24px rgba(9,9,11,0.08), 0 16px 40px rgba(9,9,11,0.08), 0 32px 64px rgba(9,9,11,0.06)',
+
+    // Names the *role* over the shadow scale, so changing overlay depth
+    // becomes one edit instead of six files.
+    '--app-elevation-flat': 'none',
+    '--app-elevation-raised': 'var(--app-shadow-raised)',
+    '--app-elevation-overlay': 'var(--mantine-shadow-md)',
+    '--app-elevation-modal': 'var(--mantine-shadow-lg)',
+    '--app-surface-inverted-bg': 'var(--mantine-color-dark-6)',
+    '--app-surface-inverted-text': 'rgba(255,255,255,0.86)',
+    '--app-surface-scrim': 'rgba(9,9,11,0.35)',
+    '--app-surface-punchout-ring': 'var(--app-bg)',
+    '--app-surface-pulse-ring': 'color-mix(in srgb, var(--mantine-color-text) 35%, transparent)',
+    '--app-surface-active-press': 'var(--app-border)',
+    '--app-surface-on-fill': 'var(--mantine-primary-color-contrast)',
+    '--app-surface-focus-ring-error': '0 0 0 3px rgba(224,49,49,0.16)',
   },
   dark: {
     /* Filled primary is near-white in dark → its text/icon must be dark. */
@@ -178,5 +220,23 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
       '0 4px 8px rgba(0,0,0,0.46), 0 8px 20px rgba(0,0,0,0.44), 0 16px 32px rgba(0,0,0,0.38)',
     '--mantine-shadow-xl':
       '0 8px 24px rgba(0,0,0,0.52), 0 16px 40px rgba(0,0,0,0.48), 0 32px 64px rgba(0,0,0,0.42)',
+
+    // The elevation aliases below are identical text to the light branch —
+    // they resolve through already-scheme-aware vars (--app-shadow-raised,
+    // --mantine-shadow-md/lg), so they stay per-scheme on purpose: a future
+    // divergence becomes a one-line change instead of a restructure.
+    '--app-elevation-flat': 'none',
+    '--app-elevation-raised': 'var(--app-shadow-raised)',
+    '--app-elevation-overlay': 'var(--mantine-shadow-md)',
+    '--app-elevation-modal': 'var(--mantine-shadow-lg)',
+    '--app-surface-inverted-bg': 'var(--mantine-color-dark-4)',
+    '--app-surface-inverted-text': 'var(--mantine-color-dark-0)',
+    // Pure black over a #0a0a0b body gives no separation; lift the scrim.
+    '--app-surface-scrim': 'rgba(0,0,0,0.62)',
+    '--app-surface-punchout-ring': 'var(--app-bg)',
+    '--app-surface-pulse-ring': 'color-mix(in srgb, var(--mantine-color-text) 30%, transparent)',
+    '--app-surface-active-press': 'var(--app-border)',
+    '--app-surface-on-fill': 'var(--mantine-primary-color-contrast)',
+    '--app-surface-focus-ring-error': '0 0 0 3px rgba(255,120,120,0.20)',
   },
 });
