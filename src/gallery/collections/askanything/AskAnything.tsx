@@ -276,7 +276,7 @@ export function AskAnything() {
     >
       <div className={`${classes.head} ${classes.chrome}`}>
         <div>
-          <span className="eyebrow">Overview</span>
+          <Text variant="eyebrow" span>Overview</Text>
           <Title order={3} mt={4}>
             Dashboard
           </Title>

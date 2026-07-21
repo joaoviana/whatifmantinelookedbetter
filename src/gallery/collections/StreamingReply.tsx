@@ -104,22 +104,22 @@ export function StreamingReply() {
 
   return (
     <Box className={classes.wrap}>
-      <Paper className={classes.card} radius="lg" p={{ base: 'md', xs: 'lg' }}>
+      <Paper variant="panel" className={classes.card} radius="lg" p={{ base: 'md', xs: 'lg' }}>
         {/* Identity row */}
         <Group gap="sm" className={classes.head}>
           <GradientMark size={30} className={classes.avatar} />
           <div>
-            <Text fz="sm" fw={600} lh={1.15}>
+            <Text variant="label" lh={1.15}>
               Atlas
             </Text>
-            <Text className="eyebrow" component="span">
+            <Text variant="eyebrow" component="span">
               Assistant
             </Text>
           </div>
           {streaming && (
             <Group gap={6} ml="auto" className={classes.status}>
               <span className={classes.pulse} />
-              <Text fz="xs" c="dimmed">
+              <Text variant="meta">
                 {phase === 'tool' ? 'Working' : 'Writing'}
               </Text>
             </Group>
@@ -136,7 +136,7 @@ export function StreamingReply() {
           <Text fz="xs" fw={500}>
             Searched the docs
           </Text>
-          <Text fz="xs" c="dimmed">
+          <Text variant="meta">
             · 3 sources
           </Text>
         </Group>
@@ -162,7 +162,7 @@ export function StreamingReply() {
           <Box className={classes.code} data-in={done || reduced ? true : undefined}>
             <div className={classes.codeBar}>
               <span className={classes.dot} />
-              <Text className="eyebrow" component="span">
+              <Text variant="eyebrow" component="span">
                 resolver.ts
               </Text>
             </div>

@@ -32,6 +32,24 @@
   transition: color 150ms var(--app-ease-out);
 }
 
+/* ── Custom variants ────────────────────────────────────────────── */
+/* `quiet`: a muted icon that only earns tone on hover — the toolbar/inline
+   affordance the app hand-rolls with c="dimmed" + variant="subtle". */
+.quiet {
+  color: var(--app-muted);
+}
+.quiet:hover {
+  color: var(--mantine-color-text);
+  background-color: var(--mantine-color-default-hover);
+}
+
+/* `raised`: the default surface control with real depth — a strong hairline
+   plus the raised elevation and an inset top highlight. */
+.raised {
+  box-shadow: var(--app-elevation-raised), var(--app-inset-highlight);
+  border: 1px solid var(--app-border-strong);
+}
+
 /* ── Resting depth ──────────────────────────────────────────────── */
 /* Filled / primary: an inset top highlight + a subtle raise so the control
    looks lifted out of the surface. */

@@ -157,7 +157,7 @@ export function AiComposer({
       </Box>
 
       {helperText != null && (
-        <Text className={classes.helper} ta="center" fz="xs" c="dimmed" mt={12}>
+        <Text variant="meta" className={classes.helper} ta="center" mt={12}>
           {helperText}
         </Text>
       )}

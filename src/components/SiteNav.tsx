@@ -49,7 +49,6 @@ export function SiteNav({ variant, onNavigate }: { variant: 'inline' | 'list'; o
             navigate(n.value);
             onNavigate?.();
           }}
-          styles={{ root: { borderRadius: 'var(--mantine-radius-md)' } }}
         />
       ))}
     </>

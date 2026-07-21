@@ -27,25 +27,57 @@ import classes from './dataDisplay.module.css';
  * --app-inset-highlight so they read as solid pills.
  * autoContrast + primaryShade do the black/white work — never hardcode them.
  */
+const cx = (...names: (string | undefined)[]) => names.filter(Boolean).join(' ');
+
+const PAPER_VARIANTS: Record<string, string> = {
+  panel: classes.panel,
+  glass: classes.glass,
+};
+
+const CARD_VARIANTS: Record<string, string> = {
+  sectioned: classes.sectioned,
+};
+
 export const dataDisplayComponents = {
   // Surfaces: hairline border + layered shadow-xs. Generous default padding so
   // compositions breathe; bg = var(--mantine-color-default) (reference token).
   // Hover lifts to shadow-sm + translateY(-2px) with border→--app-muted
   // (module, behind reduced-motion). Card.Section borders → default-border.
+  // `variant="sectioned"` zeroes the gutter so Card.Section owns all spacing;
+  // `variant="roomy"` is the airier card. Both stack on top of .card.
   Card: Card.extend({
     defaultProps: { radius: 'lg', padding: 'md', withBorder: true, shadow: 'xs' },
-    classNames: { root: classes.card, section: classes.cardSection },
+    classNames: (_theme, props) => ({
+      root: cx(classes.card, CARD_VARIANTS[props.variant as string]),
+      section: classes.cardSection,
+    }),
+    // Mantine writes --card-padding into the root's inline style from the
+    // `padding` prop, so a CSS class can't move it — the gutter variants have
+    // to override the variable here. Going through --card-padding (rather than
+    // `padding`) keeps Card.Section's negative-margin math correct.
+    vars: (_theme, props) => ({
+      root:
+        props.variant === 'sectioned' ? { '--card-padding': '0px' }
+        : props.variant === 'roomy' ? { '--card-padding': 'var(--mantine-spacing-lg)' }
+        : {},
+    }),
   }),
+  // `variant="panel"` is the bordered surface recipe the app hand-rolls ~32×;
+  // `variant="glass"` is the same hairline over a translucent blurred backdrop.
   Paper: Paper.extend({
     defaultProps: { radius: 'lg', p: 'md', withBorder: true, shadow: 'xs' },
-    classNames: { root: classes.paper },
+    classNames: (_theme, props) => ({
+      root: cx(classes.paper, PAPER_VARIANTS[props.variant as string]),
+    }),
   }),
 
   // Light by default, medium weight, no shouting. Filled variant gets a faint
   // inset top-highlight (module) so the pill reads as solid, not flat.
   Badge: Badge.extend({
     defaultProps: { variant: 'light', radius: 'sm' },
-    classNames: { root: classes.badge },
+    classNames: (_theme, props) => ({
+      root: cx(classes.badge, props.variant === 'chip' ? classes.chip : undefined),
+    }),
     styles: { root: { fontWeight: 500, textTransform: 'none', letterSpacing: '-0.003em' } },
   }),
 

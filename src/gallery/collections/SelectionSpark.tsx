@@ -67,7 +67,7 @@ export function SelectionSpark() {
   return (
     <Box className={classes.frame}>
       <div className={classes.column}>
-        <Text className="eyebrow" mb={6}>
+        <Text variant="eyebrow" mb={6}>
           Select any part of this
         </Text>
         <Text ref={passageRef} className={classes.passage} component="p">

@@ -11,7 +11,7 @@ export function CollectionsList({ items }: { items: Collection[] }) {
             <Text fw={600} lts="-0.01em" style={{ fontSize: 'clamp(15px, 4vw, 16px)' }}>
               {title}
             </Text>
-            <Text c="dimmed" fz="sm">
+            <Text variant="secondary">
               {description}
             </Text>
           </Stack>

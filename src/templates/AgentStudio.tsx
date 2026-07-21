@@ -207,7 +207,7 @@ function Navbar({ onNavigate }: { onNavigate?: () => void }) {
               </Text>
             </Box>
           </Group>
-          <Badge size="xs" variant="default" radius="sm" tt="none" fw={500}>
+          <Badge size="xs" variant="default" radius="sm">
             Pro
           </Badge>
         </Group>
@@ -245,7 +245,7 @@ function Navbar({ onNavigate }: { onNavigate?: () => void }) {
         <Stack gap="lg" pb="md">
           {CONVERSATIONS.map((section) => (
             <Box key={section.group}>
-              <Text className="eyebrow" mb={6} px={4}>
+              <Text variant="eyebrow" mb={6} px={4}>
                 {section.group}
               </Text>
               <Stack gap={2}>
@@ -517,7 +517,7 @@ function ConfigPanel({ model, setModel }: { model: string; setModel: (v: string)
             Configuration
           </Text>
         </Group>
-        <Badge variant="default" radius="sm" size="sm" tt="none" fw={500}>
+        <Badge variant="default" radius="sm" size="sm">
           Unsaved
         </Badge>
       </Group>

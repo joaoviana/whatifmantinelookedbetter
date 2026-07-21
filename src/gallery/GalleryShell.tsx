@@ -54,7 +54,7 @@ export function GalleryShell({ registry }: { registry: GalleryRegistry }) {
             </Box>
             {groups.map((g) => (
               <Stack key={g.label} gap={2}>
-                <Text className="eyebrow" mb={4} px="sm">
+                <Text variant="eyebrow" mb={4} px="sm">
                   {g.label}
                 </Text>
                 {g.sections.map((s) => (
@@ -63,7 +63,6 @@ export function GalleryShell({ registry }: { registry: GalleryRegistry }) {
                     label={s.meta.label}
                     href={`#${s.meta.id}`}
                     onClick={close}
-                    styles={{ root: { borderRadius: 'var(--mantine-radius-md)' } }}
                   />
                 ))}
               </Stack>

@@ -99,7 +99,7 @@ export function AgentPicker() {
   return (
     <div className={classes.wrap}>
       <div className={classes.head}>
-        <Text className="eyebrow" component="p">
+        <Text variant="eyebrow" component="p">
           Agents
         </Text>
         <Title order={3} className={classes.title} mt={6}>
@@ -141,7 +141,7 @@ export function AgentPicker() {
 
               <Group gap={6} className={classes.chips}>
                 {agent.capabilities.map((cap) => (
-                  <Badge key={cap} variant="default" size="sm" radius="sm" fw={500}>
+                  <Badge key={cap} variant="default" size="sm" radius="sm">
                     {cap}
                   </Badge>
                 ))}

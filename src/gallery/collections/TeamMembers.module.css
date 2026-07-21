@@ -90,7 +90,7 @@
   flex: none;
   width: 7px;
   height: 7px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
 }
 
 .dot[data-status='active'] {

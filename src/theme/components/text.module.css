@@ -1,0 +1,52 @@
+/*
+ * Typography variants — the six Text treatments the audit found re-authored by
+ * hand across 249 usages, plus the bare interactive row.
+ */
+
+/* Mono-uppercase section label. Note this resolves the audit's drift: the old
+   global .eyebrow tracked at 0.06em, the token says 0.04em. If that reads too
+   tight, change the token in tokens.ts — not this class. */
+.eyebrow {
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--app-eyebrow-font-size);
+  letter-spacing: var(--app-eyebrow-letter-spacing);
+  text-transform: uppercase;
+  color: var(--app-muted);
+}
+.meta {
+  font-size: var(--mantine-font-size-xs);
+  color: var(--mantine-color-dimmed);
+}
+.secondary {
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-dimmed);
+}
+.label {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 600;
+}
+.numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+.body {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--mantine-color-text);
+}
+
+/* Full-width clickable row — the list-item interactive the app hand-rolls. */
+.row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--app-row-inset);
+  border-radius: var(--mantine-radius-sm);
+  transition: background-color var(--app-duration-instant) var(--app-ease-out);
+}
+.row:hover {
+  background-color: var(--mantine-color-default-hover);
+}
+.row:active {
+  background-color: var(--app-surface-active-press);
+}

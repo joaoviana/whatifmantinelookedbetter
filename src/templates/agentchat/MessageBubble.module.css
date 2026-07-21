@@ -28,7 +28,7 @@
 .sourceChip {
   background-color: transparent;
   border: 1px solid var(--app-border);
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   color: var(--app-muted);
   transition: color 140ms ease, border-color 140ms ease;
 }
@@ -46,7 +46,7 @@
 .dot {
   width: 5px;
   height: 5px;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   background-color: var(--app-muted);
   opacity: 0.4;
 }

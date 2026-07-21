@@ -120,17 +120,11 @@ export function AgentRunTimeline() {
   return (
     <Box className={classes.frame}>
       <Paper
+        variant="panel"
         radius="md"
         shadow="xs"
         w="100%"
-        styles={{
-          root: {
-            maxWidth: 580,
-            background: 'var(--app-surface)',
-            border: '1px solid var(--app-border)',
-            overflow: 'hidden',
-          },
-        }}
+        styles={{ root: { maxWidth: 580, boxShadow: 'var(--mantine-shadow-xs)', overflow: 'hidden' } }}
       >
         {/* Top progress bar — a moving sheen sweeps across it while running. */}
         <div className={classes.progressTrack}>
@@ -149,20 +143,18 @@ export function AgentRunTimeline() {
           <Group gap={8} align="center" wrap="nowrap">
             <span className={classes.dot} data-live={isRunning} />
             <Stack gap={0}>
-              <Text className="eyebrow">Agent run</Text>
-              <Text key={heading} fz="sm" fw={600} lh={1.25} className={classes.crossfade}>
+              <Text variant="eyebrow">Agent run</Text>
+              <Text variant="label" key={heading} lh={1.25} className={classes.crossfade}>
                 {heading}
               </Text>
             </Stack>
           </Group>
           <Text
+            variant="numeric"
             fz={13}
             fw={500}
             c="dimmed"
-            style={{
-              fontFamily: 'var(--mantine-font-family-monospace)',
-              fontVariantNumeric: 'tabular-nums',
-            }}
+            style={{ fontFamily: 'var(--mantine-font-family-monospace)' }}
           >
             {(elapsed / 1000).toFixed(1)}s
           </Text>
@@ -213,7 +205,7 @@ export function AgentRunTimeline() {
           mt={2}
           style={{ borderTop: '1px solid var(--app-border)' }}
         >
-          <Text key={statusLine} fz="xs" c="dimmed" className={classes.crossfade}>
+          <Text variant="meta" key={statusLine} className={classes.crossfade}>
             {statusLine}
           </Text>
           <Group gap={8}>

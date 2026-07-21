@@ -65,7 +65,7 @@
 
 /* ── Turns (top level: user + orchestrator) ───────────────────── */
 .turn {
-  animation: thread-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: thread-in 420ms var(--app-ease-out) both;
 }
 
 /* ── Handoff / delegation divider ─────────────────────────────── */
@@ -138,7 +138,7 @@
 
 .step {
   position: relative;
-  animation: thread-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: thread-in 460ms var(--app-ease-out) both;
 }
 
 /* the node dot — seeded from the agent's own accent */

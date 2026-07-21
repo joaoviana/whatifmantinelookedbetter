@@ -24,6 +24,33 @@
   padding: var(--card-padding) !important;
 }
 
+/* VARIANTS — the surface recipes the app re-authored by hand ~32 times.
+   `panel` is the plain bordered surface on the elevation scale; `glass` is the
+   same hairline over a translucent, blurred backdrop. */
+/* Radius defers to whatever the caller (or Paper's own default) asked for —
+   the variant shouldn't quietly flatten an explicit radius="lg" — and only
+   falls back to md when nothing sets --paper-radius at all. */
+.panel {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--paper-radius, var(--mantine-radius-md));
+  box-shadow: var(--app-elevation-raised);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--app-surface) 72%, transparent);
+  backdrop-filter: saturate(140%) blur(6px);
+  border: 1px solid var(--app-border);
+  border-radius: var(--paper-radius, var(--mantine-radius-md));
+}
+
+/* `sectioned` hands all gutters to Card.Section; `roomy` is the airier card.
+   The gutter itself is set by the `vars` resolver in dataDisplay.ts — Mantine
+   writes --card-padding inline, so a class can't win. */
+.sectioned {
+  overflow: hidden;
+}
+
 /* Card.Section separators (withBorder) adopt the reference default-border so
    any bordered section aligns with the divider tone used inside compositions. */
 .cardSection {
@@ -45,6 +72,19 @@
     border-color: var(--app-muted);
     box-shadow: var(--mantine-shadow-sm);
   }
+}
+
+/* `variant="chip"`: a bordered surface pill rather than a tinted badge — the
+   token/attribute chip the app re-authors by hand. */
+.chip {
+  background: var(--app-surface);
+  /* Mantine's colour resolver doesn't run for a variant it doesn't know, so
+     --badge-color is never set — state the text colour outright. */
+  color: var(--mantine-color-text);
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-sm);
+  font-weight: 500;
+  text-transform: none;
 }
 
 /* Filled badge: a faint inset top-highlight so the pill reads as solid,

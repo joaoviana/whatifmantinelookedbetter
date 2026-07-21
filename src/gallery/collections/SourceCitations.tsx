@@ -111,7 +111,7 @@ export function SourceCitations() {
       <Box className={classes.panel}>
         <div className={classes.eyebrowRow}>
           <GradientMark size={14} />
-          <span className="eyebrow">Answer</span>
+          <Text variant="eyebrow" span>Answer</Text>
         </div>
 
         <p className={classes.answer}>
@@ -125,7 +125,7 @@ export function SourceCitations() {
         </p>
 
         <div className={classes.sourcesHead}>
-          <span className="eyebrow">Sources · {SOURCES.length}</span>
+          <Text variant="eyebrow" span>Sources · {SOURCES.length}</Text>
           {!reducedMotion && (
             <Button
               size="compact-sm"

@@ -64,6 +64,66 @@ export const baseTheme = {
   colors: { neutral, dark, accent },
 
   other: {
+    // The six-pastel AI palette + gradients — the most-copied literal set in
+    // the repo (8 hardcoded copies of #b3bbee alone). grain.opacity is the one
+    // scheme-sensitive member here (matches AgentAvatar.module.css:78 and
+    // AgentPicker.module.css:195); everything else is scheme-invariant.
+    ai: {
+      palette: {
+        1: '#b3bbee', // periwinkle — the anchor, 8 hardcoded copies
+        2: '#a2a8e2', // periwinkle deep
+        3: '#d6e4ff', // sky
+        4: '#e0d3fb', // lilac
+        5: '#f9dcf1', // blush
+        6: '#cef1f6', // mint
+      },
+      dotGradient:
+        'radial-gradient(120% 120% at 35% 30%, #e6ecff 0%, #b3bbee 60%, #a2a8e2 100%)',
+      // Stops are 42%/66% — matching what GradientMark, AgentPicker and
+      // AgentAvatar all actually render. (The first draft of this token said
+      // 45%/70%, which matched no call site.)
+      specular:
+        'radial-gradient(56% 52% at 32% 26%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.14) 42%, rgba(255,255,255,0) 66%)',
+      // Small marks (~30px) blow out at full strength, so the avatar runs a
+      // softer gloss. Kept as its own token rather than collapsed.
+      specularSoft:
+        'radial-gradient(56% 52% at 32% 26%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0) 66%)',
+      glossRing: 'inset 0 0 0 1px rgba(255,255,255,0.5)',
+      // The five-stop mesh recipe is shared by GradientMark and AgentPicker;
+      // only the blob positions differ between them. AgentAvatar renders the
+      // same recipe with far less white so it stays legible at avatar size.
+      mesh: {
+        whiteBase: '32%',
+        whiteA: '30%',
+        whiteB: '26%',
+        whiteC: '40%',
+        bloom1: '0.92',
+        bloom2: '0.8',
+      },
+      meshSoft: {
+        whiteBase: '14%',
+        whiteA: '12%',
+        whiteB: '10%',
+        whiteC: '20%',
+        bloom1: '0.85',
+        bloom2: '0.6',
+      },
+      // Transcribed verbatim from VoiceOrb.module.css:65-70 (the `.orb`
+      // background's multi-layer radial stack).
+      orbGradient:
+        'radial-gradient(58% 56% at 30% 26%, rgba(255, 255, 255, 0.92) 0%, transparent 54%), radial-gradient(60% 60% at 34% 28%, #d6e4ff 0%, transparent 60%), radial-gradient(52% 52% at 72% 30%, #cef1f6 0%, transparent 58%), radial-gradient(58% 58% at 70% 74%, #e0d3fb 0%, transparent 62%), radial-gradient(55% 55% at 30% 72%, #f9dcf1 0%, transparent 58%), radial-gradient(120% 120% at 50% 42%, #d5ddf8 0%, #b3bbee 70%, #a2a8e2 100%)',
+      // Transcribed verbatim from AskAiBar.module.css:217-222 (the
+      // `.shimmerLine::after` sweep gradient).
+      sheen:
+        'linear-gradient(90deg, transparent 0%, var(--mantine-color-default-border) 50%, transparent 100%)',
+      grain: {
+        // Transcribed verbatim from GradientMark.module.css:57 — byte-identical
+        // across GradientMark/AgentAvatar/AgentPicker/VoiceOrb.
+        image:
+          'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'2\' stitchTiles=\'stitch\'/%3E%3CfeColorMatrix type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+        opacity: { light: '0.07', dark: '0.13' },
+      },
+    },
     motion: {
       ease: {
         // The house curve. 81 hand-written copies of this existed before it
@@ -86,6 +146,11 @@ export const baseTheme = {
       raised: { light: 'var(--app-shadow-raised)', dark: 'var(--app-shadow-raised)' },
       overlay: { light: 'var(--mantine-shadow-md)', dark: 'var(--mantine-shadow-md)' },
       modal: { light: 'var(--mantine-shadow-lg)', dark: 'var(--mantine-shadow-lg)' },
+      // The ink the voice orb casts. Light-only values were the reason the
+      // orb read as flat on dark; these are the same colours re-weighted for
+      // a dark backdrop (same ratio the raised shadows use).
+      orbInkFar: { light: 'rgba(9,9,11,0.16)', dark: 'rgba(0,0,0,0.55)' },
+      orbInkNear: { light: 'rgba(9,9,11,0.1)', dark: 'rgba(0,0,0,0.40)' },
     },
     surface: {
       invertedBg: { light: 'var(--mantine-color-dark-6)', dark: 'var(--mantine-color-dark-4)' },
@@ -221,6 +286,33 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
 
     '--app-row-inset': theme.other.space.rowInset,
 
+    '--app-ai-1': theme.other.ai.palette[1],
+    '--app-ai-2': theme.other.ai.palette[2],
+    '--app-ai-3': theme.other.ai.palette[3],
+    '--app-ai-4': theme.other.ai.palette[4],
+    '--app-ai-5': theme.other.ai.palette[5],
+    '--app-ai-6': theme.other.ai.palette[6],
+    '--app-ai-orb-gradient': theme.other.ai.orbGradient,
+    '--app-ai-dot-gradient': theme.other.ai.dotGradient,
+    '--app-ai-specular': theme.other.ai.specular,
+    '--app-ai-specular-soft': theme.other.ai.specularSoft,
+    '--app-ai-sheen': theme.other.ai.sheen,
+
+    '--app-ai-mesh-white-base': theme.other.ai.mesh.whiteBase,
+    '--app-ai-mesh-white-a': theme.other.ai.mesh.whiteA,
+    '--app-ai-mesh-white-b': theme.other.ai.mesh.whiteB,
+    '--app-ai-mesh-white-c': theme.other.ai.mesh.whiteC,
+    '--app-ai-mesh-bloom-1': theme.other.ai.mesh.bloom1,
+    '--app-ai-mesh-bloom-2': theme.other.ai.mesh.bloom2,
+    '--app-ai-mesh-soft-white-base': theme.other.ai.meshSoft.whiteBase,
+    '--app-ai-mesh-soft-white-a': theme.other.ai.meshSoft.whiteA,
+    '--app-ai-mesh-soft-white-b': theme.other.ai.meshSoft.whiteB,
+    '--app-ai-mesh-soft-white-c': theme.other.ai.meshSoft.whiteC,
+    '--app-ai-mesh-soft-bloom-1': theme.other.ai.meshSoft.bloom1,
+    '--app-ai-mesh-soft-bloom-2': theme.other.ai.meshSoft.bloom2,
+    '--app-gloss-ring': theme.other.ai.glossRing,
+    '--app-grain-image': theme.other.ai.grain.image,
+
     '--app-z-base': String(theme.other.z.base),
     '--app-z-sticky': String(theme.other.z.sticky),
     '--app-z-dropdown': String(theme.other.z.dropdown),
@@ -238,10 +330,13 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     '--app-muted': 'var(--mantine-color-neutral-5)',
     '--app-grid-line': 'rgba(9,9,11,0.045)',
     // Chewy tactile depth for raised controls (default/outline buttons, inputs).
+    '--app-orb-ink-far': theme.other.elevation.orbInkFar.light,
+    '--app-orb-ink-near': theme.other.elevation.orbInkNear.light,
     '--app-shadow-raised': '0 1px 2px rgba(9,9,11,0.06), 0 1px 1px rgba(9,9,11,0.04)',
     '--app-shadow-raised-hover': '0 2px 4px rgba(9,9,11,0.08), 0 1px 2px rgba(9,9,11,0.05)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.10)',
     '--app-focus-ring': '0 0 0 3px rgba(9,9,11,0.10)',
+    '--app-grain-opacity': theme.other.ai.grain.opacity.light,
     // Chewy, layered shadows — border + soft depth. Multi-layer so surfaces
     // feel tactile and substantial (the Vercel / Linear / Attio signature).
     '--mantine-shadow-xs': '0 1px 2px rgba(9,9,11,0.05), 0 1px 1px rgba(9,9,11,0.04)',
@@ -292,10 +387,13 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     '--app-border-strong': 'var(--mantine-color-dark-3)',
     '--app-muted': 'var(--mantine-color-dark-2)',
     '--app-grid-line': 'rgba(255,255,255,0.04)',
+    '--app-orb-ink-far': theme.other.elevation.orbInkFar.dark,
+    '--app-orb-ink-near': theme.other.elevation.orbInkNear.dark,
     '--app-shadow-raised': '0 1px 2px rgba(0,0,0,0.40), 0 1px 1px rgba(0,0,0,0.30)',
     '--app-shadow-raised-hover': '0 2px 6px rgba(0,0,0,0.50), 0 1px 2px rgba(0,0,0,0.35)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.06)',
     '--app-focus-ring': '0 0 0 3px rgba(255,255,255,0.14)',
+    '--app-grain-opacity': theme.other.ai.grain.opacity.dark,
     '--mantine-shadow-xs': '0 1px 2px rgba(0,0,0,0.40), 0 1px 1px rgba(0,0,0,0.30)',
     '--mantine-shadow-sm':
       '0 1px 2px rgba(0,0,0,0.44), 0 2px 4px rgba(0,0,0,0.36), 0 4px 8px rgba(0,0,0,0.28)',

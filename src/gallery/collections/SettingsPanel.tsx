@@ -20,7 +20,7 @@ import classes from './SettingsPanel.module.css';
 // Section header — the monospace eyebrow signature (see theme.css .eyebrow).
 function SectionHeader({ label }: { label: string }) {
   return (
-    <Text component="span" className="eyebrow">
+    <Text component="span" variant="eyebrow">
       {label}
     </Text>
   );

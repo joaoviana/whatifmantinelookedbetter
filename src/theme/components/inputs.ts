@@ -54,6 +54,12 @@ const heightVars = (_theme: unknown, props: { size?: unknown }): any => ({
 // Shared field chrome — text-like inputs (depth/border/focus in the CSS module).
 const fieldClassNames = { input: classes.input };
 
+// `variant="composer"` strips the field's chrome so a TextInput/Textarea can
+// sit inside a surface that already provides the border (the prompt composer).
+const composerClassNames = (_theme: unknown, props: { variant?: string }) => ({
+  input: props.variant === 'composer' ? `${classes.input} ${classes.composer}` : classes.input,
+});
+
 // Label 13px / 500, muted description, small gap. Flat props only (no pseudo).
 const fieldStyles = {
   label: {
@@ -110,13 +116,13 @@ export const inputsComponents = {
   }),
   TextInput: TextInput.extend({
     defaultProps: { radius: 'md' },
-    classNames: fieldClassNames,
+    classNames: composerClassNames,
     styles: fieldStyles,
     vars: heightVars,
   }),
   Textarea: Textarea.extend({
     defaultProps: { radius: 'md', autosize: true, minRows: 3 },
-    classNames: fieldClassNames,
+    classNames: composerClassNames,
     styles: fieldStyles,
     vars: heightVars,
   }),

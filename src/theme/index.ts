@@ -1,5 +1,6 @@
 import { createTheme } from '@mantine/core';
 import { baseTheme } from './tokens';
+import { textComponents } from './components/text';
 import { actionsComponents } from './components/actions';
 import { inputsComponents } from './components/inputs';
 import { dataDisplayComponents } from './components/dataDisplay';
@@ -16,6 +17,8 @@ export { cssVariablesResolver } from './tokens';
 export const theme = createTheme({
   ...baseTheme,
   components: {
+    // First in the spread order: later groups can still override a shared key.
+    ...textComponents,
     ...actionsComponents,
     ...inputsComponents,
     ...dataDisplayComponents,

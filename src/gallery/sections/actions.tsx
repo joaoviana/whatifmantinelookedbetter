@@ -272,7 +272,7 @@ export function Section() {
               </Button>
             )}
           </FileButton>
-          <Text fz="xs" c="dimmed">
+          <Text variant="meta">
             {file ? file.name : 'PNG or JPEG · none selected'}
           </Text>
         </Stack>
@@ -297,7 +297,7 @@ export function Section() {
             <Kbd>P</Kbd>
           </Group>
           <Group gap={8} align="center">
-            <Text fz="sm" c="dimmed">
+            <Text variant="secondary">
               Command menu
             </Text>
             <Group gap={4}>
@@ -335,7 +335,7 @@ export function Section() {
                 <Text fz="sm" fw={500} lts="-0.006em">
                   {item.title}
                 </Text>
-                <Text fz="xs" c="dimmed">
+                <Text variant="meta">
                   {item.desc}
                 </Text>
               </Stack>
@@ -351,7 +351,7 @@ export function Section() {
           <Anchor href="#" onClick={(e) => e.preventDefault()}>
             Refined, quiet link
           </Anchor>
-          <Text fz="sm" c="dimmed">
+          <Text variant="secondary">
             Inline within a{' '}
             <Anchor href="#" onClick={(e) => e.preventDefault()}>
               sentence

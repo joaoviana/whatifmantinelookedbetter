@@ -1,3 +1,4 @@
+import type { MantineTheme } from '@mantine/core';
 import { Button, ActionIcon, Anchor, Chip, CloseButton, Kbd } from '@mantine/core';
 import classes from './actions.module.css';
 
@@ -20,14 +21,51 @@ const CONTROL_HEIGHTS: Record<string, string> = {
   xl: 'var(--app-control-height-xl)',
 };
 
+const cx = (...names: (string | undefined)[]) => names.filter(Boolean).join(' ');
+
+// Variants Mantine doesn't know about: defaultVariantColorsResolver returns an
+// empty object for any variant it doesn't recognise, which would leave the
+// control with no background/color/border at all. So each custom variant
+// borrows the palette of a real one and the module class layers depth on top.
+const CUSTOM_VARIANT_BASE: Record<string, string> = { quiet: 'subtle', raised: 'default' };
+
+const ACTION_ICON_VARIANTS: Record<string, string> = {
+  quiet: classes.quiet,
+  raised: classes.raised,
+};
+
+const customVariantVars = (
+  prefix: string,
+  theme: MantineTheme,
+  variant: string | undefined,
+  color: string | undefined,
+) => {
+  const base = CUSTOM_VARIANT_BASE[variant as string];
+  if (!base) return {};
+  const c = theme.variantColorResolver({ color: color || theme.primaryColor, theme, variant: base });
+  return {
+    [`--${prefix}-bg`]: c.background,
+    [`--${prefix}-hover`]: c.hover,
+    [`--${prefix}-color`]: c.color,
+    [`--${prefix}-bd`]: c.border,
+  };
+};
+
 export const actionsComponents = {
   Button: Button.extend({
     defaultProps: { radius: 'md' },
-    classNames: { root: classes.button },
+    classNames: (_theme, props) => ({
+      root: cx(classes.button, props.variant === 'raised' ? classes.raised : undefined),
+    }),
     // Pin the control height per named size (compact-* pass through untouched).
-    vars: (_theme, props) => {
+    vars: (theme, props) => {
       const h = CONTROL_HEIGHTS[(props.size as string) ?? 'sm'];
-      return { root: h ? { '--button-height': h } : {} };
+      return {
+        root: {
+          ...(h ? { '--button-height': h } : {}),
+          ...customVariantVars('button', theme, props.variant as string, props.color as string),
+        },
+      };
     },
     styles: {
       root: { fontWeight: 500, letterSpacing: '-0.006em' },
@@ -35,12 +73,21 @@ export const actionsComponents = {
     },
   }),
 
+  // `quiet` is the muted inline/toolbar icon; `raised` is the default control
+  // with real depth. Both keep the base .actionIcon class.
   ActionIcon: ActionIcon.extend({
     defaultProps: { radius: 'md' },
-    classNames: { root: classes.actionIcon },
-    vars: (_theme, props) => {
+    classNames: (_theme, props) => ({
+      root: cx(classes.actionIcon, ACTION_ICON_VARIANTS[props.variant as string]),
+    }),
+    vars: (theme, props) => {
       const h = CONTROL_HEIGHTS[(props.size as string) ?? 'md'];
-      return { root: h ? { '--ai-size': h } : {} };
+      return {
+        root: {
+          ...(h ? { '--ai-size': h } : {}),
+          ...customVariantVars('ai', theme, props.variant as string, props.color as string),
+        },
+      };
     },
   }),
 

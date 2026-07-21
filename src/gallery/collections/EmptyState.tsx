@@ -9,7 +9,7 @@ export function EmptyState() {
     <div className={classes.wrap}>
       <SimpleGrid cols={{ base: 1, md: 3 }} spacing="lg" verticalSpacing="lg">
         {/* (1) No projects yet — dashed-ring medallion + dual CTA. */}
-        <Card className={classes.card} shadow="xs">
+        <Card className={classes.card}>
           <Stack gap="lg" align="center" ta="center" h="100%" justify="center">
             <div className={classes.medallion}>
               <ThemeIcon variant="default" size={44} radius="xl" className={classes.icon}>
@@ -38,7 +38,7 @@ export function EmptyState() {
         </Card>
 
         {/* (2) No results — search-off medallion + clear filters. */}
-        <Card className={classes.card} shadow="xs">
+        <Card className={classes.card}>
           <Stack gap="lg" align="center" ta="center" h="100%" justify="center">
             <div className={`${classes.medallion} ${classes.medallionDotted}`}>
               <ThemeIcon variant="default" size={44} radius="xl" className={classes.icon}>
@@ -60,7 +60,7 @@ export function EmptyState() {
         </Card>
 
         {/* (3) All caught up — celebratory check medallion, muted line. */}
-        <Card className={classes.card} shadow="xs">
+        <Card className={classes.card}>
           <Stack gap="lg" align="center" ta="center" h="100%" justify="center">
             <div className={classes.medallion}>
               <ThemeIcon variant="filled" size={44} radius="xl" className={classes.icon}>

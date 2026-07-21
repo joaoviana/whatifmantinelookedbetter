@@ -70,7 +70,13 @@ export const navigationComponents = {
 
   NavLink: NavLink.extend({
     classNames: { root: classes.navLink },
-    styles: { root: { padding: '8px 12px', letterSpacing: '-0.006em' } },
+    styles: {
+      root: {
+        padding: '8px 12px',
+        letterSpacing: '-0.006em',
+        borderRadius: 'var(--mantine-radius-md)',
+      },
+    },
   }),
 
   Divider: Divider.extend({
