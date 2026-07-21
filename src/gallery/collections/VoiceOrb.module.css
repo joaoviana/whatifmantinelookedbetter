@@ -36,7 +36,7 @@
   position: absolute;
   inset: -6px;
   border-radius: var(--app-radius-pill);
-  background: radial-gradient(closest-side, color-mix(in srgb, #b3bbee 45%, transparent), transparent 72%);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--app-ai-1) 45%, transparent), transparent 72%);
   filter: blur(6px);
   pointer-events: none;
 }
@@ -61,18 +61,12 @@
   cursor: pointer;
   isolation: isolate;
   /* Dreamy, cloudy mesh sphere — pastel hues with lots of white woven in. */
-  background:
-    radial-gradient(58% 56% at 30% 26%, rgba(255, 255, 255, 0.92) 0%, transparent 54%),
-    radial-gradient(60% 60% at 34% 28%, #d6e4ff 0%, transparent 60%),
-    radial-gradient(52% 52% at 72% 30%, #cef1f6 0%, transparent 58%),
-    radial-gradient(58% 58% at 70% 74%, #e0d3fb 0%, transparent 62%),
-    radial-gradient(55% 55% at 30% 72%, #f9dcf1 0%, transparent 58%),
-    radial-gradient(120% 120% at 50% 42%, #d5ddf8 0%, #b3bbee 70%, #a2a8e2 100%);
+  background: var(--app-ai-orb-gradient);
   box-shadow:
     inset 0 2px 8px rgba(255, 255, 255, 0.7),
     inset 0 -8px 22px rgba(120, 122, 150, 0.22),
-    0 14px 38px -12px rgba(9, 9, 11, 0.16),
-    0 2px 8px rgba(9, 9, 11, 0.1);
+    0 14px 38px -12px var(--app-orb-ink-far),
+    0 2px 8px var(--app-orb-ink-near);
   transition: box-shadow 300ms ease, transform 300ms ease;
   -webkit-tap-highlight-color: transparent;
 }
@@ -82,7 +76,7 @@
   box-shadow:
     inset 0 2px 8px rgba(255, 255, 255, 0.7),
     inset 0 -8px 22px rgba(120, 122, 150, 0.22),
-    0 14px 38px -12px rgba(9, 9, 11, 0.16),
+    0 14px 38px -12px var(--app-orb-ink-far),
     var(--app-focus-ring);
 }
 
@@ -103,7 +97,7 @@
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  opacity: 0.07;
+  opacity: var(--app-grain-opacity);
   mix-blend-mode: overlay;
   pointer-events: none;
   z-index: 3;

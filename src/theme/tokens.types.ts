@@ -3,14 +3,31 @@
  * custom properties by `cssVariablesResolver`. TS consumers read
  * `theme.other.*`; CSS modules read `var(--app-*)`. One source, two readers.
  */
+/** White-mix percentages and bloom alphas for one agent-mesh treatment. */
+export interface MeshScalars {
+  whiteBase: string;
+  whiteA: string;
+  whiteB: string;
+  whiteC: string;
+  bloom1: string;
+  bloom2: string;
+}
+
 export interface AppTokens {
   ai: {
     palette: { 1: string; 2: string; 3: string; 4: string; 5: string; 6: string };
     orbGradient: string;
     dotGradient: string;
     specular: string;
+    /** The same gloss, softened for small marks (~30px avatars) where the
+     *  full-strength highlight blows out. Deliberate variance, not drift. */
+    specularSoft: string;
     sheen: string;
     glossRing: string;
+    /** Scalars for the five-stop agent mesh. `mesh` is the large-mark set;
+     *  `meshSoft` is the small-avatar set — less white, lower blooms. */
+    mesh: MeshScalars;
+    meshSoft: MeshScalars;
     grain: { image: string; opacity: { light: string; dark: string } };
   };
   motion: {
@@ -18,7 +35,10 @@ export interface AppTokens {
     duration: { instant: number; fast: number; base: number; slow: number };
   };
   radius: { pill: string; nub: string; hairline: string };
-  elevation: Record<'flat' | 'raised' | 'overlay' | 'modal', { light: string; dark: string }>;
+  elevation: Record<
+    'flat' | 'raised' | 'overlay' | 'modal' | 'orbInkFar' | 'orbInkNear',
+    { light: string; dark: string }
+  >;
   surface: Record<
     | 'invertedBg'
     | 'invertedText'
