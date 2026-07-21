@@ -84,16 +84,6 @@ export const baseTheme = {
   defaultRadius: 'md',
   radius: { xs: rem(5), sm: rem(6), md: rem(8), lg: rem(12), xl: rem(16) },
 
-  // Chewy, layered shadows — border + soft depth. Multi-layer so surfaces
-  // feel tactile and substantial (the Vercel / Linear / Attio signature).
-  shadows: {
-    xs: '0 1px 2px rgba(9,9,11,0.05), 0 1px 1px rgba(9,9,11,0.04)',
-    sm: '0 1px 2px rgba(9,9,11,0.05), 0 2px 4px rgba(9,9,11,0.05), 0 4px 8px rgba(9,9,11,0.03)',
-    md: '0 2px 4px rgba(9,9,11,0.04), 0 4px 8px rgba(9,9,11,0.05), 0 8px 16px rgba(9,9,11,0.05)',
-    lg: '0 4px 8px rgba(9,9,11,0.04), 0 8px 20px rgba(9,9,11,0.06), 0 16px 32px rgba(9,9,11,0.06)',
-    xl: '0 8px 24px rgba(9,9,11,0.08), 0 16px 40px rgba(9,9,11,0.08), 0 32px 64px rgba(9,9,11,0.06)',
-  },
-
   cursorType: 'pointer',
   focusRing: 'auto',
 } satisfies MantineThemeOverride;
@@ -129,6 +119,15 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
     '--app-shadow-raised-hover': '0 2px 4px rgba(9,9,11,0.08), 0 1px 2px rgba(9,9,11,0.05)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.10)',
     '--app-focus-ring': '0 0 0 3px rgba(9,9,11,0.10)',
+    '--mantine-shadow-xs': '0 1px 2px rgba(9,9,11,0.05), 0 1px 1px rgba(9,9,11,0.04)',
+    '--mantine-shadow-sm':
+      '0 1px 2px rgba(9,9,11,0.05), 0 2px 4px rgba(9,9,11,0.05), 0 4px 8px rgba(9,9,11,0.03)',
+    '--mantine-shadow-md':
+      '0 2px 4px rgba(9,9,11,0.04), 0 4px 8px rgba(9,9,11,0.05), 0 8px 16px rgba(9,9,11,0.05)',
+    '--mantine-shadow-lg':
+      '0 4px 8px rgba(9,9,11,0.04), 0 8px 20px rgba(9,9,11,0.06), 0 16px 32px rgba(9,9,11,0.06)',
+    '--mantine-shadow-xl':
+      '0 8px 24px rgba(9,9,11,0.08), 0 16px 40px rgba(9,9,11,0.08), 0 32px 64px rgba(9,9,11,0.06)',
   },
   dark: {
     /* Filled primary is near-white in dark → its text/icon must be dark. */
@@ -143,5 +142,14 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
     '--app-shadow-raised-hover': '0 2px 6px rgba(0,0,0,0.50), 0 1px 2px rgba(0,0,0,0.35)',
     '--app-inset-highlight': 'inset 0 1px 0 rgba(255,255,255,0.06)',
     '--app-focus-ring': '0 0 0 3px rgba(255,255,255,0.14)',
+    '--mantine-shadow-xs': '0 1px 2px rgba(0,0,0,0.40), 0 1px 1px rgba(0,0,0,0.30)',
+    '--mantine-shadow-sm':
+      '0 1px 2px rgba(0,0,0,0.44), 0 2px 4px rgba(0,0,0,0.36), 0 4px 8px rgba(0,0,0,0.28)',
+    '--mantine-shadow-md':
+      '0 2px 4px rgba(0,0,0,0.44), 0 4px 8px rgba(0,0,0,0.40), 0 8px 16px rgba(0,0,0,0.34)',
+    '--mantine-shadow-lg':
+      '0 4px 8px rgba(0,0,0,0.46), 0 8px 20px rgba(0,0,0,0.44), 0 16px 32px rgba(0,0,0,0.38)',
+    '--mantine-shadow-xl':
+      '0 8px 24px rgba(0,0,0,0.52), 0 16px 40px rgba(0,0,0,0.48), 0 32px 64px rgba(0,0,0,0.42)',
   },
 });
