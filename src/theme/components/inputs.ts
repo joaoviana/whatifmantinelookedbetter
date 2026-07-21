@@ -27,6 +27,7 @@ import {
   Combobox,
 } from '@mantine/core';
 import classes from './inputs.module.css';
+import { baseTheme } from '../tokens';
 
 /**
  * GROUP: Inputs & Forms
@@ -71,9 +72,11 @@ const choiceLabelStyles = {
 } as const;
 
 // Combobox dropdowns (Select/Autocomplete/MultiSelect/TagsInput): refined
-// surface via the CSS module + a smooth ~150ms pop-in on open.
+// surface via the CSS module + a smooth pop-in on open (shared "pop" recipe,
+// mirrored in navigation.ts's Menu and feedback.ts's popIn).
 const dropdownClassNames = { dropdown: classes.dropdown, option: classes.option };
-const comboboxProps = { transitionProps: { transition: 'pop', duration: 150 } } as const;
+const POP = { transition: 'pop', duration: baseTheme.other.motion.duration.fast } as const;
+const comboboxProps = { transitionProps: POP } as const;
 
 // A chic, thin-stroked check / indeterminate tick. Rendered a touch inset in
 // its viewBox so it reads slightly smaller than Mantine's default glyph.

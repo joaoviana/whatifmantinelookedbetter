@@ -1,7 +1,7 @@
 /*
  * Navigation & Layout — interactive states.
  * :hover / :active / [data-active] live here (the `styles` prop can't do
- * pseudo-selectors). Motion is ~150ms cubic-bezier(0.22,1,0.36,1), opt-in
+ * pseudo-selectors). Motion is ~150ms var(--app-ease-out), opt-in
  * behind a reduced-motion guard.
  * Aesthetic: Attio / Linear / Vercel — quiet monochrome, hairline borders,
  * raised active chips (shadow + inset highlight) so controls feel tactile.
@@ -28,10 +28,10 @@
 @media (prefers-reduced-motion: no-preference) {
   .tabsTab {
     transition:
-      color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      color 150ms var(--app-ease-out),
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
 }
 
@@ -149,9 +149,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .stepperIcon {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      color 150ms var(--app-ease-out);
   }
 }
 
@@ -187,7 +187,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .segmentLabel {
-    transition: color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: color 150ms var(--app-ease-out);
   }
 }
 
@@ -212,10 +212,10 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .accordionControl {
-    transition: background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 150ms var(--app-ease-out);
   }
   .accordionChevron {
-    transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 150ms var(--app-ease-out);
   }
 }
 
@@ -253,9 +253,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .navLink {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      color 150ms var(--app-ease-out),
+      transform 150ms var(--app-ease-out);
   }
 }
 
@@ -295,8 +295,8 @@
 @media (prefers-reduced-motion: no-preference) {
   .paginationControl {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out);
   }
 }
 
@@ -312,7 +312,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .breadcrumbsRoot a {
-    transition: color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: color 150ms var(--app-ease-out);
   }
 }
 
@@ -328,7 +328,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .menuDropdown {
-    transition: opacity 150ms ease, transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 150ms ease, transform 150ms var(--app-ease-out);
   }
 }
 
@@ -349,7 +349,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .menuItem {
-    transition: background-color 120ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 120ms var(--app-ease-out);
   }
 }
 
@@ -381,7 +381,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .treeLabel {
-    transition: background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 150ms var(--app-ease-out);
   }
 }
 

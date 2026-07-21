@@ -8,7 +8,7 @@
  * most. Toggles adopt the reference pattern (transparent + primary border,
  * primary fill when on). Switch gets a premium, well-proportioned redesign
  * and dropdowns get a refined, animated surface.
- * Motion: 150ms cubic-bezier(0.22, 1, 0.36, 1), reduced-motion aware.
+ * Motion: 150ms var(--app-ease-out), reduced-motion aware.
  */
 
 /* ── Text fields: TextInput, Textarea, Select, NumberInput, PasswordInput,
@@ -30,9 +30,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .input {
     transition:
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out),
+      background-color 150ms var(--app-ease-out);
   }
 }
 
@@ -68,9 +68,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .checkbox {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
 }
 
@@ -117,9 +117,9 @@
 @media (prefers-reduced-motion: no-preference) {
   .radio {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
 }
 
@@ -158,14 +158,14 @@
 @media (prefers-reduced-motion: no-preference) {
   .switchTrack {
     transition:
-      background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 150ms var(--app-ease-out),
+      border-color 150ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
   .switchThumb {
     transition:
-      inset-inline-start 160ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      inset-inline-start 160ms var(--app-ease-out),
+      box-shadow 150ms var(--app-ease-out);
   }
 }
 
@@ -206,7 +206,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .dropdown {
-    transition: opacity 150ms ease, transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 150ms ease, transform 150ms var(--app-ease-out);
   }
 }
 
@@ -218,7 +218,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .option {
-    transition: background-color 120ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 120ms var(--app-ease-out);
   }
 }
 
@@ -281,8 +281,8 @@
 @media (prefers-reduced-motion: no-preference) {
   .sliderThumb {
     transition:
-      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow 150ms var(--app-ease-out),
+      transform 150ms var(--app-ease-out);
   }
 }
 
@@ -301,7 +301,7 @@
 
 /* ── Rating ── */
 .ratingStar {
-  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 150ms var(--app-ease-out);
 }
 
 @media (prefers-reduced-motion: no-preference) {

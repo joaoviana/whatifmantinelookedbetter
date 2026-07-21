@@ -15,6 +15,7 @@ import {
   Dialog,
 } from '@mantine/core';
 import classes from './feedback.module.css';
+import { baseTheme } from '../tokens';
 
 /**
  * GROUP: Feedback & Overlays
@@ -25,7 +26,7 @@ import classes from './feedback.module.css';
  */
 
 // Shared refined easing — everything opens/closes on the same calm curve.
-const EASE = 'cubic-bezier(0.22,1,0.36,1)';
+const EASE = baseTheme.other.motion.ease.out;
 const softFade = { transition: 'fade-down', duration: 160, timingFunction: EASE } as const;
 const popIn = { transition: 'pop', duration: 170, timingFunction: EASE } as const;
 const fade = { transition: 'fade', duration: 150, timingFunction: EASE } as const;
