@@ -21,6 +21,20 @@ export interface AppTokens {
     | 'focusRingError',
     { light: string; dark: string }
   >;
+  type: {
+    tracking: { tight: string; snug: string; normal: string; label: string };
+    eyebrow: { fontSize: string; letterSpacing: string; textTransform: string };
+  };
+  space: { rowInset: string };
+  state: Record<
+    'success' | 'warning' | 'danger' | 'info',
+    {
+      surface: { light: string; dark: string };
+      border: { light: string; dark: string };
+      text: { light: string; dark: string };
+    }
+  >;
+  z: Record<'base' | 'sticky' | 'dropdown' | 'overlay' | 'modal' | 'toast', number>;
 }
 
 declare module '@mantine/core' {

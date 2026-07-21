@@ -106,6 +106,48 @@ export const baseTheme = {
         dark: '0 0 0 3px rgba(255,120,120,0.20)',
       },
     },
+    type: {
+      tracking: { tight: '-0.025em', snug: '-0.011em', normal: '-0.006em', label: '0.04em' },
+      // Written by hand three times before this, with 0.06em vs 0.04em drift.
+      eyebrow: { fontSize: '11px', letterSpacing: '0.04em', textTransform: 'uppercase' },
+    },
+    // The shared menu / combobox-option / tree-label inset, previously three
+    // different values (6px/9px, 7px/10px, 4px/8px). 6px/9px chosen to match
+    // .option (inputs.module.css) and .menuItem (navigation.module.css),
+    // which already ship padding-block: 6px; padding-inline: 9px.
+    space: { rowInset: '6px 9px' },
+    // state is scheme-sensitive (each slot flips with the color scheme), so —
+    // like elevation/surface above — it carries light/dark pairs here and
+    // cssVariablesResolver just reads through into the matching branch.
+    state: {
+      success: {
+        surface: { light: 'var(--mantine-color-teal-0)', dark: 'var(--mantine-color-teal-9)' },
+        border: { light: 'var(--mantine-color-teal-3)', dark: 'var(--mantine-color-teal-7)' },
+        text: { light: 'var(--mantine-color-teal-8)', dark: 'var(--mantine-color-teal-3)' },
+      },
+      warning: {
+        surface: {
+          light: 'var(--mantine-color-yellow-0)',
+          dark: 'var(--mantine-color-yellow-9)',
+        },
+        border: {
+          light: 'var(--mantine-color-yellow-3)',
+          dark: 'var(--mantine-color-yellow-7)',
+        },
+        text: { light: 'var(--mantine-color-yellow-8)', dark: 'var(--mantine-color-yellow-3)' },
+      },
+      danger: {
+        surface: { light: 'var(--mantine-color-red-0)', dark: 'var(--mantine-color-red-9)' },
+        border: { light: 'var(--mantine-color-red-3)', dark: 'var(--mantine-color-red-7)' },
+        text: { light: 'var(--mantine-color-red-8)', dark: 'var(--mantine-color-red-3)' },
+      },
+      info: {
+        surface: { light: 'var(--mantine-color-accent-0)', dark: 'var(--mantine-color-accent-9)' },
+        border: { light: 'var(--mantine-color-accent-3)', dark: 'var(--mantine-color-accent-7)' },
+        text: { light: 'var(--mantine-color-accent-8)', dark: 'var(--mantine-color-accent-3)' },
+      },
+    },
+    z: { base: 1, sticky: 100, dropdown: 300, overlay: 400, modal: 500, toast: 600 },
   } satisfies AppTokens,
 
   // Filled controls: near-black (light) / near-white (dark).
@@ -127,6 +169,9 @@ export const baseTheme = {
       h1: { fontSize: rem(34), lineHeight: '1.15', fontWeight: '600' },
       h2: { fontSize: rem(26), lineHeight: '1.2', fontWeight: '600' },
       h3: { fontSize: rem(20), lineHeight: '1.3', fontWeight: '600' },
+      h4: { fontSize: rem(17), lineHeight: '1.35', fontWeight: '600' },
+      h5: { fontSize: rem(15), lineHeight: '1.4', fontWeight: '600' },
+      h6: { fontSize: rem(13), lineHeight: '1.45', fontWeight: '600' },
     },
   },
 
@@ -165,6 +210,23 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     '--app-radius-pill': theme.other.radius.pill,
     '--app-radius-nub': theme.other.radius.nub,
     '--app-radius-hairline': theme.other.radius.hairline,
+
+    '--app-tracking-tight': theme.other.type.tracking.tight,
+    '--app-tracking-snug': theme.other.type.tracking.snug,
+    '--app-tracking-normal': theme.other.type.tracking.normal,
+    '--app-tracking-label': theme.other.type.tracking.label,
+    '--app-eyebrow-font-size': theme.other.type.eyebrow.fontSize,
+    '--app-eyebrow-letter-spacing': theme.other.type.eyebrow.letterSpacing,
+    '--app-eyebrow-text-transform': theme.other.type.eyebrow.textTransform,
+
+    '--app-row-inset': theme.other.space.rowInset,
+
+    '--app-z-base': String(theme.other.z.base),
+    '--app-z-sticky': String(theme.other.z.sticky),
+    '--app-z-dropdown': String(theme.other.z.dropdown),
+    '--app-z-overlay': String(theme.other.z.overlay),
+    '--app-z-modal': String(theme.other.z.modal),
+    '--app-z-toast': String(theme.other.z.toast),
   },
   light: {
     /* Filled primary is near-black in light → its text/icon must be light. */
@@ -207,6 +269,19 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     '--app-surface-active-press': theme.other.surface.activePress.light,
     '--app-surface-on-fill': theme.other.surface.onFill.light,
     '--app-surface-focus-ring-error': theme.other.surface.focusRingError.light,
+
+    '--app-state-success-surface': theme.other.state.success.surface.light,
+    '--app-state-success-border': theme.other.state.success.border.light,
+    '--app-state-success-text': theme.other.state.success.text.light,
+    '--app-state-warning-surface': theme.other.state.warning.surface.light,
+    '--app-state-warning-border': theme.other.state.warning.border.light,
+    '--app-state-warning-text': theme.other.state.warning.text.light,
+    '--app-state-danger-surface': theme.other.state.danger.surface.light,
+    '--app-state-danger-border': theme.other.state.danger.border.light,
+    '--app-state-danger-text': theme.other.state.danger.text.light,
+    '--app-state-info-surface': theme.other.state.info.surface.light,
+    '--app-state-info-border': theme.other.state.info.border.light,
+    '--app-state-info-text': theme.other.state.info.text.light,
   },
   dark: {
     /* Filled primary is near-white in dark → its text/icon must be dark. */
@@ -248,5 +323,18 @@ export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     '--app-surface-active-press': theme.other.surface.activePress.dark,
     '--app-surface-on-fill': theme.other.surface.onFill.dark,
     '--app-surface-focus-ring-error': theme.other.surface.focusRingError.dark,
+
+    '--app-state-success-surface': theme.other.state.success.surface.dark,
+    '--app-state-success-border': theme.other.state.success.border.dark,
+    '--app-state-success-text': theme.other.state.success.text.dark,
+    '--app-state-warning-surface': theme.other.state.warning.surface.dark,
+    '--app-state-warning-border': theme.other.state.warning.border.dark,
+    '--app-state-warning-text': theme.other.state.warning.text.dark,
+    '--app-state-danger-surface': theme.other.state.danger.surface.dark,
+    '--app-state-danger-border': theme.other.state.danger.border.dark,
+    '--app-state-danger-text': theme.other.state.danger.text.dark,
+    '--app-state-info-surface': theme.other.state.info.surface.dark,
+    '--app-state-info-border': theme.other.state.info.border.dark,
+    '--app-state-info-text': theme.other.state.info.text.dark,
   },
 });
