@@ -75,7 +75,9 @@ export const dataDisplayComponents = {
   // inset top-highlight (module) so the pill reads as solid, not flat.
   Badge: Badge.extend({
     defaultProps: { variant: 'light', radius: 'sm' },
-    classNames: { root: classes.badge },
+    classNames: (_theme, props) => ({
+      root: cx(classes.badge, props.variant === 'chip' ? classes.chip : undefined),
+    }),
     styles: { root: { fontWeight: 500, textTransform: 'none', letterSpacing: '-0.003em' } },
   }),
 

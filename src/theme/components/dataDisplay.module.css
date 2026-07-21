@@ -71,6 +71,19 @@
   }
 }
 
+/* `variant="chip"`: a bordered surface pill rather than a tinted badge — the
+   token/attribute chip the app re-authors by hand. */
+.chip {
+  background: var(--app-surface);
+  /* Mantine's colour resolver doesn't run for a variant it doesn't know, so
+     --badge-color is never set — state the text colour outright. */
+  color: var(--mantine-color-text);
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-sm);
+  font-weight: 500;
+  text-transform: none;
+}
+
 /* Filled badge: a faint inset top-highlight so the pill reads as solid,
    catching light like a real chip rather than a flat rectangle. */
 .badge[data-variant='filled'] {

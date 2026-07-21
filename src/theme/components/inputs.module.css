@@ -323,3 +323,17 @@
   letter-spacing: -0.01em;
   padding-inline: var(--mantine-spacing-xs);
 }
+
+/* `variant="composer"`: chrome-free field for a composer whose surrounding
+   surface already carries the border and focus treatment. Declared last so it
+   wins over the .input rules above without needing !important. */
+.composer,
+.composer:hover,
+.composer:focus,
+.composer:focus-within {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+}
